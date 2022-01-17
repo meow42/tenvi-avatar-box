@@ -1,0 +1,317 @@
+[v-cloak]{
+  display: none;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+#app, .van-tabbar, .van-dropdown-item, .van-popup, .van-overlay {
+  max-width: 600px;
+  max-height: 900px;
+  margin: auto;
+}
+#app {
+  position: fixed;
+  height: 100vh;
+  height: fill-available;
+  height: -webkit-fill-available;
+  width: 100%;
+  margin: auto;
+  box-shadow: 0 0 2px 2px #999;
+}
+.views {
+  height: calc(100vh - 46px - 52px);
+  max-height: calc(900px - 46px - 52px);
+}
+
+/* 组件全局修改 */
+.van-dropdown-menu__bar {
+  height: 46px;
+  box-shadow: none !important;
+}
+.van-dropdown-menu__bar--opened {
+  height: 42px;
+}
+.van-nav-bar .van-icon {
+  color: #333;
+}
+.van-nav-bar {
+  z-index: 9;
+}
+.van-cell__title, .van-cell__value {
+  /*flex: auto;*/
+}
+.van-tabbar {
+  position: static;
+  box-shadow: 0 -1px 2px #ddd;
+  margin-top: 2px;
+}
+.van-overlay {
+  top: 0;
+  left: unset;
+}
+.van-popup--bottom {
+  left: unset;
+}
+.van-dropdown-item__content {
+  position: fixed;
+}
+@media screen and (min-height: 900px) {
+  #app, .van-overlay, .van-popup--top{
+    top: calc((100vh - 900px)/2);
+  }
+  .van-popup--bottom, .van-overlay {
+    bottom: calc((100vh - 900px)/2);
+  }
+}
+@media screen and (min-width: 600px) {
+  #app, .van-overlay, .van-popup--top{
+    left: calc((100vw - 600px)/2);
+  }
+}
+
+/* 导航栏 */
+.navbar .van-dropdown-item {
+  max-height: calc(900px - 46px);
+  margin: 0px auto;
+}
+.navbar .van-overlay {
+  height: auto;
+  left: 0 !important;
+  top: 0;
+  bottom: 0;
+}
+.navbar .lang-text {
+  display: inline-block;
+  min-width: 72px;
+  padding-left: 6px;
+  text-align: left;
+  position: relative;
+  top: -6px;
+}
+.navbar .help-text {
+  color: #333;
+}
+
+/* 预览视图 */
+.overview {
+  height: 100%;
+}
+
+/* 外观编辑视图 */
+.avatar-edit {
+  height: 100%;
+  display: grid;
+  align-items: start;
+  grid-template-columns: auto 1fr;
+  grid-gap: 2px 2px;
+}
+.avatar-edit .van-sidebar {
+  width: 112px;
+  height: inherit;
+}
+.avatar-edit .van-list {
+  height: inherit;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.avatar-edit .sidebar-group {
+  font-weight: 800 !important;
+  padding-left: 0px !important;
+}
+.avatar-edit .item {
+  float: left;
+  width: 52px;
+  height: 60px;
+  margin-top: 6px;
+  text-align: center;
+}
+.avatar-edit .newline{
+  width: 100%;
+  height: 0;
+  margin: 10px 0;
+}
+.avatar-edit .item .van-image {
+  padding: 4px 0 0 4px;
+}
+.avatar-edit .item span {
+  display: block;
+  margin-top: -2px;
+  font-size: 12px;
+}
+.avatar-edit .item-selected .van-image {
+  box-shadow: 0 0 3px 1px #ee0a24 !important;
+}
+.avatar-edit .item .van-image > img {
+  width: auto !important;
+  height: auto !important;
+}
+.avatar-edit .race-checkbox {
+  float: left;
+  margin-right: 12px;
+}
+.avatar-edit .van-popup {
+  width: 100%;
+  padding-top: 48px;
+  text-align: center;
+}
+
+/* 动作编辑视图 */
+.action-edit {
+  height: 100%;
+  display: grid;
+  align-items: start;
+  grid-template-rows: 128px 60px 1fr;
+}
+.action-edit .img-swipe {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 60px 1fr 60px;
+}
+.action-edit .custom-indicator {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  padding: 2px 5px;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.action-edit .van-tab__pane{
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.action-edit .van-tabs {
+  height: inherit;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.action-edit .van-tabs__content{
+  height: calc(100% - 44px);
+  padding-top: 3px;
+}
+.action-edit .van-tabs__content .van-cell {
+  display: grid;
+  grid-template-columns: 6em 1fr;
+}
+.action-edit .van-tabs__content .van-cell__title {
+  flex: none;
+  font-weight: 750;
+}
+.action-edit .van-tabs__content .van-cell__value {
+  max-width: 420px;
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 12px;
+  grid-row-gap: 6px;
+  color: #323233;
+  text-align: left;
+  cursor: pointer;
+}
+.action-edit .sheet {
+  height: calc(100% - 240px);
+  max-height: calc(900px - 240px);
+  min-height: 360px;
+}
+.action-edit .sheet-overlay {
+  background-color: rgba(0,0,0,0.42);
+}
+.action-edit .sheet .van-action-sheet__description {
+  padding: 9px 0;
+}
+.action-edit .sheet .sheet-search  {
+  width: 80%;
+  min-width: 320px;
+  margin: 0 auto;
+}
+.action-edit .sheet .sheet-search .van-cell__title {
+  max-width: 3.5em;
+}
+.action-edit .sheet .van-field__control {
+  min-width: 5em;
+}
+.action-edit .sheet .van-field__button  {
+  padding-left: 20px;
+}
+.action-edit .sheet .van-action-sheet__subname {
+  margin-top: 0;
+}
+.action-edit .sheet .van-action-sheet__content{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-rows: repeat(auto-fill, 50px);
+}
+.action-edit .sheet .van-action-sheet__item {
+  height: fit-content;
+}
+.action-edit .van-button {
+  width: fit-content;
+}
+
+
+/* 设置选项 */
+.option {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.option .van-form {
+  margin-bottom: 20px;
+}
+.option .van-cell::after {
+  display: none;
+}
+.option .uploader-mini {
+  height: 24px;
+  margin: -10px 0 0 12px;
+  cursor: pointer;
+}
+.option .van-field__control--custom {
+  flex-flow: row wrap;
+}
+.option .van-button, 
+.option .van-checkbox, 
+.option .van-radio, 
+.option .van-switch {
+  margin: 6px 12px 6px 0;
+}
+
+.option .van-field__label {
+  width: 98px !important;
+  margin: 4px 0;
+}
+.opion .van-field__control {
+  margin: 4px 0;
+}
+.option .user .van-field__control {
+  margin: -2px;
+}
+.option .user .van-field__control > span {
+  margin: 5px;
+}
+.option .user .user-editor {
+  max-width: 98px;
+  padding: 2px;
+  margin-right: 12px;
+}
+
+/* 公共 */
+.flipX {
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH; /*兼容IE*/
+}
+.flipY {
+  -moz-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipV; /*兼容IE*/
+}
