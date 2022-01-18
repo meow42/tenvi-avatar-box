@@ -1,11 +1,44 @@
 export default {
   app: {
-    title: 'Tenvi Avatar Box'
+    lang: 'English(US)',
+    title: 'Tenvi Avatar Box',
+    confirm: 'Confirm',
+    cancel: 'Cancel',
   },
-  race: {
-    title: 'Race',
-    andras: 'Andras',
-    talli: 'Talli',
-    silva: 'Silva'
+  menu: {
+    
+  },
+  tip: {
+    helpTranslation: 'Help us improve the translation'
+  },
+  pilot: {
+    text: 'Pilot',
+    race: {
+      text: 'Race',
+      andras: 'Andras',
+      talli: 'Talli',
+      silva: 'Silva'
+    },
+    skin: {
+      text: 'Skin',
+      yellow: 'Yellow',
+      white: 'White',
+      brown: 'Brown'
+    },
+  },
+  guard: {
+    text: 'Guard',
+    mecha: {
+      text: 'Mecha',
+    },
+    dragon: {
+      text: 'Dragon'
+    },
+    avatar: {
+      text: 'Avatar'
+    },
+    vehicle: {
+      text: 'Vehicle'
+    }
   }
 }

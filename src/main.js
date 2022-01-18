@@ -8,7 +8,7 @@ import App from './App.vue'
 
 
 const I18n = createI18n({
-  locale: 'us', // set locale
+  locale: 'cn', // set locale
   fallbackLocale: 'us', // set fallback locale
   messages, // set locale messages
 })

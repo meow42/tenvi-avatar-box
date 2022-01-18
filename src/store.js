@@ -2,6 +2,12 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 const useStore = defineStore('main', {
   state: ()=> ({
+    pilot: {
+      skin: 'yellow',
+    },
+    guard: {
+      type: 'mecha'
+    },
     count: 1
   }),
   getters: {
