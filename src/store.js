@@ -2,25 +2,25 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 
 const useStore = defineStore('main', {
   state: ()=> ({
+    menu: {
+      view: 'overview'
+    },
     pilot: {
       skin: 'yellow',
     },
     guard: {
       type: 'mecha'
-    },
-    count: 1
+    }
   }),
   getters: {
     countPow2(state) {
-      return state.count ** 2;
+      return 1;
     },
   },
   actions: {
     countPlusOne() {
-      this.count++;
     },
     countPlus(num) {
-      this.count += num;
     }
   }
 })

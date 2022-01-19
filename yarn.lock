@@ -70,6 +70,11 @@
   dependencies:
     "@popperjs/core" "^2.9.2"
 
+"@vant/touch-emulator@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@vant/touch-emulator/-/touch-emulator-1.3.2.tgz#9392c3971dd7247c2cf8e5d5aabc951e33cd5e6f"
+  integrity sha512-Om6e8kCAnmk/q8byngKreff7Hyn6XxwOGr8yedP3y3LEVoE+iyj8/+Mn+AYvGEQ00GK0MlgAfyaV4emXAYj1Hw==
+
 "@vant/use@^1.3.4":
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/@vant/use/-/use-1.3.4.tgz#f99482d63682973a2775aa5c1a9cf906862a4f71"

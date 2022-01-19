@@ -8,6 +8,7 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ## 相关技术
 - [Vue3](https://v3.cn.vuejs.org/)
-- [Vue I18n](https://vue-i18n.intlify.dev/)
-- [Pinia](https://pinia.vuejs.org/)
 - [Vite](https://cn.vitejs.dev/)
+- [Pinia](https://pinia.vuejs.org/)
+- [Vue I18n](https://vue-i18n.intlify.dev/)
+- [Vant](https://github.com/youzan/vant) [文档](https://vant-contrib.gitee.io/vant/v3/#/zh-CN/home)

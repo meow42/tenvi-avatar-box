@@ -6,7 +6,10 @@ export default {
     cancel: 'Cancel',
   },
   menu: {
-    
+    overview: 'Overview',
+    parts: 'Parts',
+    action: 'Action',
+    option: 'Option'
   },
   tip: {
     helpTranslation: 'Help us improve the translation'

@@ -1,8 +1,8 @@
 <script setup>
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
+  import { ref } from 'vue';
+  import { useI18n } from 'vue-i18n';
   const { locale } = useI18n();
-  import { useStore } from '../store.js'
+  import { useStore } from '../store.js';
   const store = useStore();
 
   // 全局类型设置 //
