@@ -5,13 +5,16 @@
   import { useStore } from '../store.js';
   const store = useStore();
 
+  // 文件操作 //
+  const fileOptions = [ 'new', 'save' ];
+
   // 全局类型设置 //
   const guards = ['mecha', 'avatar', 'dragon', 'vehicle'];
   const guardSelected = ref(store.guard.type);
-  const visible = ref(null);
+  const typeMenuOpened = ref(null);
   const onConfirm = () => {
     store.guard.type = guardSelected.value;
-    visible.value.toggle();
+    typeMenuOpened.value.toggle();
   };
   const onOpen = () => {
     guardSelected.value = store.guard.type;
@@ -20,26 +23,38 @@
 
   // 全局语言设置 //
   const langOptions = [
-    { value: 'cn', text: '简体中文', emoji: '🇨🇳' },
-    //{ value: 'hk', text: '繁體中文(港)', emoji: '🇭🇰' },
-    //{ value: 'kr', text: '한국어', emoji: '🇰🇷' },
-    //{ value: 'ja', text: '日本語', emoji: '🇯🇵' },
-    { value: 'us', text: 'English(US)', emoji: '🇺🇸' },
+    { value: 'cn', text: '简体中文', icon: 'imgs/flag-cn.png', emoji: '🇨🇳' },
+    { value: 'hk', text: '繁體中文(港)', icon: 'imgs/flag-hk.png', emoji: '🇭🇰' },
+    { value: 'jp', text: '日本語', icon: 'imgs/flag-jp.png', emoji: '🇯🇵' },
+    { value: 'kr', text: '한국어', icon: 'imgs/flag-kr.png', emoji: '🇰🇷' },
+    { value: 'us', text: 'English(US)', icon: 'imgs/flag-us.png', emoji: '🇺🇸' },
   ];
   const onLangChange = (newValue) => {
     locale.value = newValue;
     localStorage.setItem('lang', newValue); // 更新本地缓存
   };
-  /** 根据本地缓存设置语言 */
+  /** 获取本地缓存的语言设置 */
   if (localStorage.getItem('lang')) {
     locale.value = localStorage.getItem('lang');
   }
 </script>
 
 <template>
-  <van-dropdown-menu>
+  <van-dropdown-menu class="menu-top">
+    <!-- 文件操作 -->
+    <van-dropdown-item class="menu-file">
+      <template #title>
+        <van-icon name="wap-nav" size="14" />
+        {{ $t('menu.file') }}
+      </template>
+      <van-cell clickable :title="$t('menu.save')" :value="$t('tip.unavailable')" icon="completed"></van-cell>
+      <van-cell is-link :title="$t('menu.saveAs')" :value="$t('tip.unavailable')" icon="records"></van-cell>
+      <van-cell is-link :title="$t('menu.import')" :value="$t('tip.unavailable')" icon="description"></van-cell>
+      <van-cell is-link :title="$t('menu.export')" :value="$t('tip.unavailable')" icon="down"></van-cell>
+      <van-cell is-link :title="$t('menu.new')" :value="$t('tip.unavailable')" icon="add-o" ></van-cell>
+    </van-dropdown-item>
     <!-- 类型切换 -->
-    <van-dropdown-item ref="visible" @open="onOpen">
+    <van-dropdown-item ref="typeMenuOpened" @open="onOpen">
       <template #title>
         <van-icon :name="`imgs/icon-${store.guard.type}.png`" />
         {{ $t(`guard.${store.guard.type}.text`) }}

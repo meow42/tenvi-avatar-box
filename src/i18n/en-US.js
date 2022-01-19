@@ -9,10 +9,18 @@ export default {
     overview: 'Overview',
     parts: 'Parts',
     action: 'Action',
-    option: 'Option'
+    option: 'Option',
+    file: 'File',
+    new: 'New',
+    save: 'Save',
+    saveAs: 'Save as',
+    export: 'Export',
+    import: 'Import',
   },
   tip: {
-    helpTranslation: 'Help us improve the translation'
+    helpTranslation: 'Help us improve the translation',
+    seveToLocalStorage: 'Web browser\'s localStorage',
+    unavailable: 'Unavailable',
   },
   pilot: {
     text: 'Pilot',

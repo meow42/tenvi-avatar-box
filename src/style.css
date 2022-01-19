@@ -26,6 +26,16 @@ html, body {
   max-height: calc(900px - 46px - 52px);
 }
 
+/* 顶部菜单 */
+.menu-top .van-dropdown-menu__bar {
+  padding: 0 24px 0 10px;
+  display: grid;
+  grid-template-columns: 72px 1fr 104px;
+}
+.menu-top .van-dropdown-menu__item:first-child { justify-content: left; }
+.menu-top .van-dropdown-menu__item:last-child { justify-content: right; }
+.menu-file .van-cell__value { flex: none !important; }
+
 /* 组件全局修改 */
 .van-dropdown-menu__bar {
   height: 46px;
@@ -33,20 +43,6 @@ html, body {
 }
 .van-dropdown-menu__bar--opened {
   height: 42px;
-}
-.van-nav-bar .van-icon {
-  color: #333;
-}
-.van-nav-bar {
-  z-index: 9;
-}
-.van-cell__title, .van-cell__value {
-  /*flex: auto;*/
-}
-.van-tabbar {
-  left: auto !important;
-  bottom: auto !important;
-  box-shadow: 0 -1px 2px #ddd;
 }
 .van-overlay {
   top: 0;

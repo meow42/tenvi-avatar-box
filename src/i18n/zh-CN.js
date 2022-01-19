@@ -7,7 +7,8 @@ export default {
     overview: '预览',
     parts: '外观',
     action: '动作',
-    option: '设置'
+    option: '设置',
+    file: '文件',
   },
   tip: {
     helpTranslation: '帮助我们完善翻译内容'
