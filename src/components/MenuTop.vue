@@ -1,9 +1,10 @@
 <script setup>
   import { ref } from 'vue';
   import { useI18n } from 'vue-i18n';
-  const { locale } = useI18n();
+  const { locale, t } = useI18n();
   import { useStore } from '../store.js';
   const store = useStore();
+  import { Notify } from 'vant';
 
   // 文件操作 //
   const fileOptions = [ 'new', 'save' ];
@@ -11,14 +12,23 @@
   // 全局类型设置 //
   const guards = ['mecha', 'avatar', 'dragon', 'vehicle'];
   const guardSelected = ref(store.guard.type);
+  const pilotDisplay = ref(true);
   const typeMenuOpened = ref(null);
   const onConfirm = () => {
-    store.guard.type = guardSelected.value;
+    let obj = {
+      guard: {
+        type: guardSelected.value
+      },
+      pilot: {
+        display: pilotDisplay.value
+      }
+    };
+    store.save('editConfig', obj);
     typeMenuOpened.value.toggle();
   };
   const onOpen = () => {
     guardSelected.value = store.guard.type;
-
+    pilotDisplay.value = store.pilot.display;
   };
 
   // 全局语言设置 //
@@ -33,9 +43,16 @@
     locale.value = newValue;
     localStorage.setItem('lang', newValue); // 更新本地缓存
   };
-  /** 获取本地缓存的语言设置 */
-  if (localStorage.getItem('lang')) {
-    locale.value = localStorage.getItem('lang');
+
+  /** 获取本地缓存的配置 */
+  if (localStorage) {
+    // 获取并更新语言
+    let lang = localStorage.getItem('lang');
+    if (lang) locale.value = lang;
+    // 获取并更新编辑类型配置
+    store.load('editConfig');
+  } else {
+    Notify({ type: 'danger', message: t('error.useLocalStorage') });
   }
 </script>
 
@@ -59,6 +76,7 @@
         <van-icon :name="`imgs/icon-${store.guard.type}.png`" />
         {{ $t(`guard.${store.guard.type}.text`) }}
       </template>
+      <!-- 守护者选择 -->
       <van-radio-group v-model="guardSelected">
         <van-cell-group :title="$t(`guard.text`)" inset>
           <van-cell clickable
@@ -73,18 +91,15 @@
           </van-cell>
         </van-cell-group>
       </van-radio-group>
+      <!-- 显示选项 -->
       <van-cell-group title="Display" inset>
-        <van-cell clickable
-            :title="$t(`pilot.text`)" 
-            :icon="`imgs/icon-pilot.png`"
-            @click="void(0)"
-          >
-            <template #right-icon>
-              <van-radio shape="square" name="pilot" />
-            </template>
-          </van-cell>
+        <van-cell :title="$t(`pilot.text`)" :icon="`imgs/icon-pilot.png`">
+          <template #right-icon>
+            <van-switch v-model="pilotDisplay" size="18px" />
+          </template>
+        </van-cell>
       </van-cell-group>
-      <van-cell>
+      <van-cell style="margin-top: 32px;">
         <van-button type="primary" block @click="onConfirm">
           {{ $t('app.confirm') }}
         </van-button>

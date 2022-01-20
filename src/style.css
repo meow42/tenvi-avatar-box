@@ -28,7 +28,7 @@ html, body {
 
 /* 顶部菜单 */
 .menu-top .van-dropdown-menu__bar {
-  padding: 0 24px 0 10px;
+  padding: 0 24px 0 9px;
   display: grid;
   grid-template-columns: 72px 1fr 104px;
 }

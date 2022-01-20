@@ -22,6 +22,9 @@ export default {
     seveToLocalStorage: 'Web browser\'s localStorage',
     unavailable: 'Unavailable',
   },
+  error: {
+    useLocalStorage: 'Browser\'s localStorage unavailable',
+  },
   pilot: {
     text: 'Pilot',
     race: {
