@@ -31,19 +31,13 @@ html, body {
   padding: 0 24px 0 9px;
   display: grid;
   grid-template-columns: 72px 1fr 104px;
+  z-index: 9;
 }
 .menu-top .van-dropdown-menu__item:first-child { justify-content: left; }
 .menu-top .van-dropdown-menu__item:last-child { justify-content: right; }
 .menu-file .van-cell__value { flex: none !important; }
 
 /* 组件全局修改 */
-.van-dropdown-menu__bar {
-  height: 46px;
-  box-shadow: none !important;
-}
-.van-dropdown-menu__bar--opened {
-  height: 42px;
-}
 .van-overlay {
   top: 0;
   left: unset;
@@ -53,6 +47,14 @@ html, body {
 }
 .van-dropdown-item__content {
   position: fixed;
+}
+.van-sidebar-item--select::before {
+  background-color: var(--van-blue) !important;
+}
+.van-tabbar {
+  left: auto !important;
+  bottom: auto !important;
+  box-shadow: var(--van-dropdown-menu-box-shadow);
 }
 @media screen and (min-height: 900px) {
   #app, .van-overlay, .van-popup--top{
@@ -97,59 +99,63 @@ html, body {
 }
 
 /* 外观编辑视图 */
-.avatar-edit {
+.parts-edit {
   height: 100%;
   display: grid;
   align-items: start;
   grid-template-columns: auto 1fr;
   grid-gap: 2px 2px;
 }
-.avatar-edit .van-sidebar {
+.parts-edit .van-sidebar {
   width: 112px;
   height: inherit;
 }
-.avatar-edit .van-list {
+.parts-edit .van-sidebar > .van-sidebar-item {
+  /*z-index: -1;*/
+}
+
+.parts-edit .van-list {
   height: inherit;
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
-.avatar-edit .sidebar-group {
+.parts-edit .sidebar-group {
   font-weight: 800 !important;
   padding-left: 0px !important;
 }
-.avatar-edit .item {
+.parts-edit .item {
   float: left;
   width: 52px;
   height: 60px;
   margin-top: 6px;
   text-align: center;
 }
-.avatar-edit .newline{
+.parts-edit .newline{
   width: 100%;
   height: 0;
   margin: 10px 0;
 }
-.avatar-edit .item .van-image {
+.parts-edit .item .van-image {
   padding: 4px 0 0 4px;
 }
-.avatar-edit .item span {
+.parts-edit .item span {
   display: block;
   margin-top: -2px;
   font-size: 12px;
 }
-.avatar-edit .item-selected .van-image {
+.parts-edit .item-selected .van-image {
   box-shadow: 0 0 3px 1px #ee0a24 !important;
 }
-.avatar-edit .item .van-image > img {
+.parts-edit .item .van-image > img {
   width: auto !important;
   height: auto !important;
 }
-.avatar-edit .race-checkbox {
+.parts-edit .race-checkbox {
   float: left;
   margin-right: 12px;
 }
-.avatar-edit .van-popup {
+.parts-edit .van-popup {
   width: 100%;
   padding-top: 48px;
   text-align: center;
@@ -215,7 +221,7 @@ html, body {
   min-height: 360px;
 }
 .action-edit .sheet-overlay {
-  background-color: rgba(0,0,0,0.42);
+  background-color: rgba(0, 0, 0, 0.42);
 }
 .action-edit .sheet .van-action-sheet__description {
   padding: 9px 0;

@@ -14,7 +14,7 @@
   <MenuTop></MenuTop>
   <div class="views">
     <ViewPartsEdit v-if="store.app.view == 'parts'"></ViewPartsEdit>
-    <div v-else>{{ store.app.view }}</div>
+    <div v-else style="text-align: center; padding-top: 50%;">{{ store.app.view }}</div>
   </div>
   <MenuBottom></MenuBottom>
 </template>

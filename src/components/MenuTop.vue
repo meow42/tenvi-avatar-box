@@ -10,24 +10,26 @@
   const fileOptions = [ 'new', 'save' ];
 
   // 全局类型设置 //
-  const guards = ['mecha', 'avatar', 'dragon', 'vehicle'];
-  const guardSelected = ref(store.guard.type);
+  const targets = ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
+  const selected = ref(store.app.editTarget);
   const pilotDisplay = ref(true);
+  const pilotDisplayTrue = ref(true);
   const typeMenuOpened = ref(null);
   const onConfirm = () => {
     let obj = {
-      guard: {
-        type: guardSelected.value
+      app: {
+        editTarget: selected.value
       },
       pilot: {
         display: pilotDisplay.value
       }
     };
+    if (selected.value == 'pilot') obj.pilot.display = true;
     store.save('editConfig', obj);
     typeMenuOpened.value.toggle();
   };
   const onOpen = () => {
-    guardSelected.value = store.guard.type;
+    selected.value = store.app.editTarget;
     pilotDisplay.value = store.pilot.display;
   };
 
@@ -73,17 +75,17 @@
     <!-- 类型切换 -->
     <van-dropdown-item ref="typeMenuOpened" @open="onOpen">
       <template #title>
-        <van-icon :name="`imgs/icon-${store.guard.type}.png`" />
-        {{ $t(`guard.${store.guard.type}.text`) }}
+        <van-icon :name="`imgs/icon-${store.app.editTarget}.png`" />
+        {{ $t(`noun.${store.app.editTarget}`) }}
       </template>
-      <!-- 守护者选择 -->
-      <van-radio-group v-model="guardSelected">
-        <van-cell-group :title="$t(`guard.text`)" inset>
+      <!-- 编辑对象选择 -->
+      <van-radio-group v-model="selected">
+        <van-cell-group :title="$t(`menu.editTarget`)" inset>
           <van-cell clickable
-            :title="$t(`guard.${item}.text`)" 
+            :title="$t(`noun.${item}`)" 
             :icon="`imgs/icon-${item}.png`"
-            @click="guardSelected = item"
-            v-for="item in guards" :key="item"
+            @click="selected = item"
+            v-for="item in targets" :key="item"
           >
             <template #right-icon>
               <van-radio :name="item" />
@@ -93,9 +95,10 @@
       </van-radio-group>
       <!-- 显示选项 -->
       <van-cell-group title="Display" inset>
-        <van-cell :title="$t(`pilot.text`)" :icon="`imgs/icon-pilot.png`">
+        <van-cell :title="$t(`noun.pilot`)" :icon="`imgs/icon-pilot.png`">
           <template #right-icon>
-            <van-switch v-model="pilotDisplay" size="18px" />
+            <van-switch v-model="pilotDisplayTrue" size="18px" disabled v-if="selected == 'pilot'" />
+            <van-switch v-model="pilotDisplay" size="18px" v-else />
           </template>
         </van-cell>
       </van-cell-group>

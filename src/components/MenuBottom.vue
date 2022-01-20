@@ -17,9 +17,4 @@
 </template>
 
 <style scoped>
-  .van-tabbar {
-    left: auto !important;
-    bottom: auto !important;
-    box-shadow: 0 -1px 2px #ddd;
-  }
 </style>

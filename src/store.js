@@ -3,22 +3,55 @@ import { defineStore, acceptHMRUpdate } from 'pinia'
 const useStore = defineStore('main', {
   state: ()=> ({
     app: {
-      view: 'overview'
+      view: 'overview',
+      editTarget: 'mecha',
     },
     pilot: {
       display: true, 
       skin: 'yellow',
+      res: {
+        bd: '',
+        hd: '',
+        fc: '',
+        fa: '',
+        hr: '',
+        cp: '',
+        cl: '',
+        wp: '',
+        emo: '',
+      },
+      order: [],
+    },
+    mecha: {
+      res: {
+        df: '',
+        do: '',
+        am: '',
+        dc: '',
+        lp: '',
+        pp: '',
+        rh: '',
+        lh: '',
+      },
+      order: [],
     },
     guard: {
-      type: 'mecha'
+      type: 'mecha',
     }
   }),
   getters: {
-    countPow2(state) {
-      return 1;
+    /** 当前编辑对象的部件名称列表 */
+    resNameList() {
+      return this.getResNameList();
     },
   },
   actions: {
+    /** 获取指定的部件名称列表 */
+    getResNameList(targetName) {
+      if (!targetName) targetName = this.app.editTarget;
+      if (this[targetName]) return Object.keys(this[targetName]['res']);
+      else return [];
+    },
     /** 变更对象值并缓存到浏览器 */
     save(key, obj) {
       if (!localStorage) return undefined;

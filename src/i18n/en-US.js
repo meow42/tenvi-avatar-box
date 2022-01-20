@@ -16,6 +16,9 @@ export default {
     saveAs: 'Save as',
     export: 'Export',
     import: 'Import',
+    editTarget: 'Edit Target',
+    default: 'Default',
+    template: 'Template',
   },
   tip: {
     helpTranslation: 'Help us improve the translation',
@@ -24,6 +27,14 @@ export default {
   },
   error: {
     useLocalStorage: 'Browser\'s localStorage unavailable',
+  },
+  noun: {
+    pilot: 'Pilot',
+    guard: 'Guard',
+    mecha: 'Mecha',
+    dragon: 'Dragon',
+    avatar: 'Avatar',
+    vehicle: 'Vehicle',
   },
   pilot: {
     text: 'Pilot',
@@ -39,20 +50,34 @@ export default {
       white: 'White',
       brown: 'Brown'
     },
+    res: {
+      bd: 'Body',
+      hd: 'Head',
+      fc: 'Face',
+      fa: 'Facial',
+      hr: 'Hair',
+      cp: 'Cap',
+      cl: 'Clothes',
+      wp: 'Weapon',
+      emo: 'Emotion',
+    },
   },
-  guard: {
-    text: 'Guard',
-    mecha: {
-      text: 'Mecha',
+  mecha: {
+    res: {
+      df: 'Model',
+      do: 'Door',
+      am: 'Chassis',
+      dc: 'Arms',
+      lp: 'Legs',
+      pp: 'Propulsion',
+      rh: 'Main Hand',
+      lh: 'Sub Hand',
     },
-    dragon: {
-      text: 'Dragon'
-    },
-    avatar: {
-      text: 'Avatar'
-    },
-    vehicle: {
-      text: 'Vehicle'
-    }
-  }
+  },
+  dragon: {
+  },
+  avatar: {
+  },
+  vehicle: {
+  },
 }
