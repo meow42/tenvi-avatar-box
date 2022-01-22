@@ -1,10 +1,13 @@
-import { defineStore, acceptHMRUpdate } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia';
+import Parts from './data/parts.js';
 
 const useStore = defineStore('main', {
   state: ()=> ({
     app: {
       view: 'overview',
       editTarget: 'mecha',
+      partSelected: '',
+      resDomain: 'https://tenvix.meow42.cn/',
     },
     pilot: {
       display: true, 
@@ -35,23 +38,48 @@ const useStore = defineStore('main', {
       },
       order: [],
     },
-    guard: {
-      type: 'mecha',
-    }
+    avatar: {
+      res: {
+        df: '',
+        do: '',
+        am: '',
+        dc: '',
+        lp: '',
+        pp: '',
+        rh: '',
+        lh: '',
+      },
+      order: [],
+    },
+    dragon: {
+      res: {
+        df: '',
+        do: '',
+        am: '',
+        dc: '',
+        lp: '',
+        pp: '',
+        rh: '',
+        lh: '',
+      },
+      order: [],
+    },
+    vehicle: {
+      res: {},
+      order: [],
+    },
   }),
   getters: {
-    /** 当前编辑对象的部件名称列表 */
-    resNameList() {
-      return this.getResNameList();
+    /** 图标URL */
+    getIconURL: (state) => {
+      return (code) => state.app.resDomain + 'item/' + code + '_icon.png';
+    },
+    /** 当前选取部件的Item数据 */
+    partItemData(state) {
+      return Parts[state.app.editTarget][state.app.partSelected];
     },
   },
   actions: {
-    /** 获取指定的部件名称列表 */
-    getResNameList(targetName) {
-      if (!targetName) targetName = this.app.editTarget;
-      if (this[targetName]) return Object.keys(this[targetName]['res']);
-      else return [];
-    },
     /** 变更对象值并缓存到浏览器 */
     save(key, obj) {
       if (!localStorage) return undefined;
