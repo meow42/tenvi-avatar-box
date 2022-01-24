@@ -110,9 +110,6 @@ html, body {
   width: 112px;
   height: inherit;
 }
-.parts-edit .van-sidebar > .van-sidebar-item {
-  /*z-index: -1;*/
-}
 
 .parts-edit .van-list {
   height: inherit;
@@ -145,7 +142,7 @@ html, body {
   font-size: 12px;
 }
 .parts-edit .item-selected .van-image {
-  box-shadow: 0 0 3px 1px #ee0a24 !important;
+  box-shadow: 0 0 1px 2px var(--van-blue) !important;
 }
 .parts-edit .item .van-image > img {
   width: auto !important;

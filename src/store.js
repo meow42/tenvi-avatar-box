@@ -74,12 +74,22 @@ const useStore = defineStore('main', {
     getIconURL: (state) => {
       return (code) => state.app.resDomain + 'item/' + code + '_icon.png';
     },
-    /** 当前选取部件的Item数据 */
-    partItemData(state) {
-      return Parts[state.app.editTarget][state.app.partSelected];
+    /** 当前选取部件Item的数据 */
+    getPartItemData(state) {
+      return (partName) => Parts[state.app.editTarget][partName || state.app.partSelected];
+    },
+    /** 当前选取部件的code */
+    getSelectedPartItemCode(state) {
+      return (partName) => state[state.app.editTarget]['res'][partName || state.app.partSelected];
     },
   },
   actions: {
+    /** 设置部件Item的资源编号 */
+    setPartRes(code, partName, targetName) {
+      if (typeof targetName !== 'string') targetName = this.app.editTarget;
+      if (typeof partName !== 'string') partName = this.app.partSelected;
+      this[targetName]['res'][partName] = code || '';
+    },
     /** 变更对象值并缓存到浏览器 */
     save(key, obj) {
       if (!localStorage) return undefined;
