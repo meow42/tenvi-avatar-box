@@ -8,13 +8,15 @@
   import MenuTop from './components/MenuTop.vue';
   import MenuBottom from './components/MenuBottom.vue';
   import ViewPartsEdit from './components/ViewPartsEdit.vue';
+  import ViewActionEdit from './components/ViewActionEdit.vue';
 </script>
 
 <template>
   <MenuTop></MenuTop>
   <div class="views">
-    <ViewPartsEdit v-if="store.app.view == 'parts'"></ViewPartsEdit>
-    <div v-else style="text-align: center; padding-top: 50%;">{{ store.app.view }}</div>
+    <ViewPartsEdit v-if="store.edit.view == 'parts'"></ViewPartsEdit>
+    <ViewActionEdit v-if="store.edit.view == 'action'"></ViewActionEdit>
+    <div v-else style="text-align: center; padding-top: 50%;">{{ store.edit.view }}</div>
   </div>
   <MenuBottom></MenuBottom>
 </template>

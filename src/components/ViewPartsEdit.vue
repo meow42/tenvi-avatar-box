@@ -3,6 +3,7 @@
   import { useStore } from '../store.js';
   const store = useStore();
   import PartsList from './PartsList.vue';
+  import TenviCanvas from './TenviCanvas.vue';
 
   const sidebarActive = ref(0);
   const sidebarData = {
@@ -13,31 +14,33 @@
     vehicle: [],
   };
 
-  watch(toRef(store.app, 'editTarget'), () => {
-    //console.log('watch-editTarget:', store.app.editTarget);
+  watch(toRef(store.edit, 'type'), () => {
+    //console.log('watch-editTarget:', store.edit.type);
     sidebarActive.value = 0;
-    changePartSelected(0);
+    changeResTypeSelected(0);
   });
-  const changePartSelected = (index) => {
-    store.app.partSelected = sidebarData[store.app.editTarget][index];
+  const changeResTypeSelected = (index) => {
+    store.edit.res = sidebarData[store.edit.type][index];
   };
 
-  changePartSelected(0);
+  changeResTypeSelected(0);
 </script>
 
 <template>
   <div class="parts-edit">
     <!-- 左侧菜单 -->
-    <van-sidebar v-model="sidebarActive" @change="changePartSelected">
+    <van-sidebar v-model="sidebarActive" @change="changeResTypeSelected">
       <van-sidebar-item
-        v-for="(item, index) in sidebarData[store.app.editTarget]"
+        v-for="(item, index) in sidebarData[store.edit.type]"
         :key="index"
-        :title="$t(`${store.app.editTarget}.res.${item}`)"
+        :title="$t(`${store.edit.type}.res.${item}`)"
       >
       </van-sidebar-item>
     </van-sidebar>
     <!-- 右侧列表 -->
-    <PartsList></PartsList>
+    <div>
+      <PartsList></PartsList>
+    </div>
   </div>
 </template>
 

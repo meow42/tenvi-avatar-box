@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <van-tabbar v-model="store.app.view" @change="onChange">
+  <van-tabbar v-model="store.edit.view" @change="onChange">
     <van-tabbar-item name="overview" icon="eye-o">{{ $t('menu.overview') }}</van-tabbar-item>
     <van-tabbar-item name="parts" icon="apps-o">{{ $t('menu.parts') }}</van-tabbar-item>
     <van-tabbar-item name="action" icon="video-o">{{ $t('menu.action') }}</van-tabbar-item>

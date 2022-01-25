@@ -11,7 +11,7 @@
 
   // 全局类型设置 //
   const targets = ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
-  const selected = ref(store.app.editTarget);
+  const selected = ref(store.edit.type);
   const pilotDisplay = ref(true);
   const pilotDisplayTrue = ref(true);
   const typeMenuOpened = ref(null);
@@ -29,7 +29,7 @@
     typeMenuOpened.value.toggle();
   };
   const onOpen = () => {
-    selected.value = store.app.editTarget;
+    selected.value = store.edit.type;
     pilotDisplay.value = store.pilot.display;
   };
 
@@ -75,8 +75,8 @@
     <!-- 类型切换 -->
     <van-dropdown-item ref="typeMenuOpened" @open="onOpen">
       <template #title>
-        <van-icon :name="`imgs/icon-${store.app.editTarget}.png`" />
-        {{ $t(`noun.${store.app.editTarget}`) }}
+        <van-icon :name="`imgs/icon-${store.edit.type}.png`" />
+        {{ $t(`noun.${store.edit.type}`) }}
       </template>
       <!-- 编辑对象选择 -->
       <van-radio-group v-model="selected">
