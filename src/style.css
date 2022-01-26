@@ -109,8 +109,8 @@ html, body {
 .parts-edit .van-sidebar {
   width: 112px;
   height: inherit;
+  background: var(--van-sidebar-background-color);
 }
-
 .parts-edit .van-list {
   height: inherit;
   padding: 0;
@@ -158,19 +158,19 @@ html, body {
   text-align: center;
 }
 
-/* 动作编辑视图 */
-.action-edit {
+/* 动作帧编辑视图 */
+.frame-edit {
   height: 100%;
   display: grid;
   align-items: start;
-  grid-template-rows: 128px 60px 1fr;
+  grid-template-rows: auto 60px 1fr;
 }
-.action-edit .img-swipe {
+.frame-edit .img-swipe {
   display: grid;
   align-items: center;
   grid-template-columns: 60px 1fr 60px;
 }
-.action-edit .custom-indicator {
+.frame-edit .custom-indicator {
   position: absolute;
   right: 5px;
   bottom: 5px;
@@ -178,30 +178,30 @@ html, body {
   font-size: 12px;
   background: rgba(0, 0, 0, 0.1);
 }
-.action-edit .van-tab__pane{
+.frame-edit .van-tab__pane{
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
 }
-.action-edit .van-tabs {
+.frame-edit .van-tabs {
   height: inherit;
   padding: 0;
   overflow-x: hidden;
   overflow-y: hidden;
 }
-.action-edit .van-tabs__content{
+.frame-edit .van-tabs__content{
   height: calc(100% - 44px);
   padding-top: 3px;
 }
-.action-edit .van-tabs__content .van-cell {
+.frame-edit .van-tabs__content .van-cell {
   display: grid;
   grid-template-columns: 6em 1fr;
 }
-.action-edit .van-tabs__content .van-cell__title {
+.frame-edit .van-tabs__content .van-cell__title {
   flex: none;
   font-weight: 750;
 }
-.action-edit .van-tabs__content .van-cell__value {
+.frame-edit .van-tabs__content .van-cell__value {
   max-width: 420px;
   flex: none;
   display: grid;
@@ -212,43 +212,43 @@ html, body {
   text-align: left;
   cursor: pointer;
 }
-.action-edit .sheet {
+.frame-edit .sheet {
   height: calc(100% - 240px);
   max-height: calc(900px - 240px);
   min-height: 360px;
 }
-.action-edit .sheet-overlay {
+.frame-edit .sheet-overlay {
   background-color: rgba(0, 0, 0, 0.42);
 }
-.action-edit .sheet .van-action-sheet__description {
+.frame-edit .sheet .van-frame-sheet__description {
   padding: 9px 0;
 }
-.action-edit .sheet .sheet-search  {
+.frame-edit .sheet .sheet-search  {
   width: 80%;
   min-width: 320px;
   margin: 0 auto;
 }
-.action-edit .sheet .sheet-search .van-cell__title {
+.frame-edit .sheet .sheet-search .van-cell__title {
   max-width: 3.5em;
 }
-.action-edit .sheet .van-field__control {
+.frame-edit .sheet .van-field__control {
   min-width: 5em;
 }
-.action-edit .sheet .van-field__button  {
+.frame-edit .sheet .van-field__button  {
   padding-left: 20px;
 }
-.action-edit .sheet .van-action-sheet__subname {
+.frame-edit .sheet .van-frame-sheet__subname {
   margin-top: 0;
 }
-.action-edit .sheet .van-action-sheet__content{
+.frame-edit .sheet .van-frame-sheet__content{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   grid-template-rows: repeat(auto-fill, 50px);
 }
-.action-edit .sheet .van-action-sheet__item {
+.frame-edit .sheet .van-frame-sheet__item {
   height: fit-content;
 }
-.action-edit .van-button {
+.frame-edit .van-button {
   width: fit-content;
 }
 

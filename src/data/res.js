@@ -1,5 +1,6 @@
 export default {
-  pilot: {},
+  pilot: {
+  },
   mecha: {
     df: [
       { id: '00008', cn: '' },

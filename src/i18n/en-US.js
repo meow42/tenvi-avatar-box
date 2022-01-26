@@ -8,6 +8,7 @@ export default {
   menu: {
     overview: 'Overview',
     parts: 'Parts',
+    frame: 'Frame',
     action: 'Action',
     option: 'Option',
     file: 'File',

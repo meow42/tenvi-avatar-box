@@ -1,0 +1,14 @@
+<script setup>
+  import { ref, readonly } from 'vue';
+  import { useStore } from '../store.js';
+  const store = useStore();
+</script>
+
+<template>
+  <div class="action-edit">
+    Action Edit
+  </div>
+</template>
+
+<style scoped>
+</style>
