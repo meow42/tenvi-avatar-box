@@ -1,7 +1,6 @@
 <script setup>
   import { onMounted, ref, watch, computed } from 'vue';
-  import { useStore } from '../store.js';
-  const store = useStore();
+
   /** 组件接收的参数 */
   const props = defineProps({
     width: { type: Number, default: 240 },
@@ -145,4 +144,8 @@
 </template>
 
 <style scoped>
+.tenvi-canvas {
+  width: fit-content;
+  height: fit-content;
+}
 </style>

@@ -7,6 +7,7 @@ export default {
   },
   menu: {
     overview: 'Overview',
+    order: 'Order',
     parts: 'Parts',
     frame: 'Frame',
     action: 'Action',

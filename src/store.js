@@ -1,5 +1,5 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { Res, Part, Order } from './data.js';
+import { Res, Part, Order, Frame, Action } from './data.js';
 
 const useStore = defineStore('main', {
   state: ()=> ({
@@ -12,8 +12,8 @@ const useStore = defineStore('main', {
       type: 'mecha', // 选定的编辑对象类型
       res: '', // 选定的数据资源类型
     },
-    resDataMap: new Map(), // 存放已载入的部件资源Json数据
-    //resImgMap: new Map(), // 存放已载入的部件资源图片
+    resDataMap: new Map(), // 存放已载入的资源Json数据
+    resImgMap: new Map(), // 存放已载入的资源图片
     pilot: {
       display: true, 
       race: '', // andras, silva, talli
@@ -22,17 +22,9 @@ const useStore = defineStore('main', {
     },
     mecha: {
       res: { df: '00008', do: '', am: '', dc: '', lp: '', pp: '', rh: '', lh: '' },
-      order: [
-        'a-weapon', 'a-arms', 'a-armr1', 'a-armr',  'a-weapon1',
-        'a-door',
-        'a-skirt', 'a-legr1', 'a-legr',
-        'a-armor', 'a-body',
-        'a-door1', 
-        'a-legl1', 'a-legl', 'a-booster',
-        'a-arml1', 'a-arml', 'a-shield',
-        'a-propulsion',
-      ],
+      frm: {},
       act: {},
+      order: [],
     },
     avatar: {
       res: { df: '', do: '', am: '', dc: '', lp: '', pp: '', rh: '', lh: '' },
@@ -110,7 +102,7 @@ const useStore = defineStore('main', {
         if (!resList.includes(key)) that.resDataMap.delete(key);
       });
     },
-    /** 远程加载xml并转换为json */
+    /** 加载xml并转换为json */
     async loadXML2JSON(code) {
       if (!code) return {};
       let url = this.app.resDomain + 'item/' + code + '.xml';
@@ -161,7 +153,7 @@ const useStore = defineStore('main', {
       json.action = {};
       return json;
     },
-    /** 远程加载文件 */
+    /** 加载远程文件 */
     async loadFile(url, type) {
       return new Promise((resolve, reject) => {
         if (typeof url !== 'string') reject();

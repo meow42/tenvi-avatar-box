@@ -12,7 +12,7 @@
 <template>
   <van-list>
     <div v-for="(item, index) in store.getResList()" :key="index" @click="itemClick(item)"
-      class="item" :class="{ 'item-selected': item.id == store.getSelectedResCode(), 'newline': item.id.includes('|')}">
+      class="item" :class="{ 'item-selected': item.id == store.getPartResCode(), 'newline': item.id.includes('|')}">
       <div v-if="!item.id.includes('|')">
         <van-image width="36" height="36" radius="3" fit="none" :src="store.getIconURL(item.id)" :alt="item.id">
           <template v-slot:loading>

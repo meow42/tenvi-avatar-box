@@ -1,12 +1,11 @@
 <script setup>
-  import { ref, readonly } from 'vue';
+  import { ref } from 'vue';
   import { useStore } from '../store.js';
   const store = useStore();
 </script>
 
 <template>
-  <div class="action-edit">
-  </div>
+  <div class="order-edit"></div>
 </template>
 
 <style scoped>

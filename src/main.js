@@ -4,6 +4,7 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import { createI18n } from 'vue-i18n'
 import messages from './i18n/index'
+// @ts-ignore
 import App from './App.vue'
 
 

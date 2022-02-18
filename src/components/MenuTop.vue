@@ -75,7 +75,6 @@
     <!-- 类型切换 -->
     <van-dropdown-item ref="typeMenuOpened" @open="onOpen">
       <template #title>
-        <van-icon :name="`imgs/icon-${store.edit.type}.png`" />
         {{ $t(`noun.${store.edit.type}`) }}
       </template>
       <!-- 编辑对象选择 -->
@@ -83,7 +82,6 @@
         <van-cell-group :title="$t(`menu.editTarget`)" inset>
           <van-cell clickable
             :title="$t(`noun.${item}`)" 
-            :icon="`imgs/icon-${item}.png`"
             @click="selected = item"
             v-for="item in targets" :key="item"
           >
@@ -95,7 +93,7 @@
       </van-radio-group>
       <!-- 显示选项 -->
       <van-cell-group title="Display" inset>
-        <van-cell :title="$t(`noun.pilot`)" :icon="`imgs/icon-pilot.png`">
+        <van-cell :title="$t(`noun.pilot`)">
           <template #right-icon>
             <van-switch v-model="pilotDisplayTrue" size="18px" disabled v-if="selected == 'pilot'" />
             <van-switch v-model="pilotDisplay" size="18px" v-else />
