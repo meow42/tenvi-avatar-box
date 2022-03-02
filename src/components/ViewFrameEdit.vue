@@ -5,25 +5,25 @@
   // @ts-ignore
   import TenviCanvas from './TenviCanvas.vue';
 
+  const activeNames = ref(['1', '2']);
+
   const editAct = ref({
     id: '', cn: '',
   });
 
   const h1 = () => {
-    store.updateResData();
+    //store.updateResData();
+    store.reloadResData();
   };
   const h2 = () => {
-    console.log(store.resDataMap)
+    console.log('resDataMap:', store.resDataMap);
+    console.log('resImgMap:', store.resImgMap);
   };
   const h3 = () => {
     console.log(store.getPartResList('a-body', 'mecha'))
   };
   function h4() {
-    //partsOrder.value.pop();
-    //conf.auto = !conf.auto;
-    console.log('conf.auto:', conf.auto);
-    axis.value = Boolean(!axis.value);
-    console.log('axis:', axis.value);
+    store.getPartFrameData('a_body', 'body_stand1_0', '00008');
   };
 
   const conf = markRaw({
@@ -117,89 +117,6 @@
           }
       }
     },
-    /*
-    'a-arml': {
-      "rootName": "a-body",
-      "linkSelf": "arml",
-      "linkTarget": "",
-      "name": "arml_001",
-      "code": "00008",
-      "imgName": "00008_0",
-      size: { x: 31, y: 47 },
-      offset: { x: 558, y: 47 },
-      center: { x: 15, y: 23 },
-      "point": {
-          "arml": {
-              "name": "arml",
-              "x": 23,
-              "y": 11
-          },
-          "hl": {
-              "name": "hl",
-              "x": 15,
-              "y": 36
-          }
-      }
-    },
-    'a-armr': {
-      "rootName": "a-body",
-      "linkSelf": "armr",
-      "linkTarget": "",
-      "name": "armr_002",
-      "code": "00008",
-      "imgName": "00008_0",
-      size: { x: 31, y: 48 },
-      offset: { x: 217, y: 48 },
-      center: { x: 15, y: 24 },
-      "point": {
-          "armr": {
-              "name": "armr",
-              "x": -3,
-              "y": 11
-          },
-          "hr": {
-              "name": "hr",
-              "x": 15,
-              "y": 38
-          }
-      }
-    },
-    'a-legl': {
-      "rootName": "a-body",
-      "linkSelf": "legl",
-      "linkTarget": "",
-      "name": "legl_001",
-      "code": "00008",
-      "imgName": "00008_0",
-      size: { x: 25, y: 36 },
-      offset: { x: 125, y: 180 },
-      center: { x: 12, y: 18 },
-      "point": {
-          "legl": {
-              "name": "legl",
-              "x": 13,
-              "y": 9
-          }
-      }
-    },
-    'a-legr': {
-      "rootName": "a-body",
-      "linkSelf": "legr",
-      "linkTarget": "",
-      "name": "legr_002",
-      "code": "00008",
-      "imgName": "00008_0",
-      size: { x: 24, y: 28 },
-      offset: { x: 624, y: 224 },
-      center: { x: 12, y: 14 },
-      "point": {
-          "legr": {
-              "name": "legr",
-              "x": 9,
-              "y": 1
-          }
-      }
-    },*/
   });
   const partsOrder = ref([
     'a-weapon', 'a-arms', 'a-armr1', 'a-armr',  'a-weapon1',
@@ -213,33 +130,33 @@
   ]);
 
   onMounted(() => {
-    store.loadImage(store.getResImgURL('00008_0')).then(img => {
-      console.log('loadImage', img);
-      for(const key in partsData.value) {
-        partsData.value[key]['img'] = img;
-      }
-    });
   });
 </script>
 
 <template>
   <div class="frame-edit">
     <!-- 预览轮播 -->
-    <TenviCanvas :data="partsData" :order="partsOrder" :auto="false" :axis="axis"></TenviCanvas>
-    <!-- 编辑栏 
-    <van-button @click="$refs['c1'].draw">draw</van-button>
-      <van-button @click="$refs.c1.drawAxis">drawAxis</van-button>
-      <van-button @click="$refs.c1.clean">clean</van-button>
-    -->
-    <div>
-      
-    </div>
-    <!-- 编辑区 -->
-    <div>
+    <TenviCanvas :data="partsData" :order="partsOrder" :auto="false" :axis="true"></TenviCanvas>
+    <!-- 编辑栏 -->
+    <div v-show="true">
       <van-button @click="h1">updateResData</van-button>
       <van-button @click="h2">showData</van-button>
       <van-button @click="h3">getPartResList</van-button>
-      <br/><van-button @click="h4">TEST</van-button>
+      <van-button @click="h4">TEST</van-button>
+    </div>
+    <!-- 编辑区 -->
+    <div>
+      <van-collapse v-model="activeNames">
+        <van-collapse-item title="Base" name="1">
+          <van-cell title="Body" value="内容" />
+        </van-collapse-item>
+        <van-collapse-item title="标题2" name="2">
+          
+        </van-collapse-item>
+        <van-collapse-item title="标题3" name="3">
+          
+        </van-collapse-item>
+      </van-collapse>
     </div>
     <!-- 选项面板 -->
   </div>
