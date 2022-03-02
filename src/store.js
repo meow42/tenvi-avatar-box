@@ -5,37 +5,39 @@ const useStore = defineStore('main', {
   state: ()=> ({
     app: {
       resDomain: 'https://tenvix.meow42.cn/',
-      typeList: ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'],
+      typeList: [ 'pilot', 'mecha', 'avatar', 'dragon', 'vehicle' ],
+      loading: new Set(), // 记录载入中的资源名称
+      loadingErr: new Set(), // 记录载入失败的资源名称
     },
     edit: {
       view: 'frame', // 激活的视图
       type: 'mecha', // 选定的编辑对象类型
-      res: '', // 选定的数据资源类型
+    },
+    res: {
+      bd: '', hd: '', fc: '', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
+      a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '', a_lh: '',
+      t_df: '', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
+      s_df: '', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
     },
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     pilot: {
       display: true, 
       race: '', // andras, silva, talli
-      res: { bd: '', hd: '', fc: '', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '' },
       order: [],
     },
     mecha: {
-      res: { df: '00008', do: '', am: '', dc: '', lp: '', pp: '', rh: '', lh: '' },
       frm: {},
       act: {},
       order: [],
     },
     avatar: {
-      res: { df: '', do: '', am: '', dc: '', lp: '', pp: '', rh: '', lh: '' },
       order: [],
     },
     dragon: {
-      res: { df: '', do: '', am: '', dc: '', lp: '', pp: '', rh: '', lh: '' },
       order: [],
     },
     vehicle: {
-      res: {},
       order: [],
     },
   }),
@@ -45,10 +47,19 @@ const useStore = defineStore('main', {
     getIconURL: (state) => (code) => state.app.resDomain + 'item/' + code + '_icon.png',
     /** 获取资源图片URL */
     getResImgURL: (state) => (name) => state.app.resDomain + 'item/' + name + '.png',
-    /** 获取部件资源列表 */
-    getResList: (state) => (partName, typeName) => Res[typeName || state.edit.type][partName || state.edit.res],
-    /** 获取部件记录的资源code 此处需要 */
-    getPartResCode: (state) => (partName, typeName) => state[typeName || state.edit.type]['res'][partName || state.edit.res],
+    /** 获取资源XML文件URL */
+    getResXmlURL: (state) => (code) => state.app.resDomain + 'item/' + code + '.xml',
+    /** 获取资源列表 */
+    getResList: (state) => (resName) => Res[resName] || [],
+    /** 获取部件记录的资源code */
+    getPartResCode: (state) => (partName) => {
+      if (state.res[partName]) return state.res[partName];
+      if (Part[partName]) {
+        let resName = Part[partName]['res'];
+        return state.res[resName] || '';
+      }
+      return '';
+    },
     /** 获取部件资源数据列表 */
     getPartResList: (state) => {
       return (partName, typeName) => {
@@ -60,47 +71,66 @@ const useStore = defineStore('main', {
         return state.resDataMap.get(code);
       };
     },
-    /** 获取指定动作帧数据 */
-    getFrameData: (state) => {
-      return (frameName, resCode) => state.resDataMap.get(resCode)[frameName];
+    /** 获取部件的动作帧数据 */
+    getPartFrameData: (state) => (partName, frameName, resCode) => {
+      let data = {};      
+      let resData = state.resDataMap.get(resCode);
+      let partData = Part[partName];
+      if (resData && partData) {
+        data.partName = partName;
+        data.FarmeName = frameName;
+        data.resCode = resCode;
+        data.rootName = partData['root'] || '';
+        data.linkSelf = partData['link'] || '';
+        data.linkTarget = partData['link'] || '';
+        Object.assign(data, resData[frameName]);
+      }
+      if (data['imgName']) {
+
+        data.img = state.resImgMap.get(data['imgName']);
+      }
+      console.log('getPartFrameData:', data);
+      return data;
     },
   },
   actions: {
-    /** 设置部件Item的资源编号 */
+    /** 设置部件Item的资源编号 
     setPartRes(code, partName, targetName) {
       if (typeof targetName !== 'string') targetName = this.edit.type;
       if (typeof partName !== 'string') partName = this.edit.res;
       this[targetName]['res'][partName] = code || '';
-    },
-    /** 清空资源数据 */
-    deleteResData() {
-      this.resDataMap = new Map();
+    },*/
+    /** 更新资源图片 */
+    async updateResImg(imgName, reload = false) {
+      if(!imgName) return;
+      // 检查是否已载入，以及是否强制载入
+      if(this.resImgMap.has(imgName) && !reload) return;
+      let that = this;
+      that.loadImage(that.getResImgURL(imgName)).then(img => {
+        that.resImgMap.set(imgName, img);
+        //console.log('updateResImg:', imgName, img);
+      }).catch(err => {});
     },
     /** 更新资源数据 */
-    updateResData(...typeList) {
-      if (typeList.length < 1) typeList = this.app.typeList;
+    updateResData() {
       let that = this;
-      let resList = [];
-      // 加载所需资源
-      typeList.map(typeName => {
-        for (const resName in that[typeName]['res']) {
-          let resCode = that[typeName]['res'][resName];
-          // 跳过空记录
-          if (resCode.length < 1) continue;
-          // 记录正在使用的资源编号
-          resList.push(resCode);
-          // 加载缺少的资源
-          if (!that.resDataMap.has(resCode)) {
-            that.loadXML2JSON(resCode).then(json => {
-              that.resDataMap.set(resCode, json.frame);
-            });
-          }
-        }
-      });
-      // 清理无用资源
-      that.resDataMap.forEach((value, key) => {
-        if (!resList.includes(key)) that.resDataMap.delete(key);
-      });
+      for(const i in that.res) {
+        let code = that.res[i];
+        // 跳过已存在的资源
+        if(!code || that.resDataMap.has(code)) continue;
+        that.loadFile(that.getResXmlURL(code), 'xml').then(xml => {
+          let json = that.xml2json(xml);
+          that.resDataMap.set(code, json['frame']);
+          //console.log('updateResData:', code, json['frame']);
+        });
+        // 载入通常情况下的图片资源
+        that.updateResImg(code + '_0', true);
+      }
+    },
+    /** 重新载入资源数据 */
+    reloadResData() {
+      this.resDataMap.clear();
+      this.updateResData();
     },
     /** 加载xml并转换为json */
     async loadXML2JSON(code) {
@@ -126,15 +156,6 @@ const useStore = defineStore('main', {
         item.size = { x: Number(f.getAttribute('sx')), y: Number(f.getAttribute('sy')) };
         item.offset = { x: Number(f.getAttribute('x')), y: Number(f.getAttribute('y')) };
         item.center = { x: Number(f.getAttribute('cx')), y: Number(f.getAttribute('cy')) };
-        /*
-        item.imgURL = this.app.resDomain + item.imgName + '.png';
-        item.sizeX = Number(f.getAttribute('sx'));
-        item.sizeY = Number(f.getAttribute('sy'));
-        item.offsetX = Number(f.getAttribute('x'));
-        item.offsetY = Number(f.getAttribute('y'));
-        item.centerX = Number(f.getAttribute('cx'));
-        item.centerY = Number(f.getAttribute('cy'));
-        */
         // 载入连接点数据
         let pointNode = f.getElementsByTagName('point');
         let points = pointNode[0] ? pointNode[0].children : [];
@@ -155,42 +176,65 @@ const useStore = defineStore('main', {
     },
     /** 加载远程文件 */
     async loadFile(url, type) {
+      let that = this;
       return new Promise((resolve, reject) => {
         if (typeof url !== 'string') reject();
         const xhr = new XMLHttpRequest();
         // 请求成功
         xhr.onload = e => {
-          //console.log('request success:', xhr);
+          //console.log('loadFile:', xhr);
+          that.app.loading.delete(url);
+          that.app.loadingErr.delete(url);
           if (type === 'xml') resolve(xhr.responseXML);
           else if (type === 'json') resolve(JSON.parse(xhr.response));
           else resolve(xhr.response);
         };
         // 请求失败
         xhr.onerror = e => {
-          console.error('request error:', e);
-          reject();
+          console.error('loadFile:', e);
+          that.app.loading.delete(url);
+          that.app.loadingErr.add(url);
+          reject(e);
         };
         // 请求超时
         xhr.ontimeout = e => {
-          console.info('request timeout:', e);
-          reject();
+          console.info('loadFile - timeout:', e);
+          that.app.loading.delete(url);
+          that.app.loadingErr.add(url);
+          reject(e);
         };
         xhr.timeout = 42000;
         xhr.open('GET', url, true);
         xhr.send();
+        that.app.loading.add(url);
      });
     },
     /** 加载图片image对象 */
     async loadImage(url) {
+      let that = this;
       return new Promise((resolve, reject) => {
         let img = new Image();
         img.setAttribute('crossOrigin', 'Anonymous'); // 设置允许跨域，避免污染canvas导致无法输出
         img.onload = () => {
-          //console.log(img.src, "is loaded");
+          //console.log('loadImage:', img);
+          that.app.loading.delete(url);
+          that.app.loadingErr.delete(url);
           resolve(img);
         };
+        img.onerror = () => {
+          console.error('loadImage:', url);
+          that.app.loading.delete(url);
+          that.app.loadingErr.add(url);
+          reject(url);
+        };
         img.src = url;
+        that.app.loading.add(url);
       });
+    },
+    /** 重置载入状态 */
+    resetLoadingFlag() {
+      this.app.loading.clear();
+      this.app.loadingErr.clear();
     },
     /** 变更对象值并缓存到浏览器 */
     save(key, obj) {

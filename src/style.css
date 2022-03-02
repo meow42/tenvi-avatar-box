@@ -57,16 +57,16 @@ html, body {
   box-shadow: var(--van-dropdown-menu-box-shadow);
 }
 @media screen and (min-height: 900px) {
-  #app, .van-overlay, .van-popup--top{
-    top: calc((100vh - 900px)/2);
+  #app, .van-overlay, .van-popup--top {
+    top: calc((100vh - 900px)/2) !important;
   }
   .van-popup--bottom, .van-overlay {
-    bottom: calc((100vh - 900px)/2);
+    bottom: calc((100vh - 900px)/2) !important;
   }
 }
 @media screen and (min-width: 600px) {
-  #app, .van-overlay, .van-popup--top{
-    left: calc((100vw - 600px)/2);
+  #app, .van-overlay, .van-popup--top {
+    left: calc((100vw - 600px)/2) !important;
   }
 }
 

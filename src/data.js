@@ -1,143 +1,133 @@
 const Res = {
-  pilot: {
-  },
-  mecha: {
-    df: [
-      { id: '00008', cn: '' },
-      { id: '00159', cn: '' },
-      { id: '00160', cn: '' }, { id: '|' },
-      { id: '00182', cn: '' },
-      { id: '00183', cn: '' },
-      { id: '00184', cn: '' },
-      { id: '00185', cn: '' },
-    ]
-  },
-  avatar: {
-  },
-  dragon: {
-  },
-  vehicle: {
-  },
+  a_df: [
+    { id: '00008', cn: '' },
+    { id: '00159', cn: '' },
+    { id: '00160', cn: '' }, { id: '|' },
+    { id: '00182', cn: '' },
+    { id: '00183', cn: '' },
+    { id: '00184', cn: '' },
+    { id: '00185', cn: '' },
+  ]
 }
 
 const Part = {
-  pilot_body: { root: undefined, link: 'center', res: 'bd', regex: /.*_body$/ },
-  pilot_arm: { root: 'pilot_body', link: 'arm', res: 'bd', regex: /.*_arm$/ },
-  pilot_leg: { root: 'pilot_body', link: 'leg', res: 'bd', regex: /.*_leg$/ },
-  pilot_weapon: { root: 'pilot_body', link: 'wp', res: 'wp' },
-  pilot_clothes: { root: 'pilot_body', link: 'neck', res: 'cl', regex: /.*_body$/ },
-  pilot_sleeve: { root: 'pilot_clothes', link: 'psleeve', res: 'cl', regex: /.*_arm$/ },
-  pilot_pants: { root: 'pilot_clothes', link: 'pleg', res: 'cl', regex: /.*_leg$/ },
-  pilot_wing: { root: 'pilot_body', link: 'neck', res: 'cl', regex: /.*_wing$/ },
-  pilot_head: { root: 'pilot_body', link: 'neck', res: 'hd', regex: /head.*/ },
-  pilot_horn: { root: 'pilot_head', link: 'brow', res: 'hd', regex: /horn.*_0$/ },
-  pilot_hornS: { root: 'pilot_head', link: 'brow', res: 'hd', regex: /horn.*_1$/ },
-  pilot_ear: { root: 'pilot_head', link: 'brow', res: 'hd', regex: /ear.*_0$/ },
-  pilot_earS: { root: 'pilot_head', link: 'brow', res: 'hd', regex: /ear.*_1$/ },
-  pilot_face: { root: 'pilot_head', link: 'brow', res: 'fc', regex: /.*/ },
-  pilot_facial: { root: 'pilot_head', link: 'brow', res: 'fa', regex: /^((?!.*(_01)).)*$/ },
-  pilot_facialS: { root: 'pilot_head', link: 'brow', res: 'fa', regex: /.*_01$/ },
-  pilot_hair: { root: 'pilot_head', link: 'brow', res: 'hr', regex: /hair(?!Lower).*/ },
-  pilot_hairL: { root: 'pilot_head', link: 'brow', res: 'hr', regex: /hairLower.*/ },
-  pilot_cap: { root: 'pilot_head', link: 'brow', res: 'cp' },
-  pilot_emo: { root: 'pilot_head', link: 'brow', res: 'emo', regex: /.*/ },
-  macha_body: { root: undefined, link: 'center', res: 'df', regex: /^.*/ }, // mount ahead propulsion
-  macha_armL: { root: 'macha_body', link: 'arml', res: 'df', regex: /^arml_.*/ }, // arml, hl
-  macha_armR: { root: 'macha_body', link: 'armr', res: 'df', regex: /^armr_.*/ }, // armr, hr
-  macha_armS: { root: 'macha_body', link: 'arms', res: 'df', regex: /^arms.*/ }, // arms
-  macha_legL: { root: 'macha_body', link: 'legl', res: 'df', regex: /^legl_.*/ }, // legl
-  macha_legR: { root: 'macha_body', link: 'legr', res: 'df', regex: /^legr_.*/ }, // legr
-  mecha_door: { root: 'macha_body', link: 'ahead', res: 'do', regex: /.*/ }, // ahead
-  mecha_doorS: { root: 'macha_body', link: 'ahead', res: 'do', regex: /.*/ }, // ahead
-  macha_armor: { root: 'macha_body', link: 'ahead', res: 'am', regex: /.*/ }, // ahead
-  mecha_skirt: { root: 'macha_body', link: 'ahead', res: 'am', regex: /.*/ }, // ahead
-  mecha_booster: { root: 'macha_body', link: 'ahead', res: 'am', regex: /.*/ }, // ahead
-  macha_armRX: { root: 'macha_body', link: 'armr', res: 'dc', regex: /^armr_.*/ }, // armr, hr
-  macha_armLX: { root: 'macha_body', link: 'arml', res: 'dc', regex: /^arml.*/ }, // arml, hl
-  macha_legLX: { root: 'macha_body', link: 'legl', res: 'lp', regex: /.*legl.*/ }, // legl
-  macha_legRX: { root: 'macha_body', link: 'legr', res: 'lp', regex: /.*legr.*/ }, // legr
-  mecha_propulsion: { root: 'macha_body', link: 'propulsion', res: 'pp', regex: /.*/ }, // propulsion
-  mecha_weapon: { root: 'macha_body', link: 'rh', res: 'rh', regex: /.*/ }, // rh gp
-  mecha_weaponGP: { root: 'mecha_weapon', link: 'gp', res: 'rh', regex: /.*_\d\d_00$/ }, // gp
-  mecha_shield: { root: 'macha_body', link: 'lh', res: 'lh', regex: /.*/ }, // lh
-  avatar_body: { root: undefined, link: 'center', res: 'df', regex: /.*_bd$/ },
-  avatar_head: { root: 'avatar_body', link: 'tneck', res: 'df', regex: /^head.*/ }, // tneck, brow
-  avatar_armL: { root: 'avatar_body', link: 'larm', res: 'df', regex: /^arml.*/ }, // larm, hl
-  avatar_armR: { root: 'avatar_body', link: 'rarm', res: 'df', regex: /^armr.*/ }, // rarm, hr, fire
-  avatar_leg: { root: 'avatar_body', link: 'tneck', res: 'df', regex: /^leg.*/ }, // tneck
-  avatar_headX: { root: 'avatar_body', link: 'tneck', res: 'do', regex: /.*/ }, // tneck
-  avatar_bodyX: { root: 'avatar_body', link: 'tneck', res: 'am', regex: /.*_bd$/ }, // tneck, tlarm, trarm
-  avatar_armLT: { root: 'avatar_bodyX', link: 'tlarm', res: 'am', regex: /^arml.*/ }, // tlarm
-  avatar_armRT: { root: 'avatar_bodyX', link: 'trarm', res: 'am', regex: /^armr.*/ }, // trarm
-  avatar_legX: { root: 'avatar_body', link: 'tneck', res: 'am', regex: /^leg.*/ }, // tneck
-  avatar_armLX: { root: 'avatar_body', link: 'larm', res: 'dc', regex: /^arml.*/ }, // larm
-  avatar_armRX: { root: 'avatar_body', link: 'rarm', res: 'dc', regex: /^armr.*/ }, // rarm
-  avatar_legL: { root: 'avatar_body', link: 'tneck', res: 'lp', regex: /.*_bdl$/ }, // tneck
-  avatar_legR: { root: 'avatar_body', link: 'tneck', res: 'lp', regex: /.*_bdr$/ }, // tneck
-  avatar_cloak: { root: 'avatar_body', link: 'tneck', res: 'pp', regex: /.*/ }, // tneck
-  avatar_waeponRF: { root: 'avatar_body', link: 'rh', res: 'rh', regex: /^rf_.*/ }, // rh
-  avatar_waeponRB: { root: 'avatar_body', link: 'rh', res: 'rh', regex: /^rb_.*/ }, // rh
-  avatar_waeponLF: { root: 'avatar_body', link: 'lh', res: 'lh', regex: /^lf_.*/ }, // lh
-  avatar_waeponLB: { root: 'avatar_body', link: 'lh', res: 'lh', regex: /^lb_.*/ }, // lh
-  dragon_body: { root: undefined, link: 'center', res: 'df', regex: /^.*/ }, // mount
-  dragon_head: { root: 'dragon_body', link: 'gneck', res: 'df', regex: /^head.*/ }, // gneck, brow, mouth
-  dragon_eye: { root: 'dragon_body', link: 'eye', res: 'df', regex: /^eye.*/ }, // eye
-  dragon_legF: { root: 'dragon_body', link: 'fleg', res: 'df', regex: /.*fleg.*/ }, // fleg
-  dragon_legB: { root: 'dragon_body', link: 'bleg', res: 'df', regex: /.*bleg.*/ }, // bleg
-  dragon_legT: { root: 'dragon_body', link: 'fleg', res: 'df', regex: /.*tleg.*/ }, // fleg
-  dragon_cap: { root: 'dragon_body', link: 'gneck', res: 'do', regex: /.*/ }, // gneck, fire
-  dragon_bodyX: { root: 'dragon_body', link: 'navel', res: 'am', regex: /.*/ }, // navel
-  dragon_legFX: { root: 'dragon_body', link: 'fleg', res: 'dc', regex: /^fl.*/ }, // fleg
-  dragon_footBX: { root: 'dragon_body', link: 'bleg', res: 'dc', regex: /^bl.*/ }, // bleg
-  dragon_tailX: { root: 'dragon_body', link: 'navel', res: 'lp', regex: /.*/ }, // navel
-  dragon_wingR: { root: 'dragon_body', link: 'wr', res: 'pp', regex: /^w_.*/ }, // wr
-  dragon_wingL: { root: 'dragon_body', link: 'wl', res: 'pp', regex: /^wb_.*/ }, // wl
-  dragon_weapon: { root: 'pilot_body', link: 'prh', res: 'rh', regex: /.*/ }, // up prh(pilot)
-  dragon_book: { root: 'pilot_body', link: 'plh', res: 'lh', regex: /.*/ }, // mount plh(pilot)
+  p_body: { root: undefined, link: 'center', res: 'bd', regex: /.*_body$/ },
+  p_arm: { root: 'p_body', link: 'arm', res: 'bd', regex: /.*_arm$/ },
+  p_leg: { root: 'p_body', link: 'leg', res: 'bd', regex: /.*_leg$/ },
+  p_wp: { root: 'p_body', link: 'wp', res: 'wp' },
+  p_clothes: { root: 'p_body', link: 'neck', res: 'cl', regex: /.*_body$/ },
+  p_sleeve: { root: 'p_clothes', link: 'psleeve', res: 'cl', regex: /.*_arm$/ },
+  p_pants: { root: 'p_clothes', link: 'pleg', res: 'cl', regex: /.*_leg$/ },
+  p_wing: { root: 'p_body', link: 'neck', res: 'cl', regex: /.*_wing$/ },
+  p_head: { root: 'p_body', link: 'neck', res: 'hd', regex: /head.*/ },
+  p_horn: { root: 'p_head', link: 'brow', res: 'hd', regex: /horn.*_0$/ },
+  p_hornS: { root: 'p_head', link: 'brow', res: 'hd', regex: /horn.*_1$/ },
+  p_ear: { root: 'p_head', link: 'brow', res: 'hd', regex: /ear.*_0$/ },
+  p_earS: { root: 'p_head', link: 'brow', res: 'hd', regex: /ear.*_1$/ },
+  p_face: { root: 'p_head', link: 'brow', res: 'fc', regex: /.*/ },
+  p_fa: { root: 'p_head', link: 'brow', res: 'fa', regex: /^((?!.*(_01)).)*$/ },
+  p_faS: { root: 'p_head', link: 'brow', res: 'fa', regex: /.*_01$/ },
+  p_hair: { root: 'p_head', link: 'brow', res: 'hr', regex: /hair(?!Lower).*/ },
+  p_hairL: { root: 'p_head', link: 'brow', res: 'hr', regex: /hairLower.*/ },
+  p_cap: { root: 'p_head', link: 'brow', res: 'cp' },
+  p_emo: { root: 'p_head', link: 'brow', res: 'emo', regex: /.*/ },
+  a_body: { root: undefined, link: 'center', res: 'a_df', regex: /^.*/ }, // mount ahead pp
+  a_armL: { root: 'a_body', link: 'arml', res: 'a_df', regex: /^arml_.*/ }, // arml, hl
+  a_armR: { root: 'a_body', link: 'armr', res: 'a_df', regex: /^armr_.*/ }, // armr, hr
+  a_armS: { root: 'a_body', link: 'arms', res: 'a_df', regex: /^arms.*/ }, // arms
+  a_legL: { root: 'a_body', link: 'legl', res: 'a_df', regex: /^legl_.*/ }, // legl
+  a_legR: { root: 'a_body', link: 'legr', res: 'a_df', regex: /^legr_.*/ }, // legr
+  a_head: { root: 'a_body', link: 'ahead', res: 'a_do', regex: /.*/ }, // ahead
+  a_headS: { root: 'a_body', link: 'ahead', res: 'a_do', regex: /.*/ }, // ahead
+  a_bodyX: { root: 'a_body', link: 'ahead', res: 'a_am', regex: /.*/ }, // ahead
+  a_bodyXS: { root: 'a_body', link: 'ahead', res: 'a_am', regex: /.*/ }, // ahead
+  a_bodyXB: { root: 'a_body', link: 'ahead', res: 'a_am', regex: /.*/ }, // ahead
+  a_armRX: { root: 'a_body', link: 'armr', res: 'a_dc', regex: /^armr_.*/ }, // armr, hr
+  a_armLX: { root: 'a_body', link: 'arml', res: 'a_dc', regex: /^arml.*/ }, // arml, hl
+  a_legLX: { root: 'a_body', link: 'legl', res: 'a_lp', regex: /.*legl.*/ }, // legl
+  a_legRX: { root: 'a_body', link: 'legr', res: 'a_lp', regex: /.*legr.*/ }, // legr
+  a_pp: { root: 'a_body', link: 'pp', res: 'a_pp', regex: /.*/ }, // pp
+  a_wp: { root: 'a_body', link: 'rh', res: 'a_rh', regex: /.*/ }, // rh gp
+  a_wpGP: { root: 'a_wp', link: 'gp', res: 'a_rh', regex: /.*_\d\d_00$/ }, // gp
+  a_shield: { root: 'a_body', link: 'lh', res: 'a_lh', regex: /.*/ }, // lh
+  t_body: { root: undefined, link: 'center', res: 't_df', regex: /.*_bd$/ },
+  t_head: { root: 't_body', link: 'tneck', res: 't_df', regex: /^head.*/ }, // tneck, brow
+  t_armL: { root: 't_body', link: 'larm', res: 't_df', regex: /^arml.*/ }, // larm, hl
+  t_armR: { root: 't_body', link: 'rarm', res: 't_df', regex: /^armr.*/ }, // rarm, hr, fire
+  t_leg: { root: 't_body', link: 'tneck', res: 't_df', regex: /^leg.*/ }, // tneck
+  t_headX: { root: 't_body', link: 'tneck', res: 't_do', regex: /.*/ }, // tneck
+  t_bodyX: { root: 't_body', link: 'tneck', res: 't_am', regex: /.*_bd$/ }, // tneck, tlarm, trarm
+  t_armLT: { root: 't_bodyX', link: 'tlarm', res: 't_am', regex: /^arml.*/ }, // tlarm
+  t_armRT: { root: 't_bodyX', link: 'trarm', res: 't_am', regex: /^armr.*/ }, // trarm
+  t_legX: { root: 't_body', link: 'tneck', res: 't_am', regex: /^leg.*/ }, // tneck
+  t_armLX: { root: 't_body', link: 'larm', res: 't_dc', regex: /^arml.*/ }, // larm
+  t_armRX: { root: 't_body', link: 'rarm', res: 't_dc', regex: /^armr.*/ }, // rarm
+  t_legL: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdl$/ }, // tneck
+  t_legR: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdr$/ }, // tneck
+  t_pp: { root: 't_body', link: 'tneck', res: 't_pp', regex: /.*/ }, // tneck
+  t_wpRF: { root: 't_body', link: 'rh', res: 't_rh', regex: /^rf_.*/ }, // rh
+  t_wpRB: { root: 't_body', link: 'rh', res: 't_rh', regex: /^rb_.*/ }, // rh
+  t_wpLF: { root: 't_body', link: 'lh', res: 't_lh', regex: /^lf_.*/ }, // lh
+  t_wpLB: { root: 't_body', link: 'lh', res: 't_lh', regex: /^lb_.*/ }, // lh
+  s_body: { root: undefined, link: 'center', res: 's_df', regex: /^.*/ }, // mount
+  s_head: { root: 's_body', link: 'gneck', res: 's_df', regex: /^head.*/ }, // gneck, brow, mouth
+  s_eye: { root: 's_body', link: 'eye', res: 's_df', regex: /^eye.*/ }, // eye
+  s_legF: { root: 's_body', link: 'fleg', res: 's_df', regex: /.*fleg.*/ }, // fleg
+  s_legB: { root: 's_body', link: 'bleg', res: 's_df', regex: /.*bleg.*/ }, // bleg
+  s_legT: { root: 's_body', link: 'fleg', res: 's_df', regex: /.*tleg.*/ }, // fleg
+  s_cap: { root: 's_body', link: 'gneck', res: 's_do', regex: /.*/ }, // gneck, fire
+  s_bodyX: { root: 's_body', link: 'navel', res: 's_am', regex: /.*/ }, // navel
+  s_legFX: { root: 's_body', link: 'fleg', res: 's_dc', regex: /^fl.*/ }, // fleg
+  s_footBX: { root: 's_body', link: 'bleg', res: 's_dc', regex: /^bl.*/ }, // bleg
+  s_tailX: { root: 's_body', link: 'navel', res: 's_lp', regex: /.*/ }, // navel
+  s_ppR: { root: 's_body', link: 'wr', res: 's_pp', regex: /^w_.*/ }, // wr
+  s_ppL: { root: 's_body', link: 'wl', res: 's_pp', regex: /^wb_.*/ }, // wl
+  s_wp: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*/ }, // up prh(pilot)
+  s_book: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
 }
 
 const Order = {
   pilot: [],
   mecha: [
-    'macha_armS',
-    'macha_armR',
-    'macha_legR',
-    'macha_body',
-    'macha_legL',
-    'macha_armL',
+    'a_armS',
+    'a_armR',
+    'a_legR',
+    'a_body',
+    'a_legL',
+    'a_armL',
   ],
   avatar: [],
   dragon: [],
   vehicle: [],
   all: [
-    'avatar_waeponrf', 'avatar_armr2', 'avatar_armr1', 'avatar_armr', 'avatar_waeponrb',
-    'avatar_legr', 'avatar_legb', 'avatar_legl', 'avatar_leg',
-    'avatar_head1', 'avatar_head', 'avatar_body1', 'avatar_body',
-    'avatar_waeponlf', 'avatar_arml2', 'avatar_arml1', 'avatar_arml', 'avatar_waeponlb',
-    'avatar_cloak',
+    't_wprf', 't_armr2', 't_armr1', 't_armr', 't_wprb',
+    't_legr', 't_legb', 't_legl', 't_leg',
+    't_head1', 't_head', 't_body1', 't_body',
+    't_wplf', 't_arml2', 't_arml1', 't_arml', 't_wplb',
+    't_pp',
   
-    'dragon_tail', 'dragon_weapon', 'dragon_wing1', 'dragon_cap',
-    'dragon_eye', 'dragon_head',
-    'dragon_foot1', 'dragon_foot2', 'dragon_armor', 
-    'dragon_fleg', 'dragon_bleg',
-    'dragon_body', 'dragon_tleg', 'dragon_book', 'dragon_wing2',
+    's_tail', 's_wp', 's_pp1', 's_cap',
+    's_eye', 's_head',
+    's_foot1', 's_foot2', 's_armor', 
+    's_fleg', 's_bleg',
+    's_body', 's_tleg', 's_book', 's_pp2',
   
-    'mechaWeapon', 'macha_arms', 'macha_armr1', 'macha_armr',  'mechaWeapon1',
+    'mechaWeapon', 'a_arms', 'a_armr1', 'a_armr',  'mechaWeapon1',
     'mechaDoor',
-    'mechaSkirt', 'macha_legr1', 'macha_legr',
-    'macha_armor', 'macha_body',
+    'mechaSkirt', 'a_legr1', 'a_legr',
+    'a_armor', 'a_body',
     'mechaDoor1', 
-    'macha_legl1', 'macha_legl', 'a-booster',
-    'macha_arml1', 'macha_arml', 'mechaShield',
-    'a-propulsion',
+    'a_legl1', 'a_legl', 'a-booster',
+    'a_arml1', 'a_arml', 'mechaShield',
+    'a-pp',
   
-    'sleeve', 'arm', 'armWeapon', 'weapon',
+    'sleeve', 'arm', 'armWeapon', 'wp',
     'cap', 'hair',
-    'facial', 'emotion', 'ear', 'horn',
+    'fa', 'emotion', 'ear', 'horn',
     'face', 'head',
-    'facial1', 'ear1', 'horn1', 
+    'fa1', 'ear1', 'horn1', 
     'pants', 'leg',
-    'clothes', 'pilot_body', 
+    'clothes', 'p_body', 
     'hair1', 'wing',
   ]
 }
@@ -181,11 +171,11 @@ const Frame = {
   },
   macha: {
     stand1_0: {
-      macha_body: 'stand1_0',
-      macha_armL: 'arml_001',
-      macha_armR: 'armr_002',
-      macha_legL: 'legl_001',
-      macha_legR: 'legr_002',
+      a_body: 'stand1_0',
+      a_armL: 'arml_001',
+      a_armR: 'armr_002',
+      a_legL: 'legl_001',
+      a_legR: 'legr_002',
     },
     stand1_1: {},
     run0: {},
