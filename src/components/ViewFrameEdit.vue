@@ -20,123 +20,31 @@
     console.log('resImgMap:', store.resImgMap);
   };
   const h3 = () => {
-    console.log(store.getPartResList('a-body', 'mecha'))
+    console.log()
   };
   function h4() {
-    store.getPartFrameData('a_body', 'body_stand1_0', '00008');
+    let data = store.getFrameData({
+      a_body: 'body_stand1_0',
+      a_armL: 'arml_001',
+      a_armR: 'armr_002',
+      a_legL: 'legl_001',
+      a_legR: 'legr_002',
+    });
+    frameData.value = data;
+    console.log(data);
   };
 
-  const conf = markRaw({
-    auto: true,
-    axis: false
-  });
-
-  const axis = ref(Boolean(false));
-
-  const partsData = ref({
-    'a-body': {
-      "rootName": "",
-      "linkSelf": "center",
-      "linkTarget": "",
-      "name": "body_stand1_0",
-      "code": "00008",
-      "imgName": "00008_0",
-      size: { x: 53, y: 21 },
-      offset: { x: 636, y: 84 },
-      center: { x: 27, y: 44 },
-      "point": {
-          "mount": {
-              "name": "mount",
-              "x": 22,
-              "y": 10
-          },
-          "arml": {
-              "name": "arml",
-              "x": 2,
-              "y": 6
-          },
-          "armr": {
-              "name": "armr",
-              "x": 43,
-              "y": 6
-          },
-          "legl": {
-              "name": "legl",
-              "x": 16,
-              "y": 17
-          },
-          "legr": {
-              "name": "legr",
-              "x": 33,
-              "y": 17
-          },
-          "ahead": {
-              "name": "ahead",
-              "x": 26,
-              "y": -10
-          },
-          "propulsion": {
-              "name": "propulsion",
-              "x": 24,
-              "y": 6
-          },
-          "rh": {
-              "name": "rh",
-              "x": 57,
-              "y": 33
-          },
-          "lh": {
-              "name": "lh",
-              "x": 2,
-              "y": 11
-          },
-          "attack": {
-              "name": "attack",
-              "x": 27,
-              "y": 44
-          },
-          "hit": {
-              "name": "hit",
-              "x": 26,
-              "y": 10
-          },
-          "brow": {
-              "name": "brow",
-              "x": 26,
-              "y": -5
-          },
-          "mask": {
-              "name": "mask",
-              "x": 26,
-              "y": 0
-          },
-          "c": {
-              "name": "c",
-              "x": 26,
-              "y": 10
-          }
-      }
-    },
-  });
-  const partsOrder = ref([
-    'a-weapon', 'a-arms', 'a-armr1', 'a-armr',  'a-weapon1',
-    'a-door',
-    'a-skirt', 'a-legr1', 'a-legr',
-    'a-armor', 'a-body',
-    'a-door1', 
-    'a-legl1', 'a-legl', 'a-booster',
-    'a-arml1', 'a-arml', 'a-shield',
-    'a-propulsion'
-  ]);
+  const frameData = ref({});
 
   onMounted(() => {
+    store.updateResData(); // 更新资源
   });
 </script>
 
 <template>
   <div class="frame-edit">
     <!-- 预览轮播 -->
-    <TenviCanvas :data="partsData" :order="partsOrder" :auto="false" :axis="true"></TenviCanvas>
+    <TenviCanvas :data="frameData" :order="store.mecha.order" :auto="false" :axis="true"></TenviCanvas>
     <!-- 编辑栏 -->
     <div v-show="true">
       <van-button @click="h1">updateResData</van-button>

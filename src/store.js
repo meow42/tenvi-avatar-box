@@ -29,7 +29,14 @@ const useStore = defineStore('main', {
     mecha: {
       frm: {},
       act: {},
-      order: [],
+      order: [
+        'a_armS',
+        'a_armR',
+        'a_legR',
+        'a_body',
+        'a_legL',
+        'a_armL',
+      ],
     },
     avatar: {
       order: [],
@@ -60,22 +67,12 @@ const useStore = defineStore('main', {
       }
       return '';
     },
-    /** 获取部件资源数据列表 */
-    getPartResList: (state) => {
-      return (partName, typeName) => {
-        let part = state[typeName]['part'][partName];
-        let res = state[typeName]['res'];
-        // 如果有部件级别的配置，则优先使用
-        let code = res[partName] ? res[partName] : res[part.res];
-        let data = state.resDataMap.get(code);
-        return state.resDataMap.get(code);
-      };
-    },
     /** 获取部件的动作帧数据 */
     getPartFrameData: (state) => (partName, frameName, resCode) => {
       let data = {};      
       let resData = state.resDataMap.get(resCode);
       let partData = Part[partName];
+      // 装填基本数据
       if (resData && partData) {
         data.partName = partName;
         data.FarmeName = frameName;
@@ -85,21 +82,28 @@ const useStore = defineStore('main', {
         data.linkTarget = partData['link'] || '';
         Object.assign(data, resData[frameName]);
       }
+      // 装填Image数据
       if (data['imgName']) {
-
         data.img = state.resImgMap.get(data['imgName']);
       }
       console.log('getPartFrameData:', data);
       return data;
     },
+    /** 获取完整动作帧数据 */
+    getFrameData: (state) => (payload) => {
+      let data = Object.assign({}, payload);
+      Object.keys(data).map(key => {
+        console.log(key, data[key])
+        let item = data[key];
+        if(typeof item === 'string') {
+          // @ts-ignore
+          data[key] = state.getPartFrameData(key, data[key], '00008');
+        }
+      });
+      return data;
+    },
   },
   actions: {
-    /** 设置部件Item的资源编号 
-    setPartRes(code, partName, targetName) {
-      if (typeof targetName !== 'string') targetName = this.edit.type;
-      if (typeof partName !== 'string') partName = this.edit.res;
-      this[targetName]['res'][partName] = code || '';
-    },*/
     /** 更新资源图片 */
     async updateResImg(imgName, reload = false) {
       if(!imgName) return;
@@ -271,4 +275,20 @@ if (import.meta.hot) {
 
 export {
   useStore
+}
+
+/** 部件帧数据结构参考 */
+class PartFrameObj {
+  partName = '';
+  FarmeName = '';
+  resCode = '';
+  rootName = '';
+  linkSelf = '';
+  linkTarget = '';
+  img = Image;
+  root = PartFrameObj;
+  size = { x: 0, y: 0 };
+  offset = { x: 0, y: 0 };
+  center = { x: 0, y: 0 };
+  point = {};
 }

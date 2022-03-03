@@ -171,7 +171,7 @@ const Frame = {
   },
   macha: {
     stand1_0: {
-      a_body: 'stand1_0',
+      a_body: 'body_stand1_0',
       a_armL: 'arml_001',
       a_armR: 'armr_002',
       a_legL: 'legl_001',

@@ -23,7 +23,8 @@
   /* 监听数据变更 */
   watch(props, (_props) => {
     console.log('watch props:', _props);
-    if (props.auto) draw(); // 自动重绘
+    // 自动重绘
+    if (props.auto) draw();
   }, { immediate: false, flush: 'post' });
 
   /** 获取绘制顺序 */
@@ -74,6 +75,8 @@
     // 初始化绘制对象
     canvasAPI.value = canvasNode.value.getContext('2d');
     canvasAPI.value.imageSmoothingEnabled = false; // 关闭抗锯齿
+    // 绘制
+    if (props.auto) draw();
   });
 
   /** 清空画布 */
@@ -127,7 +130,7 @@
       if (!parts[partName]) return;
       drawPart(parts[partName]);
     });
-    console.log(getOrder(), parts);
+    //console.log(getOrder(), parts);
   };
 </script>
 
