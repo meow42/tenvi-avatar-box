@@ -13,14 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # 拉取代码 https://github.com/actions/checkout
-    - name: Checkout
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
     # 构建
-    - name: build
-      uses: borales/actions-yarn@v2.3.0
+      - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install # will run `yarn install` command
-      uses: borales/actions-yarn@v2.3.0
+      - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: build # will run `yarn build` command
       
