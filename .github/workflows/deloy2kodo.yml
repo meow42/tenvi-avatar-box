@@ -7,14 +7,13 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-    # 拉取代码 https://github.com/actions/checkout
+      # 拉取代码 https://github.com/actions/checkout
       - uses: actions/checkout@v2
-    # 构建
+      # 构建
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install # will run `yarn install` command
@@ -22,16 +21,15 @@ jobs:
         with:
           cmd: build # will run `yarn build` command
       
-    # 上传七牛云 https://github.com/saltbo/uptoc
-    - name: Qiniu Upload
-      uses: saltbo/uptoc@master
-      with:
-        driver: qiniu
-        region: cn-south-1 # cn-north-1, cn-south-1
-        bucket: tenvix
-        exclude: .cache,.git,.github,.gitignore
-        dist: dist
-        saveroot: avatar-box
-      env:
-        UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
-        UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
+      # 上传七牛云 https://github.com/saltbo/uptoc
+      - uses: saltbo/uptoc@master
+        with:
+          driver: qiniu
+          region: cn-south-1 # cn-north-1, cn-south-1
+          bucket: tenvix
+          exclude: .cache,.git,.github,.gitignore
+          dist: dist
+          saveroot: avatar-box
+        env:
+          UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
+          UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
