@@ -26,6 +26,10 @@ export default {
     helpTranslation: 'Help us improve the translation',
     seveToLocalStorage: 'Web browser\'s localStorage',
     unavailable: 'Unavailable',
+    resLoading: 'Loading... {n}',
+    resLoadSuccess: 'Res Loaded',
+    resLoadedWithErr: 'Res Loaded (Err: {e})',
+    resLoadingWithErr: 'Loading... {n} (Err: {e})',
   },
   error: {
     useLocalStorage: 'Browser\'s localStorage unavailable',

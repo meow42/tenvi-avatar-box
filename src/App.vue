@@ -4,6 +4,8 @@
   import { ref, watch, getCurrentInstance } from 'vue';
   import { useStore } from './store.js';
   const store = useStore();
+  import { useI18n } from 'vue-i18n';
+  const { t } = useI18n();
   import { Toast, Notify } from 'vant';
   import '@vant/touch-emulator';
   import MenuTop from './components/MenuTop.vue';
@@ -33,20 +35,20 @@
     let duration = 0;
     if (loadingSet.size > 0 && errSet.size == 0) {
       loadingNotifyType.value = 'primary';
-      message = `资源加载中，剩余 ${loadingSet.size} 个`;
+      message = t('tip.resLoading', { n: loadingSet.size});
     }
     else if (loadingSet.size > 0 && errSet.size > 0) {
       loadingNotifyType.value = 'warning';
-      message = `资源加载中，剩余 ${loadingSet.size} 个，失败 ${errSet.size} 个`;
+      message = t('tip.resLoadingWithErr', { n: loadingSet.size, e: errSet.size }); //`资源加载中，剩余 ${loadingSet.size} 个，失败 ${errSet.size} 个`;
     }
     else if (loadingSet.size == 0 && errSet.size > 0) {
       loadingNotifyType.value = 'danger';
-      message = `资源载入失败 ${errSet.size} 个`;
+      message = t('tip.resLoadedWithErr', { e: errSet.size }); //`资源载入失败 ${errSet.size} 个`;
     }
     else if (loadingSet.size == 0 && errSet.size == 0) {
       loadingNotifyType.value = 'success';
       duration = 2000;
-      message = '√ 资源加载完成';
+      message = '√ ' + t('tip.resLoadSuccess');
     }
     Notify({
       type: loadingNotifyType.value,

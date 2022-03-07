@@ -11,7 +11,11 @@ export default {
     file: '文件',
   },
   tip: {
-    helpTranslation: '帮助我们完善翻译内容'
+    helpTranslation: '帮助我们完善翻译内容',
+    resLoading: '资源加载中... {n}',
+    resLoadSuccess: 'Res Loaded',
+    resLoadedWithErr: 'Res Loaded (Err: {e})',
+    resLoadingWithErr: 'Loading... {n} (Err: {e})',
   },
   race: {
     title: '种族',

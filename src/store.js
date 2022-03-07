@@ -86,7 +86,7 @@ const useStore = defineStore('main', {
       if (data['imgName']) {
         data.img = state.resImgMap.get(data['imgName']);
       }
-      console.log('getPartFrameData:', data);
+      //console.log('getPartFrameData:', data);
       return data;
     },
     /** 获取完整动作帧数据 */
@@ -97,7 +97,9 @@ const useStore = defineStore('main', {
         let item = data[key];
         if(typeof item === 'string') {
           // @ts-ignore
-          data[key] = state.getPartFrameData(key, data[key], '00008');
+          let resCode = state.getPartResCode(key);
+          // @ts-ignore
+          data[key] = state.getPartFrameData(key, data[key], resCode);
         }
       });
       return data;
