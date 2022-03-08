@@ -2,8 +2,10 @@
   import { ref } from 'vue';
   import { useI18n } from 'vue-i18n';
   const { locale, t } = useI18n();
+  // @ts-ignore
   import { useStore } from '../store.js';
   const store = useStore();
+  // @ts-ignore
   import { Notify } from 'vant';
 
   // 文件操作 //
@@ -13,12 +15,13 @@
   const targets = ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
   const selected = ref(store.edit.type);
   const pilotDisplay = ref(true);
-  const pilotDisplayTrue = ref(true);
+
   const typeMenuOpened = ref(null);
-  const onConfirm = () => {
+  /** 确认变更编辑参数事件 */
+  const onEditTypeConfirm = () => {
     let obj = {
-      app: {
-        editTarget: selected.value
+      edit: {
+        type: selected.value
       },
       pilot: {
         display: pilotDisplay.value
@@ -28,6 +31,7 @@
     store.save('editConfig', obj);
     typeMenuOpened.value.toggle();
   };
+  /** 打开编辑参数菜单事件 */
   const onOpen = () => {
     selected.value = store.edit.type;
     pilotDisplay.value = store.pilot.display;
@@ -95,13 +99,13 @@
       <van-cell-group title="Display" inset>
         <van-cell :title="$t(`noun.pilot`)">
           <template #right-icon>
-            <van-switch v-model="pilotDisplayTrue" size="18px" disabled v-if="selected == 'pilot'" />
+            <van-switch :model-value="true" size="18px" disabled v-if="selected == 'pilot'" />
             <van-switch v-model="pilotDisplay" size="18px" v-else />
           </template>
         </van-cell>
       </van-cell-group>
       <van-cell style="margin-top: 32px;">
-        <van-button type="primary" block @click="onConfirm">
+        <van-button type="primary" block @click="onEditTypeConfirm">
           {{ $t('app.confirm') }}
         </van-button>
       </van-cell>

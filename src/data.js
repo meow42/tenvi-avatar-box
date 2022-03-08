@@ -31,7 +31,7 @@ const Part = {
   p_hairL: { root: 'p_head', link: 'brow', res: 'hr', regex: /hairLower.*/ },
   p_cap: { root: 'p_head', link: 'brow', res: 'cp' },
   p_emo: { root: 'p_head', link: 'brow', res: 'emo', regex: /.*/ },
-  a_body: { root: undefined, link: 'center', res: 'a_df', regex: /^.*/ }, // mount ahead pp
+  a_body: { root: undefined, link: 'center', res: 'a_df', regex: /^body_.*/ }, // mount ahead pp
   a_armL: { root: 'a_body', link: 'arml', res: 'a_df', regex: /^arml_.*/ }, // arml, hl
   a_armR: { root: 'a_body', link: 'armr', res: 'a_df', regex: /^armr_.*/ }, // armr, hr
   a_armS: { root: 'a_body', link: 'arms', res: 'a_df', regex: /^arms.*/ }, // arms
