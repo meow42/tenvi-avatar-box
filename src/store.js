@@ -5,13 +5,14 @@ const useStore = defineStore('main', {
   state: ()=> ({
     app: {
       resDomain: 'https://tenvix.meow42.cn/',
-      typeList: [ 'pilot', 'mecha', 'avatar', 'dragon', 'vehicle' ],
+      typeCode: { pilot: 'p', mecha: 'a', avatar: 't', dragon: 's', vehicle: 'v' },
       loading: new Set(), // 记录载入中的资源名称
       loadingErr: new Set(), // 记录载入失败的资源名称
     },
     edit: {
       view: 'frame', // 激活的视图
       type: 'mecha', // 选定的编辑对象类型
+      pilotDisplay: true,
     },
     res: {
       bd: '', hd: '', fc: '', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
@@ -21,22 +22,42 @@ const useStore = defineStore('main', {
     },
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
-    pilot: {
-      display: true, 
-      race: '', // andras, silva, talli
-      order: [],
+    part: {
+      a_body: 'body_stand1_0',
+      a_armL: 'arml_001',
+      a_armR: 'armr_002',
+      a_legL: 'legl_001',
+      a_legR: 'legr_002',
+      n_none: '',
     },
-    mecha: {
-      frm: {},
-      act: {},
-      order: [
+    order: {
+      default: [
         'a_armS',
         'a_armR',
         'a_legR',
         'a_body',
         'a_legL',
         'a_armL',
-      ],
+      ]
+    },
+    
+    pilot: {
+      race: '', // andras, silva, talli
+      order: [],
+    },
+    mecha: {
+      frame: {},
+      action: {},
+      order: {
+        default: [
+          'a_armS',
+          'a_armR',
+          'a_legR',
+          'a_body',
+          'a_legL',
+          'a_armL',
+        ]
+      },
     },
     avatar: {
       order: [],
@@ -49,7 +70,6 @@ const useStore = defineStore('main', {
     },
   }),
   getters: {
-    order: (state) => Order.all,
     /** 获取图标URL */
     getIconURL: (state) => (code) => state.app.resDomain + 'item/' + code + '_icon.png',
     /** 获取资源图片URL */
@@ -67,16 +87,33 @@ const useStore = defineStore('main', {
       }
       return '';
     },
+    /** 获取部件所有帧的名称列表 */
+    getPartFrameList: (state) => (partName, useRegex = true) => {
+      let list = [];
+      // @ts-ignore
+      let resCode = state.getPartResCode(partName);
+      let resData = state.resDataMap.get(resCode);
+      let regex = new RegExp(Part[partName]['regex'] || /.*/);
+      //console.log('getPartFrameList - regex:', Part[partName]['regex'], regex);
+      for(const key in resData) {
+        //console.log('getPartFrameList:', key, regex.test(key));
+        if (useRegex && !regex.test(key)) continue; // 过滤不符合正则的帧
+        list.push(key);
+      }
+      return list;
+    },
     /** 获取部件的动作帧数据 */
     getPartFrameData: (state) => (partName, frameName, resCode) => {
-      let data = {};      
+      // @ts-ignore 装填基本数据
+      resCode = resCode || state.getPartResCode(partName);
+      let data = {};
+      data.partName = partName;
+      data.FarmeName = frameName;
+      data.resCode = resCode;
+      // 装填帧数据
       let resData = state.resDataMap.get(resCode);
       let partData = Part[partName];
-      // 装填基本数据
       if (resData && partData) {
-        data.partName = partName;
-        data.FarmeName = frameName;
-        data.resCode = resCode;
         data.rootName = partData['root'] || '';
         data.linkSelf = partData['link'] || '';
         data.linkTarget = partData['link'] || '';
@@ -93,19 +130,40 @@ const useStore = defineStore('main', {
     getFrameData: (state) => (payload) => {
       let data = Object.assign({}, payload);
       Object.keys(data).map(key => {
-        console.log(key, data[key])
+        //console.log('getFrameData:', key, data[key])
         let item = data[key];
+        // 配置项为简单定义
         if(typeof item === 'string') {
           // @ts-ignore
-          let resCode = state.getPartResCode(key);
-          // @ts-ignore
-          data[key] = state.getPartFrameData(key, data[key], resCode);
+          data[key] = state.getPartFrameData(key, data[key]);
         }
+        //TODO 处理配置项为复杂定义的情况
       });
       return data;
     },
+    /** 获取同类部件数据集 */
+    getPartsData: (state) => (typeName) => {
+      let result = {};
+      let typeStr = state.app.typeCode[typeName];
+      if (!typeStr) return result;
+      typeStr = typeStr + '_';
+      for(const key in state.part) {
+        if (key.indexOf(typeStr) !== 0) continue;
+        result[key] = state.part[key];
+      }
+      return result;
+    },
   },
   actions: {
+    /** 判断部件显示状态 */
+    isPartDisplay(partName) {
+      let typeStr = this.app.typeCode[this.edit.type];
+      if (!typeStr) return false;
+      typeStr = typeStr + '_';
+      if (partName.indexOf(typeStr) === 0) return true;
+      if (this.edit.pilotDisplay && partName.indexOf('p_') === 0) return true;
+      return false;
+    },
     /** 更新资源图片 */
     async updateResImg(imgName, reload = false) {
       if(!imgName) return;

@@ -61,6 +61,13 @@ export default {
     a_rh: 'Main Hand',
     a_lh: 'Sub Hand',
   },
+  part: {
+    a_body: 'Body',
+    a_armL: 'Left Arm',
+    a_armR: 'Right Arm',
+    a_legL: 'Left Leg',
+    a_legR: 'Right Leg',
+  },
   pilot: {
     text: 'Pilot',
     race: {

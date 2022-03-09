@@ -45,9 +45,7 @@ html, body {
 .van-popup--bottom {
   left: unset;
 }
-.van-dropdown-item__content {
-  position: fixed;
-}
+
 .van-sidebar-item--select::before {
   background-color: var(--van-blue) !important;
 }
@@ -57,15 +55,15 @@ html, body {
   box-shadow: var(--van-dropdown-menu-box-shadow);
 }
 @media screen and (min-height: 900px) {
-  #app, .van-overlay, .van-popup--top {
+  #app, .sheet-overlay, .van-notify {
     top: calc((100vh - 900px)/2) !important;
   }
   .van-popup--bottom, .van-overlay {
-    bottom: calc((100vh - 900px)/2) !important;
+    bottom: calc((100vh - 900px)/2);
   }
 }
 @media screen and (min-width: 600px) {
-  #app, .van-overlay, .van-popup--top {
+  #app, .sheet-overlay, .van-notify {
     left: calc((100vw - 600px)/2) !important;
   }
 }
@@ -165,6 +163,61 @@ html, body {
   align-items: start;
   grid-template-rows: auto 60px 1fr;
 }
+.frame-edit .van-collapse-item__content .van-cell {
+  max-width: 280px;
+  float: left;
+}
+.frame-edit .van-collapse-item__content .van-cell.line {
+  margin-right: calc(100% - 280px);
+}
+.frame-edit .van-collapse-item__content .van-cell__title {
+  max-width: 88px;
+}
+.frame-edit .van-collapse-item__content .van-cell__value {
+  text-align: left;
+  color: #666;
+  cursor: pointer;
+}
+.frame-edit .sheet {
+  height: calc(100% - 300px);
+  min-height: 360px;
+  left: unset !important;
+}
+.frame-edit .sheet-overlay {
+  background-color: rgba(0, 0, 0, 0.42);
+}
+.frame-edit .sheet .van-action-sheet__description {
+  padding: 9px 0;
+}
+.frame-edit .sheet .sheet-search  {
+  width: 80%;
+  min-width: 320px;
+  margin: 0 auto;
+}
+.frame-edit .sheet .sheet-search .van-cell__title {
+  max-width: 3.5em;
+}
+.frame-edit .sheet .van-field__control {
+  min-width: 5em;
+}
+.frame-edit .sheet .van-field__button  {
+  padding-left: 20px;
+}
+.frame-edit .sheet .van-action-sheet__subname {
+  margin-top: 0;
+}
+.frame-edit .sheet .van-action-sheet__content{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-rows: repeat(auto-fill, 50px);
+}
+.frame-edit .sheet .van-action-sheet__item {
+  height: fit-content;
+}
+.frame-edit .van-button {
+  width: fit-content;
+}
+
 .frame-edit .img-swipe {
   display: grid;
   align-items: center;
@@ -197,10 +250,6 @@ html, body {
   display: grid;
   grid-template-columns: 6em 1fr;
 }
-.frame-edit .van-tabs__content .van-cell__title {
-  flex: none;
-  font-weight: 750;
-}
 .frame-edit .van-tabs__content .van-cell__value {
   max-width: 420px;
   flex: none;
@@ -212,46 +261,6 @@ html, body {
   text-align: left;
   cursor: pointer;
 }
-.frame-edit .sheet {
-  height: calc(100% - 240px);
-  max-height: calc(900px - 240px);
-  min-height: 360px;
-}
-.frame-edit .sheet-overlay {
-  background-color: rgba(0, 0, 0, 0.42);
-}
-.frame-edit .sheet .van-frame-sheet__description {
-  padding: 9px 0;
-}
-.frame-edit .sheet .sheet-search  {
-  width: 80%;
-  min-width: 320px;
-  margin: 0 auto;
-}
-.frame-edit .sheet .sheet-search .van-cell__title {
-  max-width: 3.5em;
-}
-.frame-edit .sheet .van-field__control {
-  min-width: 5em;
-}
-.frame-edit .sheet .van-field__button  {
-  padding-left: 20px;
-}
-.frame-edit .sheet .van-frame-sheet__subname {
-  margin-top: 0;
-}
-.frame-edit .sheet .van-frame-sheet__content{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  grid-template-rows: repeat(auto-fill, 50px);
-}
-.frame-edit .sheet .van-frame-sheet__item {
-  height: fit-content;
-}
-.frame-edit .van-button {
-  width: fit-content;
-}
-
 
 /* 设置选项 */
 .option {

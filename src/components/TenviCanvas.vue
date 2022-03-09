@@ -22,7 +22,7 @@
   
   /* 监听数据变更 */
   watch(props, (_props) => {
-    console.log('watch props:', _props);
+    //console.log('watch props:', _props);
     // 自动重绘
     if (props.auto) draw();
   }, { immediate: false, flush: 'post' });
@@ -126,11 +126,12 @@
     if (props.axis) drawAxis();
     // 按照层级顺序绘制
     let parts = getData();
-    getOrder().map(partName => {
+    let order = [...props.order].reverse();
+    order.map(partName => {
       if (!parts[partName]) return;
       drawPart(parts[partName]);
     });
-    //console.log(getOrder(), parts);
+    console.log('--- draw() ---', order, parts);
   };
 </script>
 

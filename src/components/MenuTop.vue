@@ -12,7 +12,7 @@
   const fileOptions = [ 'new', 'save' ];
 
   // 全局类型设置 //
-  const targets = ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
+  const targets = ref(Object.keys(store.app.typeCode)); // ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
   const selected = ref(store.edit.type);
   const pilotDisplay = ref(true);
 
@@ -21,20 +21,18 @@
   const onEditTypeConfirm = () => {
     let obj = {
       edit: {
-        type: selected.value
+        type: selected.value,
+        pilotDisplay: pilotDisplay.value
       },
-      pilot: {
-        display: pilotDisplay.value
-      }
     };
-    if (selected.value == 'pilot') obj.pilot.display = true;
+    if (selected.value == 'pilot') obj.pilotDisplay = true;
     store.save('editConfig', obj);
     typeMenuOpened.value.toggle();
   };
   /** 打开编辑参数菜单事件 */
   const onOpen = () => {
     selected.value = store.edit.type;
-    pilotDisplay.value = store.pilot.display;
+    pilotDisplay.value = store.edit.pilotDisplay;
   };
 
   // 全局语言设置 //
