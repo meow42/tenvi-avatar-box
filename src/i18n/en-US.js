@@ -4,6 +4,8 @@ export default {
     title: 'Tenvi Avatar Box',
     confirm: 'Confirm',
     cancel: 'Cancel',
+    close: 'Close',
+    none: 'None',
   },
   menu: {
     overview: 'Overview',
@@ -21,6 +23,12 @@ export default {
     editTarget: 'Edit Target',
     default: 'Default',
     template: 'Template',
+    displayPilot: 'Display Pilot',
+  },
+  view: {
+    filter: 'Filter',
+    regex: 'Regex',
+    typeHere: 'Type Here',
   },
   tip: {
     helpTranslation: 'Help us improve the translation',
@@ -38,8 +46,8 @@ export default {
     pilot: 'Pilot',
     guard: 'Guard',
     mecha: 'Mecha',
-    dragon: 'Dragon',
     avatar: 'Avatar',
+    dragon: 'Dragon',
     vehicle: 'Vehicle',
   },
   res: {

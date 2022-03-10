@@ -88,16 +88,17 @@ const useStore = defineStore('main', {
       return '';
     },
     /** 获取部件所有帧的名称列表 */
-    getPartFrameList: (state) => (partName, useRegex = true) => {
+    getPartFrameList: (state) => (partName, regex) => {
       let list = [];
       // @ts-ignore
       let resCode = state.getPartResCode(partName);
       let resData = state.resDataMap.get(resCode);
-      let regex = new RegExp(Part[partName]['regex'] || /.*/);
+      if (typeof regex === 'boolean') regex = Part[partName]['regex'] || /.*/;
+      if (regex) regex = new RegExp(regex);
       //console.log('getPartFrameList - regex:', Part[partName]['regex'], regex);
       for(const key in resData) {
         //console.log('getPartFrameList:', key, regex.test(key));
-        if (useRegex && !regex.test(key)) continue; // 过滤不符合正则的帧
+        if (regex && !regex.test(key)) continue; // 过滤不符合正则的帧
         list.push(key);
       }
       return list;
@@ -153,8 +154,19 @@ const useStore = defineStore('main', {
       }
       return result;
     },
+    /** 获取编辑类型前缀，默认为当前已选取类型 */
+    getTypeCode: (state) => (typeName) => {
+      typeName = typeName || state.edit.type || '';
+      return state.app.typeCode[typeName] || '';
+    },
   },
   actions: {
+    /** 获取部件默认正则规则文本 */
+    partRegex2String(partName) {
+      let regex = Part[partName]['regex'] || /.*/;
+      let str = regex.toString();
+      return str.slice(1, str.length-1);
+    },
     /** 判断部件显示状态 */
     isPartDisplay(partName) {
       let typeStr = this.app.typeCode[this.edit.type];

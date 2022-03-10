@@ -190,9 +190,12 @@ html, body {
   padding: 9px 0;
 }
 .frame-edit .sheet .sheet-search  {
-  width: 80%;
+  width: 90%;
   min-width: 320px;
   margin: 0 auto;
+}
+.frame-edit .sheet .van-field__right-icon {
+  margin-left: 2em;
 }
 .frame-edit .sheet .sheet-search .van-cell__title {
   max-width: 3.5em;
@@ -216,6 +219,11 @@ html, body {
 }
 .frame-edit .van-button {
   width: fit-content;
+}
+.frame-edit .part-area {
+  height: inherit;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .frame-edit .img-swipe {

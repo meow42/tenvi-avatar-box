@@ -12,7 +12,7 @@
   const fileOptions = [ 'new', 'save' ];
 
   // 全局类型设置 //
-  const targets = ref(Object.keys(store.app.typeCode)); // ['pilot', 'mecha', 'avatar', 'dragon', 'vehicle'];
+  const targets = ref(Object.keys(store.app.typeCode));
   const selected = ref(store.edit.type);
   const pilotDisplay = ref(true);
 
@@ -91,17 +91,14 @@
               <van-radio :name="item" />
             </template>
           </van-cell>
+          <van-cell :title="$t(`menu.displayPilot`)">
+            <template #right-icon>
+              <van-switch :model-value="true" size="18px" disabled v-if="selected == 'pilot'" />
+              <van-switch v-model="pilotDisplay" size="18px" v-else />
+            </template>
+          </van-cell>
         </van-cell-group>
       </van-radio-group>
-      <!-- 显示选项 -->
-      <van-cell-group title="Display" inset>
-        <van-cell :title="$t(`noun.pilot`)">
-          <template #right-icon>
-            <van-switch :model-value="true" size="18px" disabled v-if="selected == 'pilot'" />
-            <van-switch v-model="pilotDisplay" size="18px" v-else />
-          </template>
-        </van-cell>
-      </van-cell-group>
       <van-cell style="margin-top: 32px;">
         <van-button type="primary" block @click="onEditTypeConfirm">
           {{ $t('app.confirm') }}
