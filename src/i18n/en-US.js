@@ -60,7 +60,7 @@ export default {
     cl: 'Clothes',
     wp: 'Weapon',
     emo: 'Emotion',
-    a_df: 'Model',
+    a_df: 'Base',
     a_do: 'Door',
     a_am: 'Chassis',
     a_dc: 'Arms',

@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import Vant from 'vant'
+import { Lazyload } from 'vant';
 import 'vant/lib/index.css'
 import { createI18n } from 'vue-i18n'
 import messages from './i18n/index'
@@ -17,5 +18,6 @@ const I18n = createI18n({
 const app = createApp(App);
 app.use(createPinia());
 app.use(Vant);
+app.use(Lazyload);
 app.use(I18n);
 app.mount('#app');

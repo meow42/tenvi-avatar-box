@@ -23,16 +23,7 @@ const useStore = defineStore('main', {
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     part: {}, // 存放部件数据
-    order: {
-      default: [
-        'a_armS',
-        'a_armR',
-        'a_legR',
-        'a_body',
-        'a_legL',
-        'a_armL',
-      ]
-    },
+    order: { default: undefined }, // 存放部件叠放顺序定义数据
     
     pilot: {
       race: '', // andras, silva, talli
@@ -54,7 +45,17 @@ const useStore = defineStore('main', {
     /** 获取资源XML文件URL */
     getResXmlURL: (state) => (code) => state.app.resDomain + 'item/' + code + '.xml',
     /** 获取资源列表 */
-    getResList: (state) => (resName) => Res[resName] || [],
+    getResList: (state) => (resName) => {
+      if (!Res[resName]) return [];
+      let list = [];
+      Res[resName].map(item => {
+        let data = {};
+        if (typeof item === 'string') data.id = item;
+        else data = Object.assign(data, item);
+        list.push(data);
+      });
+      return list;
+    },
     /** 获取部件记录的资源code */
     getPartResCode: (state) => (partName) => {
       if (state.res[partName]) return state.res[partName];
@@ -146,6 +147,11 @@ const useStore = defineStore('main', {
     getTypeCode: (state) => (typeName) => {
       typeName = typeName || state.edit.type || '';
       return state.app.typeCode[typeName] || '';
+    },
+    /** 获取部件叠放顺序数据 */
+    getOrder: (state) => (name) => {
+      if (!name) name = 'default';
+      return state.order[name] || Order[name] || [];
     },
   },
   actions: {

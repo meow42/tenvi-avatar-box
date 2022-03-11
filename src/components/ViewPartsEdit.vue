@@ -52,7 +52,10 @@
         <div v-for="(item, index) in getResList()" :key="index" @click="itemClick(item)"
           class="item" :class="{ 'item-selected': item.id == getSavedResCode(), 'newline': item.id.includes('|')}">
           <div v-if="!item.id.includes('|')">
-            <van-image width="36" height="36" radius="3" fit="none" :src="store.getIconURL(item.id)" :alt="item.id">
+            <van-image lazy-load
+              width="36" height="36" radius="3" fit="none" 
+              :src="store.getIconURL(item.id)" :alt="item.id"
+            >
               <template v-slot:loading>
                 <van-loading type="spinner" size="20" />
               </template>
