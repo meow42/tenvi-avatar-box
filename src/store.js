@@ -12,24 +12,17 @@ const useStore = defineStore('main', {
     edit: {
       view: 'frame', // 激活的视图
       type: 'mecha', // 选定的编辑对象类型
-      pilotDisplay: true,
+      pilotDisplay: false,
     },
     res: {
-      bd: '', hd: '', fc: '', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
+      bd: '00001', hd: '00004', fc: '00007', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
       a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '', a_lh: '',
-      t_df: '', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
-      s_df: '', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
+      t_df: '00009', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
+      s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
     },
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
-    part: {
-      a_body: 'body_stand1_0',
-      a_armL: 'arml_001',
-      a_armR: 'armr_002',
-      a_legL: 'legl_001',
-      a_legR: 'legr_002',
-      n_none: '',
-    },
+    part: {}, // 存放部件数据
     order: {
       default: [
         'a_armS',
@@ -43,30 +36,14 @@ const useStore = defineStore('main', {
     
     pilot: {
       race: '', // andras, silva, talli
-      order: [],
     },
     mecha: {
-      frame: {},
-      action: {},
-      order: {
-        default: [
-          'a_armS',
-          'a_armR',
-          'a_legR',
-          'a_body',
-          'a_legL',
-          'a_armL',
-        ]
-      },
     },
     avatar: {
-      order: [],
     },
     dragon: {
-      order: [],
     },
     vehicle: {
-      order: [],
     },
   }),
   getters: {
@@ -124,23 +101,34 @@ const useStore = defineStore('main', {
       if (data['imgName']) {
         data.img = state.resImgMap.get(data['imgName']);
       }
+      // 检查数据完整性
+      if (data.img) {
+        data.loaded = true;
+      }
       //console.log('getPartFrameData:', data);
       return data;
     },
     /** 获取完整动作帧数据 */
     getFrameData: (state) => (payload) => {
       let data = Object.assign({}, payload);
+      let result = {};
       Object.keys(data).map(key => {
         //console.log('getFrameData:', key, data[key])
         let item = data[key];
+        let frameData = {};
         // 配置项为简单定义
         if(typeof item === 'string') {
           // @ts-ignore
-          data[key] = state.getPartFrameData(key, data[key]);
+          frameData = state.getPartFrameData(key, item);
         }
         //TODO 处理配置项为复杂定义的情况
+
+        // 装载数据
+        if (frameData['loaded']) {
+          result[key] = frameData;
+        }
       });
-      return data;
+      return result;
     },
     /** 获取同类部件数据集 */
     getPartsData: (state) => (typeName) => {

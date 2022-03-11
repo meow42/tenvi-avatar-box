@@ -27,10 +27,6 @@
     if (props.auto) draw();
   }, { immediate: false, flush: 'post' });
 
-  /** 获取绘制顺序 */
-  function getOrder() {
-    return [].concat(props.order).reverse();
-  };
   /** 获取绘制数据 */
   function getData() {
     let data = {};
@@ -50,9 +46,9 @@
   /** 计算并设置部件的绘制坐标 */
   function gainDarwPoint(part) {
     // 已存在绘制坐标数据，则直接返回
-    if (part.draw) return part.draw;
+    if (part['draw']) return part.draw;
     // 如果不存在根节点，则使用中心点坐标
-    if (!part.root || part.root === 'none') {
+    if (!part['root'] || part.root === 'none') {
       return { x: -part.center.x || 0, y: part.center.y || 0};
     }
     // 确保根部件都有绘制坐标数据，
@@ -131,7 +127,7 @@
       if (!parts[partName]) return;
       drawPart(parts[partName]);
     });
-    console.log('--- draw() ---', order, parts);
+    console.log('---> TenviCanvas.draw()', order, parts);
   };
 </script>
 

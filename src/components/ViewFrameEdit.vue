@@ -7,21 +7,26 @@
 
   /** 部件数据集 */
   const part = ref({
-    a_body: { frame: 'body_stand1_0', line: true},
-    a_armL: { frame: 'arml_001', }, a_armR: { frame: 'armr_002', },
-    a_legL: { frame: 'legl_001', }, a_legR: { frame: 'legr_002', },
-    a_wp: { frame: '', }, a_wpGP: { frame: '', },
-    a_shield: { frame: '', line: true},
-    a_pp: { frame: '', line: true},
+    a_body: { frame: 'body_stand1_0' }, a_armS: { frame: '' },
+    a_armL: { frame: 'arml_001' }, a_armR: { frame: 'armr_002' },
+    a_legL: { frame: 'legl_001' }, a_legR: { frame: 'legr_002' },
+    a_head: { frame: '' }, a_headS: { frame: '' },
+    a_pp: { frame: '' }, a_bodyX: { frame: '', sync: 'a_body' },
+    a_bodyXS: { frame: '' }, a_bodyXB: { frame: '' },
+    a_armLX: { frame: '', sync: 'a_armL' }, a_armRX: { frame: '', sync: 'a_armR' },
+    a_legLX: { frame: '', sync: 'a_legL' }, a_legRX: { frame: '', sync: 'a_legR' },
+    
+    a_wp: { frame: '' }, a_wpGP: { frame: '' },
+    a_shield: { frame: '', line: true },
     p_body: { frame: '' },
   });
   /** 部件分组数据 */
   const partGroup = ref({
-    a_base: ['a_body', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
-    a_base1: ['a_wp', 'a_wpGP', 'a_shield', 'a_pp'],
-    a_base2: [],
-    p_base: ['p_body'],
-    p_base1: [],
+    a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
+    //a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
+    a_weapon: ['a_wp', 'a_wpGP', 'a_shield'],
+    //p_base: ['p_body'],
+    //p_equip: [],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -49,9 +54,10 @@
   /* 监听数据变更 */
   watch(store.edit, (newObj) => {
     console.log('watch:', newObj);
-    activeNames.value = ['0']; // 重置面板展开状态
+    activeNames.value = [0]; // 重置面板展开状态
     updatePartGroupList(); // 更新编辑区域的定义数据
-  }, { immediate: true, flush: 'post' });
+    updateDrawData(); // 更新绘制用数据
+  }, { immediate: false, flush: 'post' });
   
   /** 部件帧选取面板的开启状态 */
   const sheetActived = ref(false);
@@ -73,39 +79,42 @@
     sheetRegex.value = store.partRegex2String(partName);
     sheetFilterMode.value = true;
     // 更新数据
-    sheetList.value = ['none', ...store.getPartFrameList(partName)];
+    sheetList.value = store.getPartFrameList(partName);
     // 打开选取面板
     sheetActived.value = true; 
   };
   /** 部件帧选取事件 */
   const onSheetSelect = (frameName) => {
     part.value[sheetPartName.value]['frame'] = frameName; // 更新选取数据
-    frameData.value = getGrawData(); // 更新绘制数据，触发绘制
+    updateDrawData(); // 更新绘制数据，触发绘制
   }
   
   /** 绑定的动作帧数据 */
   const frameData = ref({});
   /** 获取绘制所需数据 */
-  const getGrawData = () => {
+  const updateDrawData = () => {
     let payload = {};
     for(const key in part.value) {
-      if (store.isPartDisplay(key)) {
-        payload[key] = part.value[key]['frame'];
-      }
+      if (!part.value[key]['frame']) continue;
+      if (!store.isPartDisplay(key)) continue;
+      payload[key] = part.value[key]['frame'];
     }
-    //console.log('getGrawData:', payload, store.getFrameData(payload))
-    return store.getFrameData(payload);
+    let data = store.getFrameData(payload);
+    console.log('frameData:', payload, data)
+    frameData.value = data;
   };
 
   onMounted(() => {
-    store.updateResData(); // 更新资源
+    // 更新资源、编辑区域的定义数据
+    store.updateResData();
+    updatePartGroupList();
+    // 轮询资源加载状态，完成后更新绘制数据
     let timerId = setInterval(() => {
       if (store.app.loading.size === 0) {
-        frameData.value = getGrawData();
+        updateDrawData();
         clearInterval(timerId);
       }
     }, 100);
-    
   });
 
   // 测试用 //
@@ -137,7 +146,7 @@
     <!-- 编辑区 -->
     <div class="part-area">
       <van-collapse v-model="activeNames">
-        <van-collapse-item :key="group.name" :title="group.name" :name="index"
+        <van-collapse-item :key="group.name" :title="$t(`group.${group.name}`)" :name="index"
           v-for="(group, index) in partGroupList">
           <van-cell :key="partName" 
             v-for="partName in group.item"
@@ -146,33 +155,6 @@
             :class="{ line: part[partName]['line'] }"
             v-on:click="onPartClick(partName)"/>
         </van-collapse-item>
-      </van-collapse>
-      <!-- Mecha 
-      <van-collapse v-model="activeNames" v-if="store.edit.type === 'mecha'">
-        <van-collapse-item title="Base" name="1">
-          <van-cell v-for="key in ['a_body', 'a_armL', 'a_armR', 'a_legL', 'a_legR']"
-            v-bind:key="key"
-            :title="$t(`part.${key}`)"
-            :value="part[key]['frame']"
-            :class="{ line: part[key]['line'] }"
-            v-on:click="onPartClick(key)"/>
-        </van-collapse-item>
-        <van-collapse-item title="foo" name="2">
-          
-        </van-collapse-item>
-        <van-collapse-item title="bar" name="3" value="auto" disabled></van-collapse-item>
-      </van-collapse>-->
-      <!-- Avatar -->
-      <van-collapse v-model="activeNames" v-if="store.edit.type === 'avatar'">
-      </van-collapse>
-      <!-- Dragon -->
-      <van-collapse v-model="activeNames" v-if="store.edit.type === 'dragon'">
-      </van-collapse>
-      <!-- Vehicle -->
-      <van-collapse v-model="activeNames" v-if="store.edit.type === 'vehicle'">
-      </van-collapse>
-      <!-- Pilot -->
-      <van-collapse v-model="activeNames" v-if="store.edit.pilotDisplay">
       </van-collapse>
     </div>
     <!-- 选项面板 -->
