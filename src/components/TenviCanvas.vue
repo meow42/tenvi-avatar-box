@@ -56,9 +56,14 @@
     // 根部件绘制坐标
     let rootPoint = part.root.draw;
     // 根部件上的连接点数据
-    let rootLink = part.root.point[part['linkTarget'] || part['linkSelf']] || { x: 0, y: 0 };
+    let rootLink = part.root.point[part['linkTarget']] || part.root.point[part['linkSelf']] || { x: 0, y: 0 };
     // 本部件的连接点数据
-    let selfLink = part.point[part['linkSelf']] || part.center || { x: 0, y: 0 };
+    let selfLink;
+    if (part.point) selfLink = part.point[part['linkSelf']];
+    if (!selfLink) {
+      selfLink = part['center'] || { x: 0, y: 0 };
+      console.info('gainDarwPoint - point not found:', part['linkSelf'], part);
+    }
     // 计算绘制坐标数据
     let draw = {};
     draw.x = rootPoint.x + rootLink.x - selfLink.x;

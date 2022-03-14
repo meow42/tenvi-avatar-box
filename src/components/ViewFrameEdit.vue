@@ -16,8 +16,8 @@
     a_armLX: { frame: '', sync: 'a_armL' }, a_armRX: { frame: '', sync: 'a_armR' },
     a_legLX: { frame: '', sync: 'a_legL' }, a_legRX: { frame: '', sync: 'a_legR' },
     
-    a_wp: { frame: '' }, a_wpGP: { frame: '' },
-    a_shield: { frame: '', line: true },
+    a_wp: { frame: 'g_stand1_00' }, a_wpGP: { frame: 'g_stand1_00_00' },
+    a_shield: { frame: 'shield00', line: true },
     p_body: { frame: '' },
   });
   /** 部件分组数据 */
@@ -124,7 +124,7 @@
   <div class="frame-edit">
     <!-- 动作帧画布 -->
     <div class="canvas">
-      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="false" :axis="true"></TenviCanvas>
+      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="true" :axis="true"></TenviCanvas>
     </div>
     <!-- 快捷功能 -->
     <div class="fn">

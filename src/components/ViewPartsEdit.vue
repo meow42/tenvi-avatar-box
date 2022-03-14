@@ -51,8 +51,12 @@
     groupSelected.value = [];
     resList.value.map(item => {
       if (item['group']) groupData.value.add(item['group']);
+      // 选取当前item所属分类
+      if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
-    groupSelected.value.push([...groupData.value][0]);
+    // 选取第一个分类
+    if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
+    // 选取所有分类
     //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
 
@@ -97,6 +101,7 @@
           </div>
         </div>
       </van-list>
+      <!-- 分类筛选入口 -->
       <div>
         <van-field readonly is-link left-icon="filter-o"
           v-show="groupData.size > 1" v-on:click="showGroupSheet = true">
@@ -104,7 +109,7 @@
         </van-field>
       </div>
     </div>
-    <!-- 分类筛选 -->
+    <!-- 分类筛选面板 -->
     <van-action-sheet
       v-model:show="showGroupSheet"
       :title="$t('view.groupSelect')"

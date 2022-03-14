@@ -101,7 +101,7 @@ export default {
     '#other': 'Other',
     '#sword': 'Sword',
     '#axe': 'Axe',
-    '#hammer': 'Hummer',
+    '#hammer': 'Hammer',
     '#gun': 'Gun',
   },
   pilot: {
