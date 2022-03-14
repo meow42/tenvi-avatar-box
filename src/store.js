@@ -10,7 +10,7 @@ const useStore = defineStore('main', {
       loadingErr: new Set(), // 记录载入失败的资源名称
     },
     edit: {
-      view: 'frame', // 激活的视图
+      view: 'parts', // 激活的视图 frame
       type: 'mecha', // 选定的编辑对象类型
       pilotDisplay: false,
     },

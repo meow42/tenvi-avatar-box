@@ -17,20 +17,10 @@
   const selectedResName = computed(() => sidebarData[store.edit.type][sidebarActive.value]);
   /** 选定分类下的资源列表 */
   const resList = ref([]);
-  /** 选定分类下的资源分组 */
-  const resGroup = ref({});
   /** 更新资源列表 */
   const updateResList = () => {
     console.log('updateResList:', selectedResName.value);
     resList.value = store.getResList(selectedResName.value);
-    return
-    // 更新分组数据
-    resGroup.value = {};
-    resList.value.map(item => {
-      if (!item['group']) return;
-      resGroup.value[item['group']] = false;
-    });
-    resGroup.value[0] = true;
   };
   /** 获取选定资源已记录的编号 */
   const getSavedResCode = (partName) => {

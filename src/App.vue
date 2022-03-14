@@ -66,16 +66,16 @@
     <ViewFrameEdit v-if="store.edit.view == 'frame'"></ViewFrameEdit>
     <ViewOrderEdit v-if="store.edit.view == 'order'"></ViewOrderEdit>
     <ViewPartsEdit v-if="store.edit.view == 'parts'"></ViewPartsEdit>
-    <div v-else style="text-align: center; padding-top: 50%;">{{ $t(`menu.${store.edit.view}`) || store.edit.view }}</div>
+    <div v-else style="text-align: center; padding-top: 50%;">{{ $t(`view.${store.edit.view}`) || store.edit.view }}</div>
   </div>
   <!-- 底部视图切换菜单 -->
   <van-tabbar v-model="store.edit.view">
-    <van-tabbar-item name="overview" icon="eye-o" v-if="false">{{ $t('menu.overview') }}</van-tabbar-item>
-    <van-tabbar-item name="parts" icon="apps-o">{{ $t('menu.parts') }}</van-tabbar-item>
-    <van-tabbar-item name="frame" icon="fire-o">{{ $t('menu.frame') }}</van-tabbar-item>
-    <van-tabbar-item name="action" icon="video-o">{{ $t('menu.action') }}</van-tabbar-item>
-    <van-tabbar-item name="order" icon="points">{{ $t('menu.order') }}</van-tabbar-item>
-    <van-tabbar-item name="option" icon="setting-o" v-if="false">{{ $t('menu.option') }}</van-tabbar-item>
+    <van-tabbar-item name="overview" icon="eye-o" v-if="false">{{ $t('view.overview') }}</van-tabbar-item>
+    <van-tabbar-item name="parts" icon="user-circle-o">{{ $t('view.parts') }}</van-tabbar-item>
+    <van-tabbar-item name="frame" icon="fire-o">{{ $t('view.frame') }}</van-tabbar-item>
+    <van-tabbar-item name="action" icon="video-o">{{ $t('view.action') }}</van-tabbar-item>
+    <van-tabbar-item name="order" icon="points">{{ $t('view.order') }}</van-tabbar-item>
+    <van-tabbar-item name="option" icon="setting-o" v-if="false">{{ $t('view.option') }}</van-tabbar-item>
   </van-tabbar>
   <!-- 资源载入详情 -->
   <van-popup
