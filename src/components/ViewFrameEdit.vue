@@ -108,6 +108,8 @@
     // 更新资源、编辑区域的定义数据
     store.updateResData();
     updatePartGroupList();
+    // 设定面板展开状态
+    activeNames.value = [0];
     // 轮询资源加载状态，完成后更新绘制数据
     let timerId = setInterval(() => {
       if (store.app.loading.size === 0) {
@@ -116,35 +118,19 @@
       }
     }, 100);
   });
-
-  // 测试用 //
-  const h1 = () => {
-    //store.updateResData();
-    store.reloadResData();
-  };
-  const h2 = () => {
-    console.log('resDataMap:', store.resDataMap);
-    console.log('resImgMap:', store.resImgMap);
-  };
-  const h3 = () => {
-    let data = store.getPartsData('mecha');
-    frameData.value = store.getFrameData(data);
-    console.log('---h3--->', data, frameData.value);
-  };
 </script>
 
 <template>
   <div class="frame-edit">
     <!-- 动作帧画布 -->
-    <TenviCanvas :data="frameData" :order="store.order.default" :auto="false" :axis="true"></TenviCanvas>
-    <!-- 编辑栏 -->
-    <div v-show="true">
-      <van-button @click="h1">updateResData</van-button>
-      <van-button @click="h2">showData</van-button>
-      <van-button @click="h3">TEST</van-button>
+    <div class="canvas">
+      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="false" :axis="true"></TenviCanvas>
+    </div>
+    <!-- 快捷功能 -->
+    <div class="fn">
     </div>
     <!-- 编辑区 -->
-    <div class="part-area">
+    <div class="edit">
       <van-collapse v-model="activeNames">
         <van-collapse-item :key="group.name" :title="$t(`group.${group.name}`)" :name="index"
           v-for="(group, index) in partGroupList">
@@ -191,7 +177,6 @@
       </template>
       <!-- 面板选项区 -->
       <button type="button"
-        v-show="!(['a_body'].includes(sheetPartName))"
         v-on:click="onSheetSelect('')"
         :class="{ 'selected': part[sheetPartName]['frame'] === '', 'van-action-sheet__item': true }"
       >

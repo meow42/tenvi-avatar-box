@@ -48,10 +48,20 @@ const useStore = defineStore('main', {
     getResList: (state) => (resName) => {
       if (!Res[resName]) return [];
       let list = [];
+      let group = '#';
       Res[resName].map(item => {
         let data = {};
         if (typeof item === 'string') data.id = item;
         else data = Object.assign(data, item);
+        //
+        if (!data['id']) return;
+        // 判断是否切换分组
+        let id = String(data.id);
+        if (id.length > 1 && id.startsWith('#')) {
+          group = String(data.id);
+        }
+        // 添加分组属性
+        if (group) data.group = group;
         list.push(data);
       });
       return list;

@@ -29,6 +29,9 @@ export default {
     filter: 'Filter',
     regex: 'Regex',
     typeHere: 'Type Here',
+    groupSelect: 'Group Select',
+    checkAll: 'Check All',
+    toggleAll: 'Toggle All',
   },
   tip: {
     helpTranslation: 'Help us improve the translation',
@@ -94,6 +97,12 @@ export default {
     a_weapon: 'Mecha Weapon',
     p_base: 'Pilot Base',
     p_equip: 'Pilot Equip',
+    '#': 'Other',
+    '#other': 'Other',
+    '#sword': 'Sword',
+    '#axe': 'Axe',
+    '#hammer': 'Hummer',
+    '#gun': 'Gun',
   },
   pilot: {
     text: 'Pilot',
