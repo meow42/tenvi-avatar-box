@@ -13,6 +13,7 @@ const useStore = defineStore('main', {
       view: 'parts', // 激活的视图 frame
       type: 'mecha', // 选定的编辑对象类型
       pilotDisplay: false,
+      partSidebarActive: 0, // 当前的部件选取序号
     },
     res: {
       bd: '00001', hd: '00004', fc: '00007', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',

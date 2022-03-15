@@ -1,11 +1,9 @@
 <script setup> 
   import { ref, toRef, watch, computed, onMounted } from 'vue';
+  import { ImagePreview } from 'vant';
   import { useStore } from '../store.js';
   const store = useStore();
-  // @ts-ignore
-  import TenviCanvas from './TenviCanvas.vue';
 
-  const sidebarActive = ref(0);
   const sidebarData = {
     pilot: ['bd', 'fc', 'fa', 'hr', 'cp', 'cl', 'wp', 'emo'],
     mecha: ['a_df', 'a_do', 'a_am', 'a_dc', 'a_lp', 'a_pp', 'a_rh', 'a_lh'],
@@ -14,12 +12,12 @@
     vehicle: [],
   };
   /** 选定资源的名称 */
-  const selectedResName = computed(() => sidebarData[store.edit.type][sidebarActive.value]);
+  const selectedResName = computed(() => sidebarData[store.edit.type][store.edit.partSidebarActive]);
   /** 选定分类下的资源列表 */
   const resList = ref([]);
   /** 更新资源列表 */
   const updateResList = () => {
-    console.log('updateResList:', selectedResName.value);
+    //console.log('updateResList:', selectedResName.value);
     resList.value = store.getResList(selectedResName.value);
   };
   /** 获取选定资源已记录的编号 */
@@ -30,15 +28,31 @@
   const itemClick = (item) => {
     console.log('itemSelect:', item.id);
     store.res[selectedResName.value] = item.id;
+    showRawPopup(item.id);
   };
   /** 菜单项变更事件 */
   const onSidebarChange = (index) => {
     updateResList();
     updateGroupData();
   }
+  /**  */
+  const rawPopup = ref(false);
+  const rawPopupImgs = ref([]);
+  /** 显示原始资源预览 */
+  const showRawPopup = (code) => {
+    rawPopupImgs.value = [store.getResImgURL(code + '_0')];
+    // 原始资源单个编号最多2张图，此处以备扩展
+    for (let i = 1; i < 2; i++) {
+      let imgURL = store.getResImgURL(code + '_' + i);
+      fetch(imgURL).then((res) => { 
+        if (res.status === 200) rawPopupImgs.value.push(imgURL);
+      }).catch((err) => { });
+    }
+    rawPopup.value = true;
+  };
 
   /** 是否显示分组选项选取面板 */
-  const showGroupSheet = ref(false);
+  const groupSheet = ref(false);
   /** 分组对象 */
   const groupSheetRef = ref(null);
   /** 分组数据 */
@@ -54,15 +68,16 @@
       // 选取当前item所属分类
       if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
-    // 选取第一个分类
+    // 如无所属，则选取第一个分类
     if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
     // 选取所有分类
     //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
 
   /** 监控类别变化 */
-  watch(toRef(store.edit, 'type'), () => {
-    sidebarActive.value = 0; // 类别变化时重置菜单序号
+  watch(toRef(store.edit, 'type'), (newValue) => {
+    //console.log('watch - store.edit.type', newValue);
+    store.edit.partSidebarActive = 0; // 类别变化时重置菜单序号
   });
 
   onMounted(() => {
@@ -74,7 +89,7 @@
 <template>
   <div class="parts-edit">
     <!-- 左侧菜单 -->
-    <van-sidebar v-model="sidebarActive" v-on:change="onSidebarChange">
+    <van-sidebar v-model="store.edit.partSidebarActive" v-on:change="onSidebarChange">
       <van-sidebar-item :key="index" :title="$t(`res.${item}`)"
         v-for="(item, index) in sidebarData[store.edit.type]">
       </van-sidebar-item>
@@ -104,17 +119,17 @@
       <!-- 分类筛选入口 -->
       <div>
         <van-field readonly is-link left-icon="filter-o"
-          v-show="groupData.size > 1" v-on:click="showGroupSheet = true">
+          v-show="groupData.size > 1" v-on:click="groupSheet = true">
           <template #input>{{ `Selected: ${groupSelected.length}, Total: ${groupData.size}` }}</template>
         </van-field>
       </div>
     </div>
     <!-- 分类筛选面板 -->
     <van-action-sheet
-      v-model:show="showGroupSheet"
+      v-model:show="groupSheet"
       :title="$t('view.groupSelect')"
       :cancel-text="$t('app.close')"
-      @cancel="showGroupSheet = false"
+      @cancel="groupSheet = false"
       class="group-sheet"
     >
       <template #default>
@@ -134,6 +149,12 @@
         </van-checkbox-group>
       </template>
     </van-action-sheet>
+    <!-- 素材预览弹出层 -->
+    <van-popup v-model:show="rawPopup" position="center" class="raw">
+      <van-image v-for="url in rawPopupImgs" :key="url" :src="url" fit="contain">
+        <template v-slot:loading> <van-loading type="spinner" size="20" /> </template>
+      </van-image>
+    </van-popup>
   </div>
 </template>
 
