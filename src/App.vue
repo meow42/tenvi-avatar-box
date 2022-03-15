@@ -1,12 +1,12 @@
 <script setup>// @ts-nocheck
   // This starter template is using Vue 3 <script setup> SFCs
   // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-  import { ref, watch, getCurrentInstance } from 'vue';
+  import { ref, watch, onMounted, onBeforeMount, getCurrentInstance } from 'vue';
   import { useStore } from './store.js';
   const store = useStore();
   import { useI18n } from 'vue-i18n';
-  const { t } = useI18n();
-  import { Toast, Notify } from 'vant';
+  const { t, locale } = useI18n();
+  import { Toast, Notify, NoticeBar } from 'vant';
   import '@vant/touch-emulator';
   import MenuTop from './components/MenuTop.vue';
   import ViewActionEdit from './components/ViewActionEdit.vue';
@@ -28,7 +28,7 @@
       Notify.clear();
     }
   };
-  /* 监听数据变更 */
+  /* 监听资源加载状态变更 */
   watch([store.app.loading, store.app.loadingErr], ([loadingSet, errSet]) => {
     //console.log('watch loading:', loadingSet);
     let message = '';
@@ -57,6 +57,23 @@
       onClick: notifyClick,
     });
   });
+  /** 初始化参数 */
+  onBeforeMount(() => {
+    // 缓存不可用则结束
+    if (!localStorage) return;
+    // 从缓存中获取并更新语言选项
+    let lang = localStorage.getItem('lang');
+    if (lang) locale.value = lang;
+    // 从缓存中获取并更新编辑相关参数
+    store.loadEditConfig();
+  });
+  /** 状态检测与提示 */
+  onMounted(() => {
+    if (!localStorage) {
+      Notify({ type: 'warning', message: t('error.useLocalStorage') });
+    }
+  });
+  
 </script>
 
 <template>
@@ -75,7 +92,7 @@
     <van-tabbar-item name="frame" icon="fire-o">{{ $t('view.frame') }}</van-tabbar-item>
     <van-tabbar-item name="action" icon="video-o">{{ $t('view.action') }}</van-tabbar-item>
     <van-tabbar-item name="order" icon="points">{{ $t('view.order') }}</van-tabbar-item>
-    <van-tabbar-item name="option" icon="setting-o" v-if="false">{{ $t('view.option') }}</van-tabbar-item>
+    <van-tabbar-item name="files" icon="other-pay">{{ $t('view.files') }}</van-tabbar-item>
   </van-tabbar>
   <!-- 资源载入详情 -->
   <van-popup

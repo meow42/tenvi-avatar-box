@@ -35,7 +35,7 @@ html, body {
 }
 .menu-top .van-dropdown-menu__item:first-child { justify-content: left; }
 .menu-top .van-dropdown-menu__item:last-child { justify-content: right; }
-.menu-file .van-cell__value { flex: none !important; }
+.menu-top .menu-option .van-field__label { width: 9rem; }
 
 /* 组件全局修改 */
 .van-overlay {

@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted } from 'vue';
   import { useI18n } from 'vue-i18n';
   const { locale, t } = useI18n();
   // @ts-ignore
@@ -11,31 +11,31 @@
   // 文件操作 //
   const fileOptions = [ 'new', 'save' ];
 
-  // 全局类型设置 //
-  const targets = ref(Object.keys(store.app.typeCode));
-  const selected = ref(store.edit.type);
-  const pilotDisplay = ref(true);
+  /** 编辑参数选项菜单的对象引用 */
+  const optionMenu = ref(null);
 
-  const typeMenuOpened = ref(null);
-  /** 确认变更编辑参数事件 */
-  const onEditTypeConfirm = () => {
-    let obj = {
-      edit: {
-        type: selected.value,
-        pilotDisplay: pilotDisplay.value
-      },
-    };
-    if (selected.value == 'pilot') obj.pilotDisplay = true;
-    store.save('editConfig', obj);
-    typeMenuOpened.value.toggle();
-  };
+  /** 编辑对象类型列表 */
+  const typeList = ref(Object.keys(store.app.typeCode));
+  /** 编辑对象类型，本地状态 */
+  const typeSelected = ref(store.edit.type);
+  /** 是否显示驾驶员，本地状态 */
+  const pilotDisplay = ref(true);
+  /** 编辑对象类型菜单的对象引用 */
+  const typeMenu = ref(null);
   /** 打开编辑参数菜单事件 */
-  const onOpen = () => {
-    selected.value = store.edit.type;
+  const onTypeMenuOpen = () => {
+    typeSelected.value = store.edit.type;
     pilotDisplay.value = store.edit.pilotDisplay;
   };
+  /** 确认变更编辑参数事件 */
+  const onEditTypeConfirm = () => {
+    store.edit.type = typeSelected.value;
+    store.edit.pilotDisplay = (typeSelected.value == 'pilot') ? true : pilotDisplay.value;
+    store.saveEditConfig();
+    typeMenu.value.toggle();
+  };
 
-  // 全局语言设置 //
+  /** 语言选项数据 */
   const langOptions = [
     { value: 'cn', text: '简体中文', icon: 'imgs/flag-cn.png', emoji: '🇨🇳' },
     { value: 'hk', text: '繁體中文(港)', icon: 'imgs/flag-hk.png', emoji: '🇭🇰' },
@@ -43,26 +43,20 @@
     { value: 'kr', text: '한국어', icon: 'imgs/flag-kr.png', emoji: '🇰🇷' },
     { value: 'us', text: 'English(US)', icon: 'imgs/flag-us.png', emoji: '🇺🇸' },
   ];
+  /** 语言切换事件监听 */
   const onLangChange = (newValue) => {
     locale.value = newValue;
-    localStorage.setItem('lang', newValue); // 更新本地缓存
+    // 更新本地缓存
+    if (localStorage) localStorage.setItem('lang', newValue);
   };
 
-  /** 获取本地缓存的配置 */
-  if (localStorage) {
-    // 获取并更新语言
-    let lang = localStorage.getItem('lang');
-    if (lang) locale.value = lang;
-    // 获取并更新编辑类型配置
-    store.load('editConfig');
-  } else {
-    Notify({ type: 'danger', message: t('error.useLocalStorage') });
-  }
+  onMounted(() => {
+  });
 </script>
 
 <template>
   <van-dropdown-menu class="menu-top">
-    <!-- 文件操作 -->
+    <!-- 文件操作 
     <van-dropdown-item class="menu-file">
       <template #title>
         <van-icon name="wap-nav" size="14" />
@@ -74,18 +68,30 @@
       <van-cell is-link :title="$t('menu.export')" :value="$t('tip.unavailable')" icon="down"></van-cell>
       <van-cell is-link :title="$t('menu.new')" :value="$t('tip.unavailable')" icon="add-o" ></van-cell>
     </van-dropdown-item>
-    <!-- 类型切换 -->
-    <van-dropdown-item ref="typeMenuOpened" @open="onOpen">
+    -->
+    <!-- 设置选项 -->
+    <van-dropdown-item ref="optionMenu" class="menu-option" v-on:close="store.saveEditConfig">
+      <template #title>
+        <van-icon name="setting-o" size="18" />
+      </template>
+      <van-field name="switch" :label="$t('menu.showRawImg')">
+        <template #input>
+          <van-switch v-model="store.edit.showRawImg" size="20" />
+        </template>
+      </van-field>
+    </van-dropdown-item>
+    
+    <!-- 编辑对象选择 -->
+    <van-dropdown-item ref="typeMenu" @open="onTypeMenuOpen">
       <template #title>
         {{ $t(`noun.${store.edit.type}`) }}
       </template>
-      <!-- 编辑对象选择 -->
-      <van-radio-group v-model="selected">
+      <van-radio-group v-model="typeSelected">
         <van-cell-group :title="$t(`menu.editTarget`)" inset>
           <van-cell clickable
             :title="$t(`noun.${item}`)" 
-            @click="selected = item"
-            v-for="item in targets" :key="item"
+            @click="typeSelected = item"
+            v-for="item in typeList" :key="item"
           >
             <template #right-icon>
               <van-radio :name="item" />
@@ -93,7 +99,7 @@
           </van-cell>
           <van-cell :title="$t(`menu.displayPilot`)">
             <template #right-icon>
-              <van-switch :model-value="true" size="18px" disabled v-if="selected == 'pilot'" />
+              <van-switch :model-value="true" size="18px" disabled v-if="typeSelected == 'pilot'" />
               <van-switch v-model="pilotDisplay" size="18px" v-else />
             </template>
           </van-cell>

@@ -40,6 +40,7 @@
   const rawPopupImgs = ref([]);
   /** 显示原始资源预览 */
   const showRawPopup = (code) => {
+    if (!store.edit.showRawImg) return;
     rawPopupImgs.value = [store.getResImgURL(code + '_0')];
     // 原始资源单个编号最多2张图，此处以备扩展
     for (let i = 1; i < 2; i++) {

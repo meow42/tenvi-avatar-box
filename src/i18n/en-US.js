@@ -8,6 +8,8 @@ export default {
     none: 'None',
   },
   menu: {
+    showRawImg: 'Show Raw Image',
+    displayPilot: 'Display Pilot',
     file: 'File',
     new: 'New',
     save: 'Save',
@@ -17,7 +19,6 @@ export default {
     editTarget: 'Edit Target',
     default: 'Default',
     template: 'Template',
-    displayPilot: 'Display Pilot',
   },
   view: {
     overview: 'Overview',
@@ -25,6 +26,7 @@ export default {
     parts: 'Parts',
     frame: 'Frame',
     action: 'Action',
+    files: 'Files',
     option: 'Option',
     filter: 'Filter',
     regex: 'Regex',

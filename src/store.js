@@ -14,6 +14,7 @@ const useStore = defineStore('main', {
       type: 'mecha', // 选定的编辑对象类型
       pilotDisplay: false,
       partSidebarActive: 0, // 当前的部件选取序号
+      showRawImg: false, // 是否显示原始资源图片预览
     },
     res: {
       bd: '00001', hd: '00004', fc: '00007', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
@@ -317,11 +318,24 @@ const useStore = defineStore('main', {
       this.app.loading.clear();
       this.app.loadingErr.clear();
     },
-    /** 变更对象值并缓存到浏览器 */
-    save(key, obj) {
+    /** 保存编辑相关参数 */
+    saveEditConfig() {
+      let obj = {
+        edit: this.edit
+      };
+      this.save('editConfig', obj);
+    },
+    /** 读取编辑相关参数 */
+    loadEditConfig() {
+      this.load('editConfig')
+    },
+    /** 对象值缓存到浏览器 */
+    save(key, obj, withUpdate = false) {
       if (!localStorage) return undefined;
       obj = Object.assign({}, obj);
-      this.$patch(obj);
+      // 是否立刻同步到当前store
+      if (withUpdate) this.$patch(obj);
+      // 转成字符串并缓存
       let value = JSON.stringify(obj);
       localStorage.setItem(key, value);
       console.log('store.save:', obj);
