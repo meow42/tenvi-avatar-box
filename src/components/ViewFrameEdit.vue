@@ -124,7 +124,7 @@
   <div class="frame-edit">
     <!-- 动作帧画布 -->
     <div class="canvas">
-      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="true" :axis="true"></TenviCanvas>
+      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="store.edit.autoDraw" :axis="store.edit.showAxis"></TenviCanvas>
     </div>
     <!-- 快捷功能 -->
     <div class="fn">

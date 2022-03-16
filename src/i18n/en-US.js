@@ -9,6 +9,8 @@ export default {
   },
   menu: {
     showRawImg: 'Show Raw Image',
+    showAxis: 'Show Axis Line',
+    autoDraw: 'Auto Draw',
     displayPilot: 'Display Pilot',
     file: 'File',
     new: 'New',

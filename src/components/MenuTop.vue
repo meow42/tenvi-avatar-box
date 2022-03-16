@@ -56,27 +56,27 @@
 
 <template>
   <van-dropdown-menu class="menu-top">
-    <!-- 文件操作 
-    <van-dropdown-item class="menu-file">
-      <template #title>
-        <van-icon name="wap-nav" size="14" />
-        {{ $t('menu.file') }}
-      </template>
-      <van-cell clickable :title="$t('menu.save')" :value="$t('tip.unavailable')" icon="completed"></van-cell>
-      <van-cell is-link :title="$t('menu.saveAs')" :value="$t('tip.unavailable')" icon="records"></van-cell>
-      <van-cell is-link :title="$t('menu.import')" :value="$t('tip.unavailable')" icon="description"></van-cell>
-      <van-cell is-link :title="$t('menu.export')" :value="$t('tip.unavailable')" icon="down"></van-cell>
-      <van-cell is-link :title="$t('menu.new')" :value="$t('tip.unavailable')" icon="add-o" ></van-cell>
-    </van-dropdown-item>
-    -->
     <!-- 设置选项 -->
     <van-dropdown-item ref="optionMenu" class="menu-option" v-on:close="store.saveEditConfig">
       <template #title>
         <van-icon name="setting-o" size="18" />
       </template>
-      <van-field name="switch" :label="$t('menu.showRawImg')">
+      <!-- 选取部件资源时，是否展示原始图像 -->
+      <van-field :label="$t('menu.showRawImg')">
         <template #input>
           <van-switch v-model="store.edit.showRawImg" size="20" />
+        </template>
+      </van-field>
+      <!-- 是否显示坐标轴线 -->
+      <van-field :label="$t('menu.showAxis')">
+        <template #input>
+          <van-switch v-model="store.edit.showAxis" size="20" />
+        </template>
+      </van-field>
+      <!-- 是否自动绘制 -->
+      <van-field :label="$t('menu.autoDraw')">
+        <template #input>
+          <van-switch v-model="store.edit.autoDraw" size="20" />
         </template>
       </van-field>
     </van-dropdown-item>

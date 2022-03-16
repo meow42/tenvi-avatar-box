@@ -10,11 +10,13 @@ const useStore = defineStore('main', {
       loadingErr: new Set(), // 记录载入失败的资源名称
     },
     edit: {
-      view: 'parts', // 激活的视图 frame
+      view: 'parts', // 激活的视图 parts frame action order files
       type: 'mecha', // 选定的编辑对象类型
       pilotDisplay: false,
       partSidebarActive: 0, // 当前的部件选取序号
       showRawImg: false, // 是否显示原始资源图片预览
+      showAxis: true, // 是否显示坐标轴线
+      autoDraw: true, // 是否自动绘制
     },
     res: {
       bd: '00001', hd: '00004', fc: '00007', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
@@ -25,6 +27,8 @@ const useStore = defineStore('main', {
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     part: {}, // 存放部件数据
+    frame: {}, // 存放帧数据
+    action: {}, // 存放动作数据
     order: { default: undefined }, // 存放部件叠放顺序定义数据
     
     pilot: {
@@ -318,6 +322,19 @@ const useStore = defineStore('main', {
       this.app.loading.clear();
       this.app.loadingErr.clear();
     },
+    /** 保存当前数据 */
+    saveEditData(key = 'default') {
+      let obj = {
+        res: this.res,
+        part: this.part,
+        order: this.order,
+      };
+      this.save(key, obj);
+    },
+    /** 读取数据并覆盖当前编辑区 */
+    loadEditData(key = 'default') {
+      this.load(key);
+    },
     /** 保存编辑相关参数 */
     saveEditConfig() {
       let obj = {
@@ -327,7 +344,7 @@ const useStore = defineStore('main', {
     },
     /** 读取编辑相关参数 */
     loadEditConfig() {
-      this.load('editConfig')
+      this.load('editConfig');
     },
     /** 对象值缓存到浏览器 */
     save(key, obj, withUpdate = false) {
