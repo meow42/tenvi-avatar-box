@@ -13,6 +13,7 @@
   import ViewFrameEdit from './components/ViewFrameEdit.vue';
   import ViewOrderEdit from './components/ViewOrderEdit.vue';
   import ViewPartsEdit from './components/ViewPartsEdit.vue';
+  import ViewFiles from './components/ViewFiles.vue';
 
   const loadingInfoDisplay = ref(false);
   const loadingNotifyType = ref('primary'); // primary success warning danger
@@ -83,11 +84,11 @@
     <ViewFrameEdit v-if="store.edit.view == 'frame'"></ViewFrameEdit>
     <ViewOrderEdit v-if="store.edit.view == 'order'"></ViewOrderEdit>
     <ViewPartsEdit v-if="store.edit.view == 'parts'"></ViewPartsEdit>
+    <ViewFiles v-if="store.edit.view == 'files'"></ViewFiles>
     <div v-else style="text-align: center; padding-top: 50%;">{{ $t(`view.${store.edit.view}`) || store.edit.view }}</div>
   </div>
   <!-- 底部视图切换菜单 -->
   <van-tabbar v-model="store.edit.view">
-    <van-tabbar-item name="overview" icon="eye-o" v-if="false">{{ $t('view.overview') }}</van-tabbar-item>
     <van-tabbar-item name="parts" icon="user-circle-o">{{ $t('view.parts') }}</van-tabbar-item>
     <van-tabbar-item name="frame" icon="fire-o">{{ $t('view.frame') }}</van-tabbar-item>
     <van-tabbar-item name="action" icon="video-o">{{ $t('view.action') }}</van-tabbar-item>
