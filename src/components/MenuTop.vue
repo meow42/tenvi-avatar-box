@@ -18,19 +18,19 @@
   const typeList = ref(Object.keys(store.app.typeCode));
   /** 编辑对象类型，本地状态 */
   const typeSelected = ref(store.edit.type);
-  /** 是否显示驾驶员，本地状态 */
-  const pilotDisplay = ref(true);
+  /** 是否附带驾驶员，本地状态 */
+  const pilotEnable = ref(true);
   /** 编辑对象类型菜单的对象引用 */
   const typeMenu = ref(null);
   /** 打开编辑参数菜单事件 */
   const onTypeMenuOpen = () => {
     typeSelected.value = store.edit.type;
-    pilotDisplay.value = store.edit.pilotDisplay;
+    pilotEnable.value = store.edit.pilotEnable;
   };
   /** 确认变更编辑参数事件 */
   const onEditTypeConfirm = () => {
     store.edit.type = typeSelected.value;
-    store.edit.pilotDisplay = (typeSelected.value == 'pilot') ? true : pilotDisplay.value;
+    store.edit.pilotEnable = (typeSelected.value == 'pilot') ? true : pilotEnable.value;
     store.saveEditConfig();
     typeMenu.value.toggle();
   };
@@ -100,7 +100,7 @@
           <van-cell :title="$t(`menu.displayPilot`)">
             <template #right-icon>
               <van-switch :model-value="true" size="18px" disabled v-if="typeSelected == 'pilot'" />
-              <van-switch v-model="pilotDisplay" size="18px" v-else />
+              <van-switch v-model="pilotEnable" size="18px" v-else />
             </template>
           </van-cell>
         </van-cell-group>

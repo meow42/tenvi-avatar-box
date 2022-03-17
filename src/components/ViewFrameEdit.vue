@@ -1,12 +1,12 @@
 <script setup>
-  import { ref, toRef, watch, onMounted, computed } from 'vue';
+  import { ref, toRef, watch, onMounted, onBeforeMount, computed } from 'vue';
   import { useStore } from '../store.js';
   const store = useStore();
   // @ts-ignore
   import TenviCanvas from './TenviCanvas.vue';
 
   /** 部件数据集 */
-  const part = ref({
+  const partData = ref({
     a_body: { frame: 'body_stand1_0' }, a_armS: { frame: '' },
     a_armL: { frame: 'arml_001' }, a_armR: { frame: 'armr_002' },
     a_legL: { frame: 'legl_001' }, a_legR: { frame: 'legr_002' },
@@ -20,13 +20,19 @@
     a_shield: { frame: 'shield00', line: true },
     p_body: { frame: '' },
   });
+  /** 同步部件数据 */
+  const updatePartData = () => {
+    for (const key in partData.value) {
+      if(store.isPartEnable()) {}
+    }
+  };
   /** 部件分组数据 */
   const partGroup = ref({
     a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
-    //a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
+    a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
     a_weapon: ['a_wp', 'a_wpGP', 'a_shield'],
-    //p_base: ['p_body'],
-    //p_equip: [],
+    p_base: ['p_body'],
+    p_equip: [],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -37,7 +43,7 @@
     for (const key in partGroup.value) {
       console.log('getPartGroupList:', key, typeCode)
       if (key.startsWith(typeCode + '_') || 
-        (store.edit.pilotDisplay && key.startsWith('p_'))) {
+        (store.edit.pilotEnable && key.startsWith('p_'))) {
         list.push({
           name: key,
           item: partGroup.value[key]
@@ -85,7 +91,7 @@
   };
   /** 部件帧选取事件 */
   const onSheetSelect = (frameName) => {
-    part.value[sheetPartName.value]['frame'] = frameName; // 更新选取数据
+    partData.value[sheetPartName.value]['frame'] = frameName; // 更新选取数据
     updateDrawData(); // 更新绘制数据，触发绘制
   }
   
@@ -94,22 +100,24 @@
   /** 获取绘制所需数据 */
   const updateDrawData = () => {
     let payload = {};
-    for(const key in part.value) {
-      if (!part.value[key]['frame']) continue;
-      if (!store.isPartDisplay(key)) continue;
-      payload[key] = part.value[key]['frame'];
+    for(const key in partData.value) {
+      if (!partData.value[key]['frame']) continue;
+      if (!store.isPartEnable(key)) continue;
+      payload[key] = partData.value[key]['frame'];
     }
     let data = store.getFrameData(payload);
     console.log('frameData:', payload, data)
     frameData.value = data;
   };
 
-  onMounted(() => {
-    // 更新资源、编辑区域的定义数据
+  onBeforeMount(() => {
     store.updateResData();
+    updatePartData();
     updatePartGroupList();
     // 设定面板展开状态
     activeNames.value = [0];
+  });
+  onMounted(() => {
     // 轮询资源加载状态，完成后更新绘制数据
     let timerId = setInterval(() => {
       if (store.app.loading.size === 0) {
@@ -137,8 +145,8 @@
           <van-cell :key="partName" 
             v-for="partName in group.item"
             :title="$t(`part.${partName}`)"
-            :value="part[partName]['frame']"
-            :class="{ line: part[partName]['line'] }"
+            :value="store.part[partName]"
+            :class="{ line: partData[partName]['line'] }"
             v-on:click="onPartClick(partName)"/>
         </van-collapse-item>
       </van-collapse>
@@ -178,7 +186,7 @@
       <!-- 面板选项区 -->
       <button type="button"
         v-on:click="onSheetSelect('')"
-        :class="{ 'selected': part[sheetPartName]['frame'] === '', 'van-action-sheet__item': true }"
+        :class="{ 'selected': store.part[sheetPartName] === '', 'van-action-sheet__item': true }"
       >
         <span class="van-action-sheet__name">{{ $t('app.none') }}</span>
       </button>
@@ -186,7 +194,7 @@
         v-for="frameName in sheetList" :key="frameName"
         v-show="frameName.indexOf(sheetFilter) >= 0 && new RegExp(sheetRegex).test(frameName)"
         v-on:click="onSheetSelect(frameName)"
-        :class="{ 'selected': part[sheetPartName]['frame'] === frameName, 'van-action-sheet__item': true }"
+        :class="{ 'selected': store.part[sheetPartName] === frameName, 'van-action-sheet__item': true }"
       >
         <span class="van-action-sheet__name">{{ frameName }}</span>
       </button>

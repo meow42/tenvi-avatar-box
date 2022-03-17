@@ -5,7 +5,7 @@
   const store = useStore();
 
   const sidebarData = {
-    pilot: ['bd', 'fc', 'fa', 'hr', 'cp', 'cl', 'wp', 'emo'],
+    pilot: ['p_bd', 'p_fc', 'p_fa', 'p_hr', 'p_cp', 'p_cl', 'p_wp', 'p_emo'],
     mecha: ['a_df', 'a_do', 'a_am', 'a_dc', 'a_lp', 'a_pp', 'a_rh', 'a_lh'],
     avatar: ['t_df', 't_do', 't_am', 't_dc', 't_lp', 't_pp', 't_rh', 't_lh'],
     dragon: ['s_df', 's_do', 's_am', 's_dc', 's_lp', 's_pp', 's_rh', 's_lh'],

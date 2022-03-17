@@ -12,21 +12,21 @@ const useStore = defineStore('main', {
     edit: {
       view: 'parts', // 激活的视图 parts frame action order files
       type: 'mecha', // 选定的编辑对象类型
-      pilotDisplay: false,
+      pilotEnable: true,
       partSidebarActive: 0, // 当前的部件选取序号
       showRawImg: false, // 是否显示原始资源图片预览
       showAxis: true, // 是否显示坐标轴线
       autoDraw: true, // 是否自动绘制
     },
+    resDataMap: new Map(), // 存放已载入的资源Json数据
+    resImgMap: new Map(), // 存放已载入的资源图片
     res: {
-      bd: '00001', hd: '00004', fc: '00007', fa: '', hr: '', cp: '', cl: '', wp: '', emo: '',
+      p_bd: '00001', p_hd: '00004', p_fc: '00007', p_fa: '', p_hr: '', p_cp: '', p_cl: '', p_wp: '', p_emo: '',
       a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '22550', a_lh: '23002',
       t_df: '00009', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
       s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
     },
-    resDataMap: new Map(), // 存放已载入的资源Json数据
-    resImgMap: new Map(), // 存放已载入的资源图片
-    part: {}, // 存放部件数据
+    part: {},
     frame: {}, // 存放帧数据
     action: {}, // 存放动作数据
     order: { default: undefined }, // 存放部件叠放顺序定义数据
@@ -177,13 +177,15 @@ const useStore = defineStore('main', {
       let str = regex.toString();
       return str.slice(1, str.length-1);
     },
-    /** 判断部件显示状态 */
-    isPartDisplay(partName) {
+    /** 判断部件可用状态 */
+    isPartEnable(partName) {
+      // 前缀需存在于列表
       let typeStr = this.app.typeCode[this.edit.type];
       if (!typeStr) return false;
+      // 前缀是当前所选分类
       typeStr = typeStr + '_';
       if (partName.indexOf(typeStr) === 0) return true;
-      if (this.edit.pilotDisplay && partName.indexOf('p_') === 0) return true;
+      if (this.edit.pilotEnable && partName.indexOf('p_') === 0) return true;
       return false;
     },
     /** 更新资源图片 */
