@@ -67,7 +67,6 @@
           item: partGroup.value[key]
         });
       }
-      
     }
     //console.log('getPartGroupList:', list)
     partGroupList.value = list;
@@ -111,7 +110,7 @@
   const updateDrawData = () => {
     let payload = {};
     for(const key in partData.value) {
-      console.log('frameData:', key, store.part[key])
+      //console.log('frameData:', key, store.part[key])
       if (!store.part[key]) continue;
       //if (!store.isPartEnable(key)) continue;
       payload[key] = store.part[key];
@@ -121,22 +120,6 @@
     frameData.value = data;
   };
 
-  /* 监听视图变更 
-  watch(toRef(store.edit, 'view'), (newValue) => {
-    if (newValue === 'frame') {
-      updatePartData();
-      updatePartGroupList();
-      // 轮询资源加载状态，完成后更新绘制数据
-      let timerId = setInterval(() => {
-        if (store.app.loading.size === 0) {
-          updateDrawData();
-          clearInterval(timerId);
-        }
-      }, 100);
-    }
-    //activeNames.value = [0]; // 重置面板展开状态
-  }, { immediate: false, flush: 'post' });
-  */
   /* 初始化视图 */
   const initView = () => {
     updatePartData();
@@ -150,17 +133,15 @@
     }, 100);
     //activeNames.value = [0]; // 重置面板展开状态
   };
-  /* 监听类别变更 */
-  watch( () => store.edit, (after, before) => {
-    console.log('watch - store.edit.type:', after, before);
-    // 本视图隐藏时，不响应
-    if (after['view'] !== 'frame') return;
-    // 相关参数未改变时，不响应
-    if (after['type'] === before['type'] && after['pilot'] === before['pilot']) return;
-    // 初始化
-    initView();
-  }, { immediate: false, flush: 'post', deep: true });
-
+  watch(toRef(store.edit, 'view'), (newValue) => {
+    if (newValue === 'frame') initView();
+  }, { immediate: false, flush: 'post' });
+  watch(toRef(store.edit, 'type'), (newValue) => {
+    if (store.edit.view === 'frame') initView();
+  }, { immediate: false, flush: 'post' });
+  watch(toRef(store.edit, 'pilot'), (newValue) => {
+    if (store.edit.view === 'frame') initView();
+  }, { immediate: false, flush: 'post' });
   onBeforeMount(() => {});
   onMounted(() => {
     initView();
