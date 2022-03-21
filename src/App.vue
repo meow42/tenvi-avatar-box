@@ -80,12 +80,11 @@
 <template>
   <MenuTop></MenuTop>
   <div class="views">
-    <ViewActionEdit v-if="store.edit.view == 'action'"></ViewActionEdit>
-    <ViewFrameEdit v-if="store.edit.view == 'frame'"></ViewFrameEdit>
-    <ViewOrderEdit v-if="store.edit.view == 'order'"></ViewOrderEdit>
-    <ViewPartsEdit v-if="store.edit.view == 'parts'"></ViewPartsEdit>
-    <ViewFiles v-if="store.edit.view == 'files'"></ViewFiles>
-    <div v-else style="text-align: center; padding-top: 50%;">{{ $t(`view.${store.edit.view}`) || store.edit.view }}</div>
+    <ViewActionEdit v-show="store.edit.view == 'action'"></ViewActionEdit>
+    <ViewFrameEdit v-show="store.edit.view == 'frame'"></ViewFrameEdit>
+    <ViewOrderEdit v-show="store.edit.view == 'order'"></ViewOrderEdit>
+    <ViewPartsEdit v-show="store.edit.view == 'parts'"></ViewPartsEdit>
+    <ViewFiles v-show="store.edit.view == 'files'"></ViewFiles>
   </div>
   <!-- 底部视图切换菜单 -->
   <van-tabbar v-model="store.edit.view">

@@ -179,6 +179,7 @@ const useStore = defineStore('main', {
     },
     /** 判断部件可用状态 */
     isPartEnable(partName) {
+      if (!partName) return false;
       // 前缀需存在于列表
       let typeStr = this.app.typeCode[this.edit.type];
       if (!typeStr) return false;

@@ -19,6 +19,7 @@
   const updateResList = () => {
     //console.log('updateResList:', selectedResName.value);
     resList.value = store.getResList(selectedResName.value);
+    updateGroupData();
   };
   /** 获取选定资源已记录的编号 */
   const getSavedResCode = (partName) => {
@@ -33,7 +34,6 @@
   /** 菜单项变更事件 */
   const onSidebarChange = (index) => {
     updateResList();
-    updateGroupData();
   }
   /**  */
   const rawPopup = ref(false);
@@ -75,15 +75,20 @@
     //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
 
+  /* 监听视图变更 */
+  watch(toRef(store.edit, 'view'), (newView) => {
+    // 如果离开本视图，则更新资源数据
+    if (newView !== 'parts') store.updateResData();
+  }, { immediate: false, flush: 'post' });
   /** 监控类别变化 */
   watch(toRef(store.edit, 'type'), (newValue) => {
     //console.log('watch - store.edit.type', newValue);
     store.edit.partSidebarActive = 0; // 类别变化时重置菜单序号
+    updateResList();
   });
 
   onMounted(() => {
     updateResList();
-    updateGroupData();
   });
 </script>
 
