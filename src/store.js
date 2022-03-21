@@ -12,7 +12,7 @@ const useStore = defineStore('main', {
     edit: {
       view: 'parts', // 激活的视图 parts frame action order files
       type: 'mecha', // 选定的编辑对象类型
-      pilotEnable: true,
+      pilot: true,
       partSidebarActive: 0, // 当前的部件选取序号
       showRawImg: false, // 是否显示原始资源图片预览
       showAxis: true, // 是否显示坐标轴线
@@ -186,7 +186,7 @@ const useStore = defineStore('main', {
       // 前缀是当前所选分类
       typeStr = typeStr + '_';
       if (partName.indexOf(typeStr) === 0) return true;
-      if (this.edit.pilotEnable && partName.indexOf('p_') === 0) return true;
+      if (this.edit.pilot && partName.indexOf('p_') === 0) return true;
       return false;
     },
     /** 更新资源图片 */

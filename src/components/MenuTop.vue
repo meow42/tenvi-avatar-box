@@ -25,12 +25,12 @@
   /** 打开编辑参数菜单事件 */
   const onTypeMenuOpen = () => {
     typeSelected.value = store.edit.type;
-    pilotEnable.value = store.edit.pilotEnable;
+    pilotEnable.value = store.edit.pilot;
   };
   /** 确认变更编辑参数事件 */
   const onEditTypeConfirm = () => {
     store.edit.type = typeSelected.value;
-    store.edit.pilotEnable = (typeSelected.value == 'pilot') ? true : pilotEnable.value;
+    store.edit.pilot = (typeSelected.value == 'pilot') ? true : pilotEnable.value;
     store.saveEditConfig();
     typeMenu.value.toggle();
   };
@@ -87,7 +87,7 @@
         {{ $t(`noun.${store.edit.type}`) }}
       </template>
       <van-radio-group v-model="typeSelected">
-        <van-cell-group :title="$t(`menu.editTarget`)" inset>
+        <van-cell-group :title="$t(`menu.editType`)" inset>
           <van-cell clickable
             :title="$t(`noun.${item}`)" 
             @click="typeSelected = item"

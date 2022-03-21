@@ -18,7 +18,7 @@ export default {
     saveAs: 'Save as',
     export: 'Export',
     import: 'Import',
-    editTarget: 'Edit Target',
+    editType: 'Select Edit Type',
     default: 'Default',
     template: 'Template',
   },

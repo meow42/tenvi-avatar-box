@@ -61,7 +61,7 @@
     for (const key in partGroup.value) {
       //console.log('getPartGroupList:', key, typeCode)
       if (key.startsWith(typeCode + '_') || 
-        (store.edit.pilotEnable && key.startsWith('p_'))) {
+        (store.edit.pilot && key.startsWith('p_'))) {
         list.push({
           name: key,
           item: partGroup.value[key]
@@ -121,7 +121,7 @@
     frameData.value = data;
   };
 
-  /* 监听视图变更 */
+  /* 监听视图变更 
   watch(toRef(store.edit, 'view'), (newValue) => {
     if (newValue === 'frame') {
       updatePartData();
@@ -136,16 +136,35 @@
     }
     //activeNames.value = [0]; // 重置面板展开状态
   }, { immediate: false, flush: 'post' });
-  /* 监听类别变更 */
-  watch(toRef(store.edit, 'type'), (newValue) => {
-    if (store.edit.view !== 'frame') return;
+  */
+  /* 初始化视图 */
+  const initView = () => {
     updatePartData();
     updatePartGroupList();
-    updateDrawData();
-  }, { immediate: false, flush: 'post' });
+    // 轮询资源加载状态，完成后更新绘制数据
+    let timerId = setInterval(() => {
+      if (store.app.loading.size === 0) {
+        updateDrawData();
+        clearInterval(timerId);
+      }
+    }, 100);
+    //activeNames.value = [0]; // 重置面板展开状态
+  };
+  /* 监听类别变更 */
+  watch( () => store.edit, (after, before) => {
+    console.log('watch - store.edit.type:', after, before);
+    // 本视图隐藏时，不响应
+    if (after['view'] !== 'frame') return;
+    // 相关参数未改变时，不响应
+    if (after['type'] === before['type'] && after['pilot'] === before['pilot']) return;
+    // 初始化
+    initView();
+  }, { immediate: false, flush: 'post', deep: true });
 
   onBeforeMount(() => {});
-  onMounted(() => {});
+  onMounted(() => {
+    initView();
+  });
 </script>
 
 <template>

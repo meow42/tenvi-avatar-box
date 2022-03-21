@@ -79,7 +79,7 @@
   watch(toRef(store.edit, 'view'), (newView) => {
     // 如果离开本视图，则更新资源数据
     if (newView !== 'parts') store.updateResData();
-  }, { immediate: false, flush: 'post' });
+  }, { immediate: true, flush: 'post' });
   /** 监控类别变化 */
   watch(toRef(store.edit, 'type'), (newValue) => {
     //console.log('watch - store.edit.type', newValue);
