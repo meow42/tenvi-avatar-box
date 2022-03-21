@@ -8,8 +8,9 @@
     bottom: { type: Number, default: 60 },
     auto: { type: Boolean, default: true },
     axis: { type: Boolean, default: true },
-    data: { type: Object, default: {} },
-    order: { type: Array, default: [] },
+    data: { type: Object, default: {} }, // 部件数据
+    order: { type: Array, default: [] }, // 部件叠放顺序
+    hide: { type: Array, default: [] }, // 需要隐藏的部件列表
   });
   /* 画布属性 */
   const canvasNode = ref(null);

@@ -7,25 +7,43 @@
 
   /** 部件数据集 */
   const partData = ref({
-    a_body: { frame: 'body_stand1_0' }, a_armS: { frame: '' },
-    a_armL: { frame: 'arml_001' }, a_armR: { frame: 'armr_002' },
-    a_legL: { frame: 'legl_001' }, a_legR: { frame: 'legr_002' },
-    a_head: { frame: '' }, a_headS: { frame: '' },
-    a_pp: { frame: '' }, a_bodyX: { frame: '', sync: 'a_body' },
-    a_bodyXS: { frame: '' }, a_bodyXB: { frame: '' },
-    a_armLX: { frame: '', sync: 'a_armL' }, a_armRX: { frame: '', sync: 'a_armR' },
-    a_legLX: { frame: '', sync: 'a_legL' }, a_legRX: { frame: '', sync: 'a_legR' },
+    a_body: { default: 'body_stand1_0' }, a_armS: { default: '' },
+    a_armL: { default: 'arml_001' }, a_armR: { default: 'armr_002' },
+    a_legL: { default: 'legl_001' }, a_legR: { default: 'legr_002' },
+    a_head: { default: '' }, a_headS: { default: '' },
+    a_pp: { default: '' }, a_bodyX: { default: '', sync: 'a_body' },
+    a_bodyXS: { default: '' }, a_bodyXB: { default: '' },
+    a_armLX: { sync: 'a_armL' }, a_armRX: { sync: 'a_armR' },
+    a_legLX: { sync: 'a_legL' }, a_legRX: { sync: 'a_legR' },
     
-    a_wp: { frame: 'g_stand1_00' }, a_wpGP: { frame: 'g_stand1_00_00' },
-    a_shield: { frame: 'shield00', line: true },
-    p_body: { frame: '' },
+    a_wp: { default: 'g_stand1_00' }, a_wpGP: { default: 'g_stand1_00_00' },
+    a_shield: { default: 'shield00', line: true },
+    p_body: { default: '' },
   });
   /** 同步部件数据 */
-  const updatePartData = () => {
+  const updatePartData = (...partList) => {
     for (const key in partData.value) {
-      if(store.isPartEnable()) {}
+      // 按照手动指定的list进行筛选
+      if (partList && partList.length > 0 && !partList.includes(key)) continue;
+      //console.log('updatePartData:', key, store.part[key], partData.value[key]['default']);
+      // 添加可见状态
+      partData.value[key].show = store.isPartEnable(key);
+      // 从store同步帧名称
+      if (!store.part[key]) store.part[key] = partData.value[key]['default'] || '';
     }
+    //console.log('updatePartData:', store.part);
   };
+  /** 部件间数据自动模仿 */
+  const syncPartData = (force) => {
+    for (const key in partData.value) {
+      // 跳过未设置模仿对象的部件
+      if (!partData.value[key].sync) continue;
+      // 跳过非强制状态下，已经指定了帧数据的部件
+      if (!force || store.part[key]) continue;
+      store.part[key] = store.part[partData.value[key].sync] || '';
+      console.log('syncPartData:', key, store.part[key]);
+    }
+  }
   /** 部件分组数据 */
   const partGroup = ref({
     a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
@@ -41,7 +59,7 @@
     let list = [];
     let typeCode = store.getTypeCode();
     for (const key in partGroup.value) {
-      console.log('getPartGroupList:', key, typeCode)
+      //console.log('getPartGroupList:', key, typeCode)
       if (key.startsWith(typeCode + '_') || 
         (store.edit.pilotEnable && key.startsWith('p_'))) {
         list.push({
@@ -51,20 +69,12 @@
       }
       
     }
-    console.log('getPartGroupList:', list)
+    //console.log('getPartGroupList:', list)
     partGroupList.value = list;
   };
 
   /** 标记展开的部件分类面板 */
   const activeNames = ref([]);
-  /* 监听数据变更 */
-  watch(store.edit, (newObj) => {
-    console.log('watch:', newObj);
-    activeNames.value = [0]; // 重置面板展开状态
-    updatePartGroupList(); // 更新编辑区域的定义数据
-    updateDrawData(); // 更新绘制用数据
-  }, { immediate: false, flush: 'post' });
-  
   /** 部件帧选取面板的开启状态 */
   const sheetActived = ref(false);
   /** 选取部件的名称 */
@@ -91,7 +101,7 @@
   };
   /** 部件帧选取事件 */
   const onSheetSelect = (frameName) => {
-    partData.value[sheetPartName.value]['frame'] = frameName; // 更新选取数据
+    store.part[sheetPartName.value] = frameName; // 更新选取数据
     updateDrawData(); // 更新绘制数据，触发绘制
   }
   
@@ -101,47 +111,65 @@
   const updateDrawData = () => {
     let payload = {};
     for(const key in partData.value) {
-      if (!partData.value[key]['frame']) continue;
-      if (!store.isPartEnable(key)) continue;
-      payload[key] = partData.value[key]['frame'];
+      console.log('frameData:', key, store.part[key])
+      if (!store.part[key]) continue;
+      //if (!store.isPartEnable(key)) continue;
+      payload[key] = store.part[key];
     }
     let data = store.getFrameData(payload);
     console.log('frameData:', payload, data)
     frameData.value = data;
   };
 
-  onBeforeMount(() => {
-    store.updateResData();
+  /* 监听视图变更 */
+  watch(toRef(store.edit, 'view'), (newValue) => {
+    if (newValue === 'frame') {
+      updatePartData();
+      updatePartGroupList();
+      // 轮询资源加载状态，完成后更新绘制数据
+      let timerId = setInterval(() => {
+        if (store.app.loading.size === 0) {
+          updateDrawData();
+          clearInterval(timerId);
+        }
+      }, 100);
+    }
+    //activeNames.value = [0]; // 重置面板展开状态
+  }, { immediate: false, flush: 'post' });
+  /* 监听类别变更 */
+  watch(toRef(store.edit, 'type'), (newValue) => {
+    if (store.edit.view !== 'frame') return;
     updatePartData();
     updatePartGroupList();
-    // 设定面板展开状态
-    activeNames.value = [0];
-  });
-  onMounted(() => {
-    // 轮询资源加载状态，完成后更新绘制数据
-    let timerId = setInterval(() => {
-      if (store.app.loading.size === 0) {
-        updateDrawData();
-        clearInterval(timerId);
-      }
-    }, 100);
-  });
+    updateDrawData();
+  }, { immediate: false, flush: 'post' });
+
+  onBeforeMount(() => {});
+  onMounted(() => {});
 </script>
 
 <template>
   <div class="frame-edit">
     <!-- 动作帧画布 -->
     <div class="canvas">
-      <TenviCanvas :data="frameData" :order="store.getOrder()" :auto="store.edit.autoDraw" :axis="store.edit.showAxis"></TenviCanvas>
+      <TenviCanvas 
+        :data="frameData" 
+        :order="store.getOrder()" 
+        :hide="[]"
+        :auto="store.edit.autoDraw" 
+        :axis="store.edit.showAxis"
+      ></TenviCanvas>
     </div>
     <!-- 快捷功能 -->
     <div class="fn">
+      <van-button plain type="primary" v-on:click="syncPartData">Auto Sync</van-button>
     </div>
     <!-- 编辑区 -->
     <div class="edit">
       <van-collapse v-model="activeNames">
-        <van-collapse-item :key="group.name" :title="$t(`group.${group.name}`)" :name="index"
-          v-for="(group, index) in partGroupList">
+        <van-collapse-item title-class="bold"
+          :title="$t(`group.${group.name}`)" :name="index"
+          v-for="(group, index) in partGroupList" :key="group.name" >
           <van-cell :key="partName" 
             v-for="partName in group.item"
             :title="$t(`part.${partName}`)"
