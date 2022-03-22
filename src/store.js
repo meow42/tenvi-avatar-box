@@ -4,6 +4,7 @@ import { Res, Part, Order, Frame, Action } from './data.js';
 const useStore = defineStore('main', {
   state: ()=> ({
     app: {
+      url: 'https://tenvix.meow42.cn/avatar-box/index.html',
       resDomain: 'https://tenvix.meow42.cn/',
       typeCode: { pilot: 'p', mecha: 'a', avatar: 't', dragon: 's', vehicle: 'v' },
       loading: new Set(), // 记录载入中的资源名称
@@ -171,6 +172,33 @@ const useStore = defineStore('main', {
     },
   },
   actions: {
+    /** 解析URL参数并覆盖相关内容 */
+    initByURL() {
+      // 获取URL参数，并封装到对象
+      let search = {};
+      let vars = window.location.search.substring(1).split("&");
+      vars.map(pair => {
+        let kv = pair.split('=');
+        search[kv[0]] = kv[1] || undefined;
+      });
+      console.log('initByURL:', search);
+      // 参数覆盖
+      if (search['view']) this.edit.view = search.view;
+      if (search['type']) this.edit.type = search.type;
+      if (search['pilot']) this.edit.pilot = search.pilot;
+      if (search['part']) this.edit.partSidebarActive = search.part;
+      // 清理URL参数
+      let url = window.location.href.split('?')[0];
+      window.history.replaceState(null, '', url);
+    },
+    /** 生成当前页面URL */
+    getURL() {
+      let suffix = '?';
+      suffix += `view=${this.edit.view}`;
+      suffix += `&type=${this.edit.type}`;
+      suffix += `&part=${this.edit.partSidebarActive}`;
+      return this.app.url + suffix;
+    },
     /** 获取部件默认正则规则文本 */
     partRegex2String(partName) {
       let regex = Part[partName]['regex'] || /.*/;
@@ -402,4 +430,5 @@ class PartFrameObj {
   offset = { x: 0, y: 0 };
   center = { x: 0, y: 0 };
   point = {};
+  show = true;
 }

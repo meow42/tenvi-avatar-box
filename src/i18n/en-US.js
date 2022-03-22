@@ -11,6 +11,7 @@ export default {
     showRawImg: 'Show Raw Image',
     showAxis: 'Show Axis Line',
     autoDraw: 'Auto Draw',
+    shareURL: 'Share URL',
     displayPilot: 'Display Pilot',
     file: 'File',
     new: 'New',

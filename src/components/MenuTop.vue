@@ -8,11 +8,19 @@
   // @ts-ignore
   import { Notify } from 'vant';
 
-  // 文件操作 //
-  const fileOptions = [ 'new', 'save' ];
-
   /** 编辑参数选项菜单的对象引用 */
   const optionMenu = ref(null);
+
+  /** 是否显示分享链接URL */
+  const showURL = ref(false);
+  /** 复制链接到剪切板 */
+  const copyURL = () => {
+    //TODO
+    let el = document.getElementById('share-url');
+    // @ts-ignore
+    el.select();
+    el.focus();
+  };
 
   /** 编辑对象类型列表 */
   const typeList = ref(Object.keys(store.app.typeCode));
@@ -79,6 +87,15 @@
           <van-switch v-model="store.edit.autoDraw" size="20" />
         </template>
       </van-field>
+      <!-- 生成分享用的URL -->
+      <van-field :label="$t('menu.shareURL')">
+        <template #input>
+          <van-switch v-model="showURL" size="20" />
+        </template>
+      </van-field>
+      <van-field id="share-url" type="textarea" autosize
+        :model-value="store.getURL()" v-on:click="copyURL" v-show="showURL"
+      ></van-field>
     </van-dropdown-item>
     
     <!-- 编辑对象选择 -->
@@ -122,8 +139,7 @@
           icon="warning-o"
           :title="$t('tip.helpTranslation')"
           value="GitHub"
-          title-style="color: #333; text-align: left;"
-          v-show="false"
+          title-style="min-width: 240px; color: #333; text-align: left;"
         />
     </van-dropdown-item>
   </van-dropdown-menu>

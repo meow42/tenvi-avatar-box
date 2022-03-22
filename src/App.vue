@@ -60,13 +60,16 @@
   });
   /** 初始化参数 */
   onBeforeMount(() => {
-    // 缓存不可用则结束
-    if (!localStorage) return;
-    // 从缓存中获取并更新语言选项
-    let lang = localStorage.getItem('lang');
-    if (lang) locale.value = lang;
-    // 从缓存中获取并更新编辑相关参数
-    store.loadEditConfig();
+    // 读取浏览器缓存
+    if (localStorage) {
+      // 从缓存中获取并更新语言选项
+      let lang = localStorage.getItem('lang');
+      if (lang) locale.value = lang;
+      // 从缓存中获取并更新编辑相关参数
+      store.loadEditConfig();
+    }
+    // 读取URL参数
+    store.initByURL();
   });
   /** 状态检测与提示 */
   onMounted(() => {
