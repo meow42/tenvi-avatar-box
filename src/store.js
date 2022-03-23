@@ -185,8 +185,8 @@ const useStore = defineStore('main', {
       // 参数覆盖
       if (search['view']) this.edit.view = search.view;
       if (search['type']) this.edit.type = search.type;
-      if (search['pilot']) this.edit.pilot = search.pilot;
-      if (search['part']) this.edit.partSidebarActive = search.part;
+      if (search['pilot']) this.edit.pilot = Boolean(search.pilot);
+      if (search['part']) this.edit.partSidebarActive = Number(search.part) || 0;
       // 清理URL参数
       let url = window.location.href.split('?')[0];
       window.history.replaceState(null, '', url);
@@ -197,6 +197,7 @@ const useStore = defineStore('main', {
       suffix += `view=${this.edit.view}`;
       suffix += `&type=${this.edit.type}`;
       suffix += `&part=${this.edit.partSidebarActive}`;
+      if (!this.edit.pilot) suffix += `&pilot=`;
       return this.app.url + suffix;
     },
     /** 获取部件默认正则规则文本 */
