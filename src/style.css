@@ -119,6 +119,11 @@ html, body {
   overflow-x: hidden;
   overflow-y: auto;
 }
+.parts-edit .options {
+  float: left;
+  width: calc(100% - 12px);
+  padding: 6px;
+}
 .parts-edit .sidebar-group {
   font-weight: 800 !important;
   padding-left: 0px !important;

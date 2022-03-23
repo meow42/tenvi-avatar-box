@@ -35,8 +35,9 @@
   const onSidebarChange = (index) => {
     updateResList();
   }
-  /**  */
+  /** 是否展示原始素材预览弹出层 */
   const rawPopup = ref(false);
+  /** 原始素材URL */
   const rawPopupImgs = ref([]);
   /** 显示原始资源预览 */
   const showRawPopup = (code) => {
@@ -50,6 +51,15 @@
       }).catch((err) => { });
     }
     rawPopup.value = true;
+  };
+
+  /** 快捷设置：最低配置 */
+  const setBaseOnly = () => {
+    if (!sidebarData[store.edit.type]) return;
+    sidebarData[store.edit.type].map(resName => {
+      if (['p_bd', 'p_fc', 'a_df', 't_df', 's_df'].includes(resName)) return;
+      store.res[resName] = '';
+    });
   };
 
   /** 是否显示分组选项选取面板 */
@@ -103,6 +113,7 @@
     <!-- 右侧列表 -->
     <div class="list">
       <van-list>
+        <!-- 根据数据生成Items -->
         <div v-for="(item, index) in resList" :key="index" @click="itemClick(item)"
           v-show="groupSelected.includes(item.group)"
           class="item" :class="{ 'item-selected': item.id == getSavedResCode(), 'newline': item.id.includes('#')}">
@@ -119,6 +130,17 @@
               </template>
             </van-image>
             <span>{{ item.id }}</span>
+          </div>
+        </div>
+        <!-- 特殊功能区域 -->
+        <div v-show="store.edit.partSidebarActive === 0" class="options">
+          <van-divider content-position="left">Quick Options</van-divider>
+          <div v-if="store.edit.type === 'mecha'">
+            <van-cell is-link title="Base Only" v-on:click="setBaseOnly" />
+            <van-cell title="Model 1" is-link />
+            <van-cell title="Model 2" is-link />
+            <van-cell title="Model 3" is-link />
+            <van-cell title="Random" is-link />
           </div>
         </div>
       </van-list>
