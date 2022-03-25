@@ -1,5 +1,9 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-import { Res, Part, Order, Frame, Action } from './data.js';
+//import { Res, Order, Frame, Action } from './data.js';
+import { Res } from './data/res.js';
+import { Part } from './data/part.js';
+import { Order } from './data/order.js';
+import { Frame } from './data/frame.js';
 
 const useStore = defineStore('main', {
   state: ()=> ({
@@ -167,7 +171,7 @@ const useStore = defineStore('main', {
     },
     /** 获取部件叠放顺序数据 */
     getOrder: (state) => (name) => {
-      if (!name) name = 'default';
+      if (!name) name = state.edit.type;
       return state.order[name] || Order[name] || [];
     },
   },
