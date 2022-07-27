@@ -1,14 +1,18 @@
-# Vue 3 + Vite
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+# Tenvi Avatar Box
 
 ## 相关技术
 - [Vue3](https://v3.cn.vuejs.org/)
 - [Vite](https://cn.vitejs.dev/)
 - [Pinia](https://pinia.vuejs.org/)
 - [Vue I18n](https://vue-i18n.intlify.dev/)
-- [Vant](https://github.com/youzan/vant) [文档](https://vant-contrib.gitee.io/vant/v3/#/zh-CN/home)
+- [Vant](https://github.com/youzan/vant)
+
+## 参考资料
+- CDN服务：[jsdelivr](https://cdn.jsdelivr.net)  
+- JS手册：[ES6手册](https://es6.ruanyifeng.com/) | [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/)  
+- UI库：[Vant](https://vant-contrib.gitee.io/vant/v3/#/zh-CN/home)
+- 基础工具：[Lodash](https://www.lodashjs.com/) | [Moment](https://momentjs.com/) | [axios](https://github.com/axios/axios) [中文文档](http://www.axios-js.com/zh-cn/docs/)  
+- Excel操作：[SheetJS](https://github.com/SheetJS/sheetjs)  
+- 文件打包：[JSZip](https://stuk.github.io/jszip/)  
+- 文件下载：[FileSaver.js](https://github.com/eligrey/FileSaver.js) | [canvas.toBlob()的兼容方案](https://github.com/eligrey/canvas-toBlob.js)  
+- 深拷贝：[clone](https://github.com/jsmini/clone)  
