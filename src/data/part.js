@@ -57,7 +57,7 @@ const Part = {
   t_wpRB: { root: 't_body', link: 'rh', res: 't_rh', regex: /^rb_.*/ }, // rh
   t_wpLF: { root: 't_body', link: 'lh', res: 't_lh', regex: /^lf_.*/ }, // lh
   t_wpLB: { root: 't_body', link: 'lh', res: 't_lh', regex: /^lb_.*/ }, // lh
-  s_body: { root: undefined, link: 'center', res: 's_df', regex: /^.*/ }, // mount
+  s_body: { root: undefined, link: 'center', res: 's_df', regex: /^body.*/ }, // mount
   s_head: { root: 's_body', link: 'gneck', res: 's_df', regex: /^head.*/ }, // gneck, brow, mouth
   s_eye: { root: 's_body', link: 'eye', res: 's_df', regex: /^eye.*/ }, // eye
   s_legF: { root: 's_body', link: 'fleg', res: 's_df', regex: /.*fleg.*/ }, // fleg

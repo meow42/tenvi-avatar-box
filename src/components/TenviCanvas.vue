@@ -130,7 +130,8 @@
     let parts = getData();
     let order = [...props.order].reverse();
     order.map(partName => {
-      if (!parts[partName]) return;
+      // 跳过无数据/隐藏状态部件
+      if (!parts[partName] || props.hide.includes(partName)) return;
       drawPart(parts[partName]);
     });
     console.log('---> TenviCanvas.draw()', order, parts);

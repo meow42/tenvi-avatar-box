@@ -5,7 +5,8 @@
 </script>
 
 <template>
-  <div></div>
+  <div class="view-file">
+  </div>
   <!-- 文件操作 
     <van-dropdown-item class="menu-file">
       <template #title>

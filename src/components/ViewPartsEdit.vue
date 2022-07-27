@@ -18,7 +18,7 @@
   /** 更新资源列表 */
   const updateResList = () => {
     //console.log('updateResList:', selectedResName.value);
-    resList.value = store.getResList(selectedResName.value);
+    resList.value = store.getResList(selectedResName.value); //console.log('updateResList:', resList.value);
     updateGroupData();
   };
   /** 获取选定资源已记录的编号 */
@@ -69,7 +69,7 @@
   /** 分组数据 */
   const groupData = ref(new Set());
   /** 已选择的分组 */
-  const groupSelected = ref([]);
+  const groupSelected = ref(new Array());
   /** 更新分组类型 */
   const updateGroupData = () => {
     groupData.value.clear();
@@ -84,6 +84,16 @@
     // 选取所有分类
     //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
+  /** 选取所有分组 */
+  const groupCheckAll = () => {
+    // @ts-ignore
+    groupSheetRef?.value.toggleAll(true);
+  }
+  /** 反选 */
+  const groupToggleAll = () => {
+    // @ts-ignore
+    groupSheetRef?.value.toggleAll();
+  }
 
   /* 监听视图变更 */
   watch(toRef(store.edit, 'view'), (newView) => {
@@ -137,10 +147,10 @@
           <van-divider content-position="left">Quick Options</van-divider>
           <div v-if="store.edit.type === 'mecha'">
             <van-cell is-link title="Base Only" v-on:click="setBaseOnly" />
-            <van-cell title="Model 1" is-link />
-            <van-cell title="Model 2" is-link />
-            <van-cell title="Model 3" is-link />
-            <van-cell title="Random" is-link />
+            <van-cell title="Model 1" />
+            <van-cell title="Model 2" />
+            <van-cell title="Model 3" />
+            <van-cell title="Random" />
           </div>
         </div>
       </van-list>
@@ -161,11 +171,11 @@
       class="group-sheet"
     >
       <template #default>
-        <van-checkbox v-on:click="groupSheetRef.toggleAll(true)" class="btn">
+        <van-checkbox v-on:click="groupCheckAll" class="btn">
           <van-icon name="certificate" size="24" /> {{ $t('view.checkAll') }}
           <template #icon></template>
         </van-checkbox>
-        <van-checkbox v-on:click="groupSheetRef.toggleAll()" class="btn">
+        <van-checkbox v-on:click="groupToggleAll" class="btn">
           <van-icon name="exchange" size="24" /> {{ $t('view.toggleAll') }}
           <template #icon></template>
         </van-checkbox>

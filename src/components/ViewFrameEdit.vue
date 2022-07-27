@@ -18,6 +18,16 @@
     
     a_wp: { default: 'g_stand1_00' }, a_wpGP: { default: 'g_stand1_00_00' },
     a_shield: { default: 'shield00', line: true },
+
+    t_body: { default: 'g_stand_00_bd' }, t_head: { default: 'head00' },
+    t_armR: { default: 'armr00' }, t_armL: { default: 'arml00' },
+    t_leg: { default: 'leg00' }, 
+
+    s_body: { default: 'body_gstand1_00', line: true }, 
+    s_head: { default: 'head00' }, s_eye: { default: 'eye00' },
+    s_legF: { default: 'g_fleg00' }, s_legB: { default: 'g_bleg00' },
+    s_legT: { default: '' },
+
     p_body: { default: '' },
   });
   /** 同步部件数据 */
@@ -47,10 +57,14 @@
   /** 部件分组数据 */
   const partGroup = ref({
     a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
-    a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
+    //a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
     a_weapon: ['a_wp', 'a_wpGP', 'a_shield'],
-    p_base: ['p_body'],
-    p_equip: [],
+
+    t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_leg'],
+
+    s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legT',],
+    //p_base: ['p_body'],
+    //p_equip: [],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -73,7 +87,7 @@
   };
 
   /** 标记展开的部件分类面板 */
-  const activeNames = ref([]);
+  const activeNames = ref([0]);
   /** 部件帧选取面板的开启状态 */
   const sheetActived = ref(false);
   /** 选取部件的名称 */
@@ -111,14 +125,17 @@
     let payload = {};
     for(const key in partData.value) {
       //console.log('frameData:', key, store.part[key])
-      if (!store.part[key]) continue;
-      //if (!store.isPartEnable(key)) continue;
+      //if (!store.part[key]) continue;
+      if (!store.isPartEnable(key)) continue;
       payload[key] = store.part[key];
     }
     let data = store.getFrameData(payload);
-    console.log('frameData:', payload, data)
+    console.log('updateDrawData:', payload, data)
     frameData.value = data;
   };
+
+  /** 导出数据 */
+  const exportJson = () => {};
 
   /* 初始化视图 */
   const initView = () => {
@@ -162,7 +179,8 @@
     </div>
     <!-- 快捷功能 -->
     <div class="fn">
-      <van-button plain type="primary" v-on:click="syncPartData">Auto Sync</van-button>
+      <van-button plain size="small" icon="" v-on:click="syncPartData" v-show="false">{{ $t('menu.autoSync') }}</van-button>
+      <van-button plain size="small" icon="" v-on:click="exportJson" v-show="false">{{ $t('menu.export') }}</van-button>
     </div>
     <!-- 编辑区 -->
     <div class="edit">

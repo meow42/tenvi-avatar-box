@@ -9,8 +9,18 @@ const Order = {
     'a_armLX', 'a_armL', 'a_shield',
     'a_pp',
   ],
-  avatar: [],
-  dragon: [],
+  avatar: [
+    't_body', 't_head', 't_armL', 't_armR', 't_leg', 
+    't_headX', 't_bodyX', 't_armLT', 't_armRT', 't_legX', 't_armLX', 't_armRX', 't_legL', 't_legR', 
+    't_pp', 't_wpRF', 't_wpRB', 't_wpLF', 't_wpLB',
+  ],
+  dragon: [
+    's_eye', 's_head', 
+    's_legF', 's_legB', 
+    's_body', 's_legT',
+
+    's_cap', 's_bodyX', 's_legFX', 's_footBX', 's_tailX', 's_ppR', 's_ppL', 's_wp', 's_book',
+  ],
   vehicle: [],
   all: [
     't_wprf', 't_armr2', 't_armr1', 't_armr', 't_wprb',
