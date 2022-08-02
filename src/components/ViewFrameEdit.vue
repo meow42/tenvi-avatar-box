@@ -10,18 +10,27 @@
     a_body: { default: 'body_stand1_0' }, a_armS: { default: '' },
     a_armL: { default: 'arml_001' }, a_armR: { default: 'armr_002' },
     a_legL: { default: 'legl_001' }, a_legR: { default: 'legr_002' },
+
     a_head: { default: '' }, a_headS: { default: '' },
     a_pp: { default: '' }, a_bodyX: { default: '', sync: 'a_body' },
     a_bodyXS: { default: '' }, a_bodyXB: { default: '' },
     a_armLX: { sync: 'a_armL' }, a_armRX: { sync: 'a_armR' },
     a_legLX: { sync: 'a_legL' }, a_legRX: { sync: 'a_legR' },
     
-    a_wp: { default: 'g_stand1_00' }, a_wpGP: { default: 'g_stand1_00_00' },
-    a_shield: { default: 'shield00', line: true },
-
+    a_wpR: { default: 'g_stand1_00' }, a_wpRS: { default: 'g_stand1_00_00' },
+    a_wpL: { default: 'shield00', line: true },
+    
     t_body: { default: 'g_stand_00_bd' }, t_head: { default: 'head00' },
     t_armR: { default: 'armr00' }, t_armL: { default: 'arml00' },
-    t_leg: { default: 'leg00' }, 
+    t_legR: { default: 'leg00' }, 
+    t_bodyX: { default: 'g_stand_00_bd' }, t_headX: { default: 'head00' },
+    t_armRX: { default: 'armr00' }, t_armLX: { default: 'arml00' },
+    t_armRT: { default: 'armr00' }, t_armLT: { default: 'arml00' }, 
+    t_legRX: { default: 'leg00', line: true  },
+    t_legRT: { default: 'g_stand_00_bdl' }, t_legLT: { default: 'g_stand_00_bdr' }, 
+    t_pp: { default: 'g_stand_01', line: true  },
+    t_wpRF: { default: 'rf_gstand1_00' }, t_wpRB: { default: 'rb_gstand1_00' },
+    t_wpLF: { default: 'lf_stand1_00' }, t_wpLB: { default: 'lb_stand1_00' },
 
     s_body: { default: 'body_gstand1_00', line: true }, 
     s_head: { default: 'head00' }, s_eye: { default: 'eye00' },
@@ -58,11 +67,17 @@
   const partGroup = ref({
     a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
     //a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
-    a_weapon: ['a_wp', 'a_wpGP', 'a_shield'],
+    a_weapon: ['a_wpR', 'a_wpRS', 'a_wpL'],
 
-    t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_leg'],
+    t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_legR'],
+    t_equip: ['t_headX', 't_bodyX', 't_armLX', 't_armRX', 't_armLT', 't_armRT', 't_legRX', 't_legLT', 't_legRT', 't_pp'],
+    //t_equip: ['t_headX', 't_bodyX', 't_pp'],
+    t_weapon: ['t_wpRF', 't_wpRB', 't_wpLF', 't_wpLB'],
 
     s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legT',],
+    //s_equip: ['s_headX', 's_bodyX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL'], 
+    //s_weapon: ['s_wpR', 's_wpL'],
+
     //p_base: ['p_body'],
     //p_equip: [],
   });
@@ -87,7 +102,7 @@
   };
 
   /** 标记展开的部件分类面板 */
-  const activeNames = ref([0]);
+  const activeNames = ref([0, 2]);
   /** 部件帧选取面板的开启状态 */
   const sheetActived = ref(false);
   /** 选取部件的名称 */

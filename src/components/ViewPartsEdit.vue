@@ -80,9 +80,9 @@
       if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
     // 如无所属，则选取第一个分类
-    if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
-    // 选取所有分类
-    //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    //if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
+    // 如无所属，则选取所有分类
+    groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
   /** 选取所有分组 */
   const groupCheckAll = () => {
@@ -99,6 +99,7 @@
   watch(toRef(store.edit, 'view'), (newView) => {
     // 如果离开本视图，则更新资源数据
     if (newView !== 'parts') store.updateResData();
+    else updateResList();
   }, { immediate: true, flush: 'post' });
   /** 监控类别变化 */
   watch(toRef(store.edit, 'type'), (newValue) => {
@@ -158,7 +159,7 @@
       <div>
         <van-field readonly is-link left-icon="filter-o"
           v-show="groupData.size > 1" v-on:click="groupSheet = true">
-          <template #input>{{ `Selected: ${groupSelected.length}, Total: ${groupData.size}` }}</template>
+          <template #input>{{ $t('view.group') + `: ${groupSelected.length} / ${groupData.size}` }}</template>
         </van-field>
       </div>
     </div>

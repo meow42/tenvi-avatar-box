@@ -1,25 +1,28 @@
 const Order = {
   pilot: [],
   mecha: [
-    'a_wp', 'a_armRX', 'a_armS', 'a_armR', 'a_wpGP', 
+    'a_wpR', 'a_armRX', 'a_armS', 'a_armR', 'a_wpRS', 
     'a_head', 'a_headS',
     'a_legRX', 'a_legR',
     'a_bodyX', 'a_body', 
     'a_legLX', 'a_legL',
-    'a_armLX', 'a_armL', 'a_shield',
+    'a_armLX', 'a_armL', 'a_wpL',
     'a_pp',
   ],
   avatar: [
-    't_body', 't_head', 't_armL', 't_armR', 't_leg', 
-    't_headX', 't_bodyX', 't_armLT', 't_armRT', 't_legX', 't_armLX', 't_armRX', 't_legL', 't_legR', 
-    't_pp', 't_wpRF', 't_wpRB', 't_wpLF', 't_wpLB',
+    't_wpRF', 't_armRT', 't_armRX', 't_armR', 't_wpRB', 
+    't_legRT', 't_legRX', 't_legR',
+    't_headX', 't_head', 
+    't_legLT', 't_bodyX', 't_body',  
+    't_wpLF', 't_armLT', 't_armLX', 't_armL', 't_wpLB', 
+    't_pp',     
   ],
   dragon: [
     's_eye', 's_head', 
     's_legF', 's_legB', 
     's_body', 's_legT',
 
-    's_cap', 's_bodyX', 's_legFX', 's_footBX', 's_tailX', 's_ppR', 's_ppL', 's_wp', 's_book',
+    's_headX', 's_bodyX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL', 's_wpR', 's_wpL',
   ],
   vehicle: [],
   all: [
@@ -29,11 +32,11 @@ const Order = {
     't_wplf', 't_arml2', 't_arml1', 't_arml', 't_wplb',
     't_pp',
   
-    's_tail', 's_wp', 's_pp1', 's_cap',
+    's_tail', 's_wpR', 's_pp1', 's_headX',
     's_eye', 's_head',
     's_foot1', 's_foot2', 's_armor', 
     's_fleg', 's_bleg',
-    's_body', 's_tleg', 's_book', 's_pp2',
+    's_body', 's_tleg', 's_wpL', 's_pp2',
   
     'mechaWeapon', 'a_arms', 'a_armr1', 'a_armr',  'mechaWeapon1',
     'mechaDoor',

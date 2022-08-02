@@ -35,23 +35,23 @@ const Part = {
   a_legLX: { root: 'a_body', link: 'legl', res: 'a_lp', regex: /.*legl.*/ }, // legl
   a_legRX: { root: 'a_body', link: 'legr', res: 'a_lp', regex: /.*legr.*/ }, // legr
   a_pp: { root: 'a_body', link: 'pp', res: 'a_pp', regex: /.*/ }, // pp
-  a_wp: { root: 'a_body', link: 'rh', res: 'a_rh', regex: /.*/ }, // rh gp
-  a_wpGP: { root: 'a_wp', link: 'gp', res: 'a_rh', regex: /.*_\d\d_00$/ }, // gp
-  a_shield: { root: 'a_body', link: 'lh', res: 'a_lh', regex: /.*/ }, // lh
+  a_wpR: { root: 'a_body', link: 'rh', res: 'a_rh', regex: /.*/ }, // rh gp
+  a_wpRS: { root: 'a_wpR', link: 'gp', res: 'a_rh', regex: /.*_\d\d_00$/ }, // gp
+  a_wpL: { root: 'a_body', link: 'lh', res: 'a_lh', regex: /.*/ }, // lh
   t_body: { root: undefined, link: 'center', res: 't_df', regex: /.*_bd$/ },
   t_head: { root: 't_body', link: 'tneck', res: 't_df', regex: /^head.*/ }, // tneck, brow
   t_armL: { root: 't_body', link: 'larm', res: 't_df', regex: /^arml.*/ }, // larm, hl
   t_armR: { root: 't_body', link: 'rarm', res: 't_df', regex: /^armr.*/ }, // rarm, hr, fire
-  t_leg: { root: 't_body', link: 'tneck', res: 't_df', regex: /^leg.*/ }, // tneck
+  t_legR: { root: 't_body', link: 'tneck', res: 't_df', regex: /^leg.*/ }, // tneck
   t_headX: { root: 't_body', link: 'tneck', res: 't_do', regex: /.*/ }, // tneck
   t_bodyX: { root: 't_body', link: 'tneck', res: 't_am', regex: /.*_bd$/ }, // tneck, tlarm, trarm
-  t_armLT: { root: 't_bodyX', link: 'tlarm', res: 't_am', regex: /^arml.*/ }, // tlarm
-  t_armRT: { root: 't_bodyX', link: 'trarm', res: 't_am', regex: /^armr.*/ }, // trarm
-  t_legX: { root: 't_body', link: 'tneck', res: 't_am', regex: /^leg.*/ }, // tneck
-  t_armLX: { root: 't_body', link: 'larm', res: 't_dc', regex: /^arml.*/ }, // larm
-  t_armRX: { root: 't_body', link: 'rarm', res: 't_dc', regex: /^armr.*/ }, // rarm
-  t_legL: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdl$/ }, // tneck
-  t_legR: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdr$/ }, // tneck
+  t_armLX: { root: 't_bodyX', link: 'tlarm', res: 't_am', regex: /^arml.*/ }, // tlarm
+  t_armRX: { root: 't_bodyX', link: 'trarm', res: 't_am', regex: /^armr.*/ }, // trarm
+  t_legRX: { root: 't_body', link: 'tneck', res: 't_am', regex: /^leg.*/ }, // tneck
+  t_armLT: { root: 't_body', link: 'larm', res: 't_dc', regex: /^arml.*/ }, // larm
+  t_armRT: { root: 't_body', link: 'rarm', res: 't_dc', regex: /^armr.*/ }, // rarm
+  t_legLT: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdl$/ }, // tneck
+  t_legRT: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdr$/ }, // tneck
   t_pp: { root: 't_body', link: 'tneck', res: 't_pp', regex: /.*/ }, // tneck
   t_wpRF: { root: 't_body', link: 'rh', res: 't_rh', regex: /^rf_.*/ }, // rh
   t_wpRB: { root: 't_body', link: 'rh', res: 't_rh', regex: /^rb_.*/ }, // rh
@@ -63,15 +63,15 @@ const Part = {
   s_legF: { root: 's_body', link: 'fleg', res: 's_df', regex: /.*fleg.*/ }, // fleg
   s_legB: { root: 's_body', link: 'bleg', res: 's_df', regex: /.*bleg.*/ }, // bleg
   s_legT: { root: 's_body', link: 'fleg', res: 's_df', regex: /.*tleg.*/ }, // fleg
-  s_cap: { root: 's_body', link: 'gneck', res: 's_do', regex: /.*/ }, // gneck, fire
+  s_headX: { root: 's_body', link: 'gneck', res: 's_do', regex: /.*/ }, // gneck, fire
   s_bodyX: { root: 's_body', link: 'navel', res: 's_am', regex: /.*/ }, // navel
   s_legFX: { root: 's_body', link: 'fleg', res: 's_dc', regex: /^fl.*/ }, // fleg
-  s_footBX: { root: 's_body', link: 'bleg', res: 's_dc', regex: /^bl.*/ }, // bleg
+  s_legBX: { root: 's_body', link: 'bleg', res: 's_dc', regex: /^bl.*/ }, // bleg
   s_tailX: { root: 's_body', link: 'navel', res: 's_lp', regex: /.*/ }, // navel
   s_ppR: { root: 's_body', link: 'wr', res: 's_pp', regex: /^w_.*/ }, // wr
   s_ppL: { root: 's_body', link: 'wl', res: 's_pp', regex: /^wb_.*/ }, // wl
-  s_wp: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*/ }, // up prh(pilot)
-  s_book: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
+  s_wpR: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*/ }, // up prh(pilot)
+  s_wpL: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
 }
 
 export {
