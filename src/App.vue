@@ -83,10 +83,10 @@
 <template>
   <MenuTop></MenuTop>
   <div class="views">
-    <ViewActionEdit v-show="store.edit.view == 'action'"></ViewActionEdit>
-    <ViewFrameEdit v-show="store.edit.view == 'frame'"></ViewFrameEdit>
-    <ViewOrderEdit v-show="store.edit.view == 'order'"></ViewOrderEdit>
     <ViewPartsEdit v-show="store.edit.view == 'parts'"></ViewPartsEdit>
+    <ViewFrameEdit v-show="store.edit.view == 'frame'"></ViewFrameEdit>
+    <ViewActionEdit v-show="store.edit.view == 'action'"></ViewActionEdit>
+    <ViewOrderEdit v-show="store.edit.view == 'order'"></ViewOrderEdit>
     <ViewFiles v-show="store.edit.view == 'files'"></ViewFiles>
   </div>
   <!-- 底部视图切换菜单 -->

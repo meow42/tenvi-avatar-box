@@ -34,7 +34,7 @@ const Part = {
   a_armLX: { root: 'a_body', link: 'arml', res: 'a_dc', regex: /^arml.*/ }, // arml, hl
   a_legLX: { root: 'a_body', link: 'legl', res: 'a_lp', regex: /.*legl.*/ }, // legl
   a_legRX: { root: 'a_body', link: 'legr', res: 'a_lp', regex: /.*legr.*/ }, // legr
-  a_pp: { root: 'a_body', link: 'pp', res: 'a_pp', regex: /.*/ }, // pp
+  a_pp: { root: 'a_body', link: 'propulsion', res: 'a_pp', regex: /.*/ }, // propulsion, e0
   a_wpR: { root: 'a_body', link: 'rh', res: 'a_rh', regex: /.*/ }, // rh gp
   a_wpRS: { root: 'a_wpR', link: 'gp', res: 'a_rh', regex: /.*_\d\d_00$/ }, // gp
   a_wpL: { root: 'a_body', link: 'lh', res: 'a_lh', regex: /.*/ }, // lh
@@ -72,6 +72,14 @@ const Part = {
   s_ppL: { root: 's_body', link: 'wl', res: 's_pp', regex: /^wb_.*/ }, // wl
   s_wpR: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*/ }, // up prh(pilot)
   s_wpL: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
+  v_car_body: { root: undefined, link: 'center', res: 'v_res', regex: /.*/ },
+  v_car_bodyB: { root: 'v_car_body', link: 'back', res: 'v_res', regex: /.*/ },
+  v_car_gun: { root: 'v_car_body', link: 'g1', res: 'v_res', regex: /.*/ },
+  v_car_gunB: { root: 'v_car_body', link: 'g0', res: 'v_res', regex: /.*/ },
+  v_car_wheel0: { root: 'v_car_body', link: 'w00', res: 'v_res', regex: /.*/ },
+  v_car_wheel1: { root: 'v_car_body', link: 'w01', res: 'v_res', regex: /.*/ },
+  v_car_wheel2: { root: 'v_car_body', link: 'w02', res: 'v_res', regex: /.*/ },
+  v_car_wheel3: { root: 'v_car_body', link: 'w03', res: 'v_res', regex: /.*/ },
 }
 
 export {

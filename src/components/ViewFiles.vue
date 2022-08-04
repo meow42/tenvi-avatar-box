@@ -6,6 +6,7 @@
 
 <template>
   <div class="view-file">
+    <div style="padding: 42% 0; text-align: center;">{{ $t('tip.nothingHere') }}</div>
   </div>
   <!-- 文件操作 
     <van-dropdown-item class="menu-file">

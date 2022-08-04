@@ -4,7 +4,7 @@
   /** 组件接收的参数 */
   const props = defineProps({
     width: { type: Number, default: 240 },
-    height: { type: Number, default: 200 },
+    height: { type: Number, default: 300 },
     bottom: { type: Number, default: 60 },
     auto: { type: Boolean, default: true },
     axis: { type: Boolean, default: true },

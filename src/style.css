@@ -192,7 +192,7 @@ html, body {
   height: 100%;
   display: grid;
   align-items: start;
-  grid-template-rows: auto 60px 1fr;
+  grid-template-rows: auto auto 1fr;
 }
 .frame-edit .canvas { 
   margin: 5px auto;

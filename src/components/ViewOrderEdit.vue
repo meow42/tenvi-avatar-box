@@ -5,7 +5,9 @@
 </script>
 
 <template>
-  <div class="order-edit"></div>
+  <div class="order-edit">
+    <div style="padding: 42% 0; text-align: center;">{{ $t('tip.nothingHere') }}</div>
+  </div>
 </template>
 
 <style scoped>

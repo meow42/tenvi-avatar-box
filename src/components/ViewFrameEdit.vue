@@ -10,13 +10,11 @@
     a_body: { default: 'body_stand1_0' }, a_armS: { default: '' },
     a_armL: { default: 'arml_001' }, a_armR: { default: 'armr_002' },
     a_legL: { default: 'legl_001' }, a_legR: { default: 'legr_002' },
-
-    a_head: { default: '' }, a_headS: { default: '' },
-    a_pp: { default: '' }, a_bodyX: { default: '', sync: 'a_body' },
+    a_head: { default: 'door01' }, a_headS: { default: '' },
+    a_bodyX: { default: 'bodyarmor02' }, a_pp: { default: 'pp00' }, 
     a_bodyXS: { default: '' }, a_bodyXB: { default: '' },
-    a_armLX: { sync: 'a_armL' }, a_armRX: { sync: 'a_armR' },
-    a_legLX: { sync: 'a_legL' }, a_legRX: { sync: 'a_legR' },
-    
+    a_armLX: { default: 'arml_001', sync: 'a_armL' }, a_armRX: { default: 'armr_002', sync: 'a_armR' },
+    a_legLX: { default: 'legl_001', sync: 'a_legL' }, a_legRX: { default: 'legr_002', sync: 'a_legR' },
     a_wpR: { default: 'g_stand1_00' }, a_wpRS: { default: 'g_stand1_00_00' },
     a_wpL: { default: 'shield00', line: true },
     
@@ -37,7 +35,18 @@
     s_legF: { default: 'g_fleg00' }, s_legB: { default: 'g_bleg00' },
     s_legT: { default: '' },
 
+    s_bodyX: { default: 'body_gstand1_00' }, s_headX: { default: 'head00' },
+    s_legFX: { default: 'g_fleg00' }, s_legBX: { default: 'g_bleg00' },
+    s_tailX: { default: '', line: true},
+    s_ppR: { default: '' }, s_ppL: { default: '' },
+    s_wpR: { default: '' }, s_wpL: { default: '' },
+
     p_body: { default: '' },
+
+    v_car_body: { default: 'body0' }, v_car_bodyB: { default: 'bodyback' }, 
+    v_car_wheel0: { default: 'wheel00_0' }, v_car_wheel1: { default: 'wheel01_0' }, 
+    v_car_wheel2: { default: 'wheel02_0' }, v_car_wheel3: { default: 'wheel02_0' }, 
+    v_car_gun: { default: '' }, v_car_gunB: { default: '' }, 
   });
   /** 同步部件数据 */
   const updatePartData = (...partList) => {
@@ -65,21 +74,23 @@
   }
   /** 部件分组数据 */
   const partGroup = ref({
-    a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
-    //a_equip: ['a_head', 'a_headS', 'a_pp', 'a_bodyX', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
-    a_weapon: ['a_wpR', 'a_wpRS', 'a_wpL'],
-
-    t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_legR'],
-    t_equip: ['t_headX', 't_bodyX', 't_armLX', 't_armRX', 't_armLT', 't_armRT', 't_legRX', 't_legLT', 't_legRT', 't_pp'],
-    //t_equip: ['t_headX', 't_bodyX', 't_pp'],
-    t_weapon: ['t_wpRF', 't_wpRB', 't_wpLF', 't_wpLB'],
-
-    s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legT',],
-    //s_equip: ['s_headX', 's_bodyX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL'], 
-    //s_weapon: ['s_wpR', 's_wpL'],
-
     //p_base: ['p_body'],
     //p_equip: [],
+
+    a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
+    a_weapon: ['a_wpR', 'a_wpRS', 'a_wpL'],
+    a_equip: ['a_head', 'a_headS', 'a_bodyX', 'a_pp', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
+    
+    t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_legR'],
+    t_weapon: ['t_wpRF', 't_wpRB', 't_wpLF', 't_wpLB'],
+    t_equip: ['t_headX', 't_bodyX', 't_armLX', 't_armRX', 't_armLT', 't_armRT', 't_legRX', 't_legLT', 't_legRT', 't_pp'],
+    
+    s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legT',],
+    s_weapon: ['s_wpR', 's_wpL'],
+    s_equip: ['s_bodyX', 's_headX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL'], 
+    
+    v_car: ['v_car_body', 'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB'],
+    v_seat: [],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -102,7 +113,7 @@
   };
 
   /** 标记展开的部件分类面板 */
-  const activeNames = ref([0, 2]);
+  const activeNames = ref([0, 1, 2]);
   /** 部件帧选取面板的开启状态 */
   const sheetActived = ref(false);
   /** 选取部件的名称 */
@@ -133,32 +144,49 @@
     updateDrawData(); // 更新绘制数据，触发绘制
   }
   
-  /** 绑定的动作帧数据 */
+  /** 当前的动作帧数据 */
   const frameData = ref({});
+  /** 当前的动作帧部件顺序 */
+  const partOrder = ref([]);
   /** 获取绘制所需数据 */
   const updateDrawData = () => {
     let payload = {};
+    // 遍历部件，处理数据
     for(const key in partData.value) {
-      //console.log('frameData:', key, store.part[key])
-      //if (!store.part[key]) continue;
+      // 只获取需要的部件数据
       if (!store.isPartEnable(key)) continue;
       payload[key] = store.part[key];
     }
-    let data = store.getFrameData(payload);
-    console.log('updateDrawData:', payload, data)
-    frameData.value = data;
+    frameData.value = store.getFrameData(payload);
+    // 设置默认层级数据
+    if (!partOrder || partOrder.value.length < 1) partOrder.value = store.getOrder();
+    console.log('updateDrawData:', payload, frameData.value, partOrder.value);
   };
+  /** 处理需要强制同步的数据，主要用于固定帧的载具 */
+  const setFixedData = () => {
+    if (store.edit.type == 'vehicle') {
+      let fixed = store.getFixedFrameByResCode(store.res.v_res);
+      // console.log('setFixedFrameData:', fixed);
+      partOrder.value = fixed.order || [];
+      for(let key in fixed.frame) {
+        if (store.isPartEnable(key)) store.part[key] = fixed.frame[key];
+        console.log('setFixedFrameData:', key, partData.value[key]);
+      }
+    }
+  }
 
   /** 导出数据 */
   const exportJson = () => {};
 
   /* 初始化视图 */
   const initView = () => {
+    // 加载资源
     updatePartData();
     updatePartGroupList();
     // 轮询资源加载状态，完成后更新绘制数据
     let timerId = setInterval(() => {
       if (store.app.loading.size === 0) {
+        setFixedData();
         updateDrawData();
         clearInterval(timerId);
       }
@@ -186,7 +214,7 @@
     <div class="canvas">
       <TenviCanvas 
         :data="frameData" 
-        :order="store.getOrder()" 
+        :order="partOrder" 
         :hide="[]"
         :auto="store.edit.autoDraw" 
         :axis="store.edit.showAxis"

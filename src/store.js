@@ -2,8 +2,8 @@ import { defineStore, acceptHMRUpdate } from 'pinia';
 //import { Res, Order, Frame, Action } from './data.js';
 import { Res } from './data/res.js';
 import { Part } from './data/part.js';
-import { Order } from './data/order.js';
-import { Frame } from './data/frame.js';
+import { Order, ResOrder } from './data/order.js';
+import { Frame, ResFrame } from './data/frame.js';
 
 const useStore = defineStore('main', {
   state: ()=> ({
@@ -15,8 +15,8 @@ const useStore = defineStore('main', {
       loadingErr: new Set(), // 记录载入失败的资源名称
     },
     edit: {
-      view: 'parts', // 激活的视图 parts frame action order files
-      type: 'mecha', // 选定的编辑对象类型
+      view: 'parts', // 激活的视图 parts, frame, action, order, files
+      type: 'mecha', // 选定的编辑对象类型 pilot, mecha, avatar, dragon, vehicle
       pilot: true,
       partSidebarActive: 0, // 当前的部件选取序号
       showRawImg: false, // 是否显示原始资源图片预览
@@ -30,11 +30,12 @@ const useStore = defineStore('main', {
       a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '', a_lh: '',
       t_df: '00009', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
       s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
+      v_res: '',
     },
     part: {},
     frame: {}, // 存放帧数据
     action: {}, // 存放动作数据
-    order: { default: undefined }, // 存放部件叠放顺序定义数据
+    order: { user_default: undefined }, // 存放部件叠放顺序定义数据
     
     pilot: {
       race: '', // andras, silva, talli
@@ -174,6 +175,15 @@ const useStore = defineStore('main', {
       if (!name) name = state.edit.type;
       return state.order[name] || Order[name] || [];
     },
+    /** 获取固定动作帧数据 */
+    getFixedFrameByResCode: (state) => (resCode) => {
+      let result = {frame: undefined, order: undefined};
+      if (!resCode) return result;
+      result.order = ResOrder[resCode] || undefined;
+      result.frame = ResFrame[resCode] || undefined;
+      // TODO 驾驶员数据处理
+      return result;
+    },
   },
   actions: {
     /** 解析URL参数并覆盖相关内容 */
@@ -187,10 +197,9 @@ const useStore = defineStore('main', {
       });
       console.log('initByURL:', search);
       // 参数覆盖
-      if (search['view']) this.edit.view = search.view;
-      if (search['type']) this.edit.type = search.type;
-      if (search['pilot']) this.edit.pilot = Boolean(search.pilot);
-      if (search['part']) this.edit.partSidebarActive = Number(search.part) || 0;
+      if (search['v']) this.edit.view = search.view;
+      if (search['t']) this.edit.type = search.type;
+      if (search['p']) this.edit.partSidebarActive = Number(search.part) || 0;
       // 清理URL参数
       let url = window.location.href.split('?')[0];
       window.history.replaceState(null, '', url);
@@ -198,10 +207,11 @@ const useStore = defineStore('main', {
     /** 生成当前页面URL */
     getURL() {
       let suffix = '?';
-      suffix += `view=${this.edit.view}`;
-      suffix += `&type=${this.edit.type}`;
-      suffix += `&part=${this.edit.partSidebarActive}`;
-      if (!this.edit.pilot) suffix += `&pilot=`;
+      suffix += `v=${this.edit.view}`;
+      suffix += `&t=${this.edit.type}`;
+      if (this.edit.view == 'parts') {
+        suffix += `&p=${this.edit.partSidebarActive}`;
+      }
       return this.app.url + suffix;
     },
     /** 获取部件默认正则规则文本 */

@@ -24,7 +24,30 @@ const Order = {
 
     's_headX', 's_bodyX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL', 's_wpR', 's_wpL',
   ],
-  vehicle: [],
+  vehicle: [
+    'v_car_body', 'v_car_wheel2', 'v_car_wheel3', 
+    'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 
+  ],
+  v_car_2: [
+    'v_car_body', 'v_car_wheel1', 'v_car_wheel3', 
+    'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel2', 
+  ],
+  v_car_gun: [
+    'v_car_wheel2', 'v_car_wheel3', 
+    'v_car_body', 'v_car_bodyB', 
+    'v_car_wheel0', 'v_car_wheel1', 
+    'v_car_gun', 'v_car_gunB', 
+  ],
+  v_motor: [
+    'v_car_wheel3', 'v_car_wheel2',
+    'v_car_body', 'v_car_bodyB', 
+    'v_car_wheel1', 'v_car_wheel0', 
+  ],
+  v_sled: [
+    'v_car_wheel3', 'v_car_wheel1', 
+    'v_car_body', 'v_car_bodyB', 
+    'v_car_wheel2', 'v_car_wheel0', 
+  ],
   all: [
     't_wprf', 't_armr2', 't_armr1', 't_armr', 't_wprb',
     't_legr', 't_legb', 't_legl', 't_leg',
@@ -58,6 +81,17 @@ const Order = {
   ]
 }
 
+const ResOrder = {
+  'v0002': Order.v_motor,
+  'v0001': Order.v_car_gun,
+  'v0025': Order.v_car_gun,
+  'v0026': Order.v_car_gun,
+  'v0015': Order.v_sled,
+  'v0019': Order.v_car_2,
+  'v0024': Order.v_car_2,
+}
+
 export {
-  Order
+  Order,
+  ResOrder
 }

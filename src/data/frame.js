@@ -158,8 +158,66 @@ const Frame = {
     gunarmed1_2: {},
     gunarmed1_3: {},
   },
+  vehicle: {
+    car_gun: {
+      v_car_body: 'body00',
+      v_car_bodyB: 'bodyback',
+      v_car_gun: 'gun00',
+      v_car_gunB: 'gun01',
+      v_car_wheel0: 'wheel00',
+      v_car_wheel1: 'wheel00',
+      v_car_wheel2: 'wheel00',
+      v_car_wheel3: 'wheel00',
+    },
+    car_1: {
+      v_car_body: 'body00',
+      v_car_bodyB: 'bodyback',
+      v_car_wheel0: 'wheel00_0',
+      v_car_wheel1: 'wheel01_0',
+      v_car_wheel2: 'wheel02_0',
+      v_car_wheel3: 'wheel02_0',
+    },
+    car_2: {
+      v_car_body: 'body0',
+      v_car_bodyB: 'bodyback',
+      v_car_wheel0: 'wheel00_0',
+      v_car_wheel1: 'wheel02_0',
+      v_car_wheel2: 'wheel01_0',
+      v_car_wheel3: 'wheel02_0',
+    },
+    motor: {
+      v_car_body: 'body00',
+      v_car_bodyB: 'bodyback',
+      v_car_wheel0: 'wheel00_0',
+      v_car_wheel1: 'wheel01_0',
+      v_car_wheel2: 'wheel02_0',
+      v_car_wheel3: 'wheel03_0',
+    },
+    sled: {
+      v_car_body: 'body0',
+      v_car_bodyB: 'bodyback',
+      v_car_wheel0: 'wheel00_0',
+      v_car_wheel1: 'wheel01_0',
+      v_car_wheel2: 'wheel02_0',
+      v_car_wheel3: 'wheel03_0',
+    },
+  },
+}
+
+const ResFrame = {
+  'v0002': Frame.vehicle.motor,
+  'v0001': Frame.vehicle.car_gun,
+  'v0025': Frame.vehicle.car_gun,
+  'v0026': Frame.vehicle.car_gun,
+  'v0003': Frame.vehicle.car_1,
+  'v0004': Frame.vehicle.car_1,
+  'v0005': Frame.vehicle.car_1,
+  'v0015': Frame.vehicle.sled,
+  'v0019': Frame.vehicle.car_2,
+  'v0024': Frame.vehicle.car_2,
 }
 
 export {
-  Frame
+  Frame,
+  ResFrame
 }

@@ -9,7 +9,7 @@
     mecha: ['a_df', 'a_do', 'a_am', 'a_dc', 'a_lp', 'a_pp', 'a_rh', 'a_lh'],
     avatar: ['t_df', 't_do', 't_am', 't_dc', 't_lp', 't_pp', 't_rh', 't_lh'],
     dragon: ['s_df', 's_do', 's_am', 's_dc', 's_lp', 's_pp', 's_rh', 's_lh'],
-    vehicle: [],
+    vehicle: ['v_res'],
   };
   /** 选定资源的名称 */
   const selectedResName = computed(() => sidebarData[store.edit.type][store.edit.partSidebarActive]);
@@ -80,9 +80,9 @@
       if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
     // 如无所属，则选取第一个分类
-    //if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
+    if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
     // 如无所属，则选取所有分类
-    groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    //if (groupSelected.value.length < 1) groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
   /** 选取所有分组 */
   const groupCheckAll = () => {
