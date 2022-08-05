@@ -17,9 +17,9 @@
   const canvasAPI = ref(null);
   const width = computed(() => props.width);
   const height = computed(() => props.height);
-  const bottom = computed(() => props.bottom);
+  //const bottom = computed(() => props.bottom);
   const originX = computed(() => width.value / 2);
-  const originY = computed(() => height.value - bottom.value);
+  const originY = computed(() => height.value - props.bottom);
   
   /* 监听数据变更 */
   watch(props, (_props) => {
@@ -89,18 +89,20 @@
   function drawAxis() {
     let c = canvasAPI.value;
     // 设置轴线参数
+    c.beginPath();
     c.lineWidth = 1;
     c.strokeStyle = '#999';
-    // 绘制X轴
+    // 定义X轴
     let _oy = Math.floor(originY.value) + 0.5;
     c.moveTo(0, _oy);
     c.lineTo(width.value, _oy);
-    c.stroke();
-    // 绘制Y轴
+    // 定义Y轴
     let _ox = Math.floor(originX.value) + 0.5;
     c.moveTo(_ox, 0);
     c.lineTo(_ox, height.value);
+    // 绘制
     c.stroke();
+    //console.log('drawAxis:', _ox, _oy);
   };
   /** 绘制单个部件 */
   function drawPart(data, scaleX, scaleY) {
