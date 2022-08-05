@@ -27,6 +27,8 @@ const Order = {
   vehicle: [
     'v_car_body', 'v_car_wheel2', 'v_car_wheel3', 
     'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 
+    
+    'v_chair_ring', 'v_chair_dog', 'v_chair', 'v_chair_parasol'
   ],
   v_car_2: [
     'v_car_body', 'v_car_wheel1', 'v_car_wheel3', 
@@ -47,6 +49,11 @@ const Order = {
     'v_car_wheel3', 'v_car_wheel1', 
     'v_car_body', 'v_car_bodyB', 
     'v_car_wheel2', 'v_car_wheel0', 
+  ],
+  v_mouse: [
+    'v_car_wheel1', 
+    'v_car_mouse', 'v_car_body', 'v_car_bodyB', 
+    'v_car_wheel0', 
   ],
   all: [
     't_wprf', 't_armr2', 't_armr1', 't_armr', 't_wprb',
@@ -88,7 +95,7 @@ const ResOrder = {
   'v0026': Order.v_car_gun,
   'v0015': Order.v_sled,
   'v0019': Order.v_car_2,
-  'v0024': Order.v_car_2,
+  'v0024': Order.v_mouse,
 }
 
 export {

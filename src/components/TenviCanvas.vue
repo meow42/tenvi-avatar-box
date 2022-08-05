@@ -3,9 +3,9 @@
 
   /** 组件接收的参数 */
   const props = defineProps({
-    width: { type: Number, default: 240 },
-    height: { type: Number, default: 300 },
-    bottom: { type: Number, default: 60 },
+    width: { type: Number, default: 256 },
+    height: { type: Number, default: 256 },
+    bottom: { type: Number, default: 56 },
     auto: { type: Boolean, default: true },
     axis: { type: Boolean, default: true },
     data: { type: Object, default: {} }, // 部件数据

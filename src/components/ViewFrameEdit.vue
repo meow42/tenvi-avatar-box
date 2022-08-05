@@ -47,6 +47,9 @@
     v_car_wheel0: { default: 'wheel00_0' }, v_car_wheel1: { default: 'wheel01_0' }, 
     v_car_wheel2: { default: 'wheel02_0' }, v_car_wheel3: { default: 'wheel02_0' }, 
     v_car_gun: { default: '' }, v_car_gunB: { default: '' }, 
+    v_car_mouse: { default: '' },
+    v_chair: { default: 'chair00' }, v_chair_dog: { default: 'dog00' },
+    v_chair_ring: { default: 'ring00' }, v_chair_parasol: { default: 'parasol' },
   });
   /** 同步部件数据 */
   const updatePartData = (...partList) => {
@@ -89,8 +92,8 @@
     s_weapon: ['s_wpR', 's_wpL'],
     s_equip: ['s_bodyX', 's_headX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL'], 
     
-    v_car: ['v_car_body', 'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB'],
-    v_seat: [],
+    v_car: ['v_car_body', 'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB', 'v_car_mouse'],
+    v_chair: ['v_chair', 'v_chair_dog', 'v_chair_ring', 'v_chair_parasol'],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -218,6 +221,7 @@
         :hide="[]"
         :auto="store.edit.autoDraw" 
         :axis="store.edit.showAxis"
+        :bottom="store.edit.type == 'vehicle' ? 16 : 56"
       ></TenviCanvas>
     </div>
     <!-- 快捷功能 -->

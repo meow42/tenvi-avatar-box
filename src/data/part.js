@@ -1,4 +1,5 @@
 const Part = {
+  root: { root: undefined, link: 'center', res: '', regex: /.*/ },
   p_body: { root: undefined, link: 'center', res: 'p_bd', regex: /.*_body$/ },
   p_arm: { root: 'p_body', link: 'arm', res: 'p_bd', regex: /.*_arm$/ },
   p_leg: { root: 'p_body', link: 'leg', res: 'p_bd', regex: /.*_leg$/ },
@@ -72,7 +73,7 @@ const Part = {
   s_ppL: { root: 's_body', link: 'wl', res: 's_pp', regex: /^wb_.*/ }, // wl
   s_wpR: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*/ }, // up prh(pilot)
   s_wpL: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
-  v_car_body: { root: undefined, link: 'center', res: 'v_res', regex: /.*/ },
+  v_car_body: { root: 'root', link: 'center', res: 'v_res', regex: /.*/ },
   v_car_bodyB: { root: 'v_car_body', link: 'back', res: 'v_res', regex: /.*/ },
   v_car_gun: { root: 'v_car_body', link: 'g1', res: 'v_res', regex: /.*/ },
   v_car_gunB: { root: 'v_car_body', link: 'g0', res: 'v_res', regex: /.*/ },
@@ -80,6 +81,11 @@ const Part = {
   v_car_wheel1: { root: 'v_car_body', link: 'w01', res: 'v_res', regex: /.*/ },
   v_car_wheel2: { root: 'v_car_body', link: 'w02', res: 'v_res', regex: /.*/ },
   v_car_wheel3: { root: 'v_car_body', link: 'w03', res: 'v_res', regex: /.*/ },
+  v_car_mouse: { root: 'v_car_body', link: 'mouse', res: 'v_res', regex: /.*/ },
+  v_chair: { root: 'root', link: 'center', res: 'v_res', regex: /.*/ },
+  v_chair_dog: { root: 'v_chair', link: 'dog', res: 'v_res', regex: /.*/ },
+  v_chair_ring: { root: 'v_chair', link: 'ring', res: 'v_res', regex: /.*/ },
+  v_chair_parasol: { root: 'v_chair', link: 'parasol', res: 'v_res', regex: /.*/ },
 }
 
 export {
