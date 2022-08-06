@@ -2,7 +2,7 @@ const Order = {
   pilot: [
     'p_balloon', 'p_emo',
     'p_armX', 'p_arm', 'p_wp', 'p_legX', 'p_leg', 
-    'p_headX', 'p_faceX', 'p_face', 'p_horn', 'p_hornB', 'p_ear', 'p_hair', 'p_head', 'p_faceXB', 'p_earB',
+    'p_faceX', 'p_horn', 'p_hornB', 'p_headX', 'p_face', 'p_ear', 'p_hair', 'p_head', 'p_faceXB', 'p_earB',
     'p_bodyX', 'p_body', 'p_bodyXB', 'p_hairL', 'p_headXB'
   ],
   mecha: [

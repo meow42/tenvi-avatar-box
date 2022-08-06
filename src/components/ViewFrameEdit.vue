@@ -55,10 +55,10 @@
     p_bodyX: { default: 'stand1_0_body' }, p_bodyXB: { default: '' }, 
     p_armX: { default: 'stand1_0_arm' }, p_legX: { default: '' }, 
     p_headX: { default: 'capLeft_as' }, p_headXB: { default: 'capLeftBack' },
-    p_faceX: { default: '' }, p_faceXB: { default: '' }, 
+    p_faceX: { default: 'faCenter' }, p_faceXB: { default: '' }, 
     p_wp: { default: 'wp00' }, p_balloon: { default: 'stand1_00' },
-    p_ear: { default: '' }, p_earB: { default: '' }, 
-    p_horn: { default: '' }, p_hornB: { default: '' }, 
+    p_ear: { default: 'ear0_1' }, p_earB: { default: '' }, 
+    p_horn: { default: 'horn0_1' }, p_hornB: { default: 'horn0_0' }, 
     p_emo: { default: '' },  
   });
   /** 同步部件数据 */
