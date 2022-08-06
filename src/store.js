@@ -26,11 +26,11 @@ const useStore = defineStore('main', {
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     res: {
-      p_bd: '00001', p_hd: '00004', p_fc: '00007', p_fa: '', p_hr: '', p_cp: '', p_cl: '', p_wp: '', p_emo: '',
+      p_bd: '00001', p_hd: '00004', p_fc: '00007', p_fa: '', p_hr: '', p_cp: '01788', p_cl: '01793', p_wp: '00098', p_emo: '',
       a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '', a_lh: '',
       t_df: '00009', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
       s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
-      v_res: '',
+      v_res: 'v0002',
     },
     part: {},
     frame: {}, // 存放帧数据

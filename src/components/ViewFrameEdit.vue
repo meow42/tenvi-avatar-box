@@ -34,14 +34,11 @@
     s_head: { default: 'head00' }, s_eye: { default: 'eye00' },
     s_legF: { default: 'g_fleg00' }, s_legB: { default: 'g_bleg00' },
     s_legT: { default: '' },
-
     s_bodyX: { default: 'body_gstand1_00' }, s_headX: { default: 'head00' },
     s_legFX: { default: 'g_fleg00' }, s_legBX: { default: 'g_bleg00' },
     s_tailX: { default: '', line: true},
     s_ppR: { default: '' }, s_ppL: { default: '' },
     s_wpR: { default: '' }, s_wpL: { default: '' },
-
-    p_body: { default: '' },
 
     v_car_body: { default: 'body0' }, v_car_bodyB: { default: 'bodyback' }, 
     v_car_wheel0: { default: 'wheel00_0' }, v_car_wheel1: { default: 'wheel01_0' }, 
@@ -50,6 +47,19 @@
     v_car_mouse: { default: '' },
     v_chair: { default: 'chair00' }, v_chair_dog: { default: 'dog00' },
     v_chair_ring: { default: 'ring00' }, v_chair_parasol: { default: 'parasol' },
+
+    p_body: { default: 'stand1_0_body', line: true }, 
+    p_arm: { default: 'stand1_0_arm' }, p_leg: { default: '' }, 
+    p_head: { default: 'head0' }, p_face: { default: 'face_normal' }, 
+    p_hair: { default: 'hairLeft1_a' }, p_hairL: { default: '' }, 
+    p_bodyX: { default: 'stand1_0_body' }, p_bodyXB: { default: '' }, 
+    p_armX: { default: 'stand1_0_arm' }, p_legX: { default: '' }, 
+    p_headX: { default: 'capLeft_as' }, p_headXB: { default: 'capLeftBack' },
+    p_faceX: { default: '' }, p_faceXB: { default: '' }, 
+    p_wp: { default: 'wp00' }, p_balloon: { default: 'stand1_00' },
+    p_ear: { default: '' }, p_earB: { default: '' }, 
+    p_horn: { default: '' }, p_hornB: { default: '' }, 
+    p_emo: { default: '' },  
   });
   /** 同步部件数据 */
   const updatePartData = (...partList) => {
@@ -77,9 +87,6 @@
   }
   /** 部件分组数据 */
   const partGroup = ref({
-    //p_base: ['p_body'],
-    //p_equip: [],
-
     a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
     a_weapon: ['a_wpR', 'a_wpRS', 'a_wpL'],
     a_equip: ['a_head', 'a_headS', 'a_bodyX', 'a_pp', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
@@ -94,6 +101,10 @@
     
     v_car: ['v_car_body', 'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB', 'v_car_mouse'],
     v_chair: ['v_chair', 'v_chair_dog', 'v_chair_ring', 'v_chair_parasol'],
+
+    p_base: ['p_body', 'p_arm', 'p_leg', 'p_head', 'p_face', 'p_hair', 'p_hairL'],
+    p_equip: ['p_bodyX', 'p_bodyXB', 'p_armX', 'p_legX', 'p_headX', 'p_headXB', 'p_faceX', 'p_faceXB', 'p_wp', 'p_balloon'],
+    p_other: ['p_horn', 'p_hornB', 'p_ear', 'p_earB', 'p_emo'],
   });
   /** 当前编辑分组数据，用于生成编辑区域内容 */
   const partGroupList = ref([]);
@@ -189,6 +200,7 @@
     // 轮询资源加载状态，完成后更新绘制数据
     let timerId = setInterval(() => {
       if (store.app.loading.size === 0) {
+        partOrder.value = store.getOrder();
         setFixedData();
         updateDrawData();
         clearInterval(timerId);

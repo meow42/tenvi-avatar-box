@@ -5,7 +5,7 @@
   const store = useStore();
 
   const sidebarData = {
-    pilot: ['p_bd', 'p_fc', 'p_fa', 'p_hr', 'p_cp', 'p_cl', 'p_wp', 'p_emo'],
+    pilot: ['p_hd', 'p_fc', 'p_fa', 'p_hr', 'p_cp', 'p_cl', 'p_wp', 'p_emo'],
     mecha: ['a_df', 'a_do', 'a_am', 'a_dc', 'a_lp', 'a_pp', 'a_rh', 'a_lh'],
     avatar: ['t_df', 't_do', 't_am', 't_dc', 't_lp', 't_pp', 't_rh', 't_lh'],
     dragon: ['s_df', 's_do', 's_am', 's_dc', 's_lp', 's_pp', 's_rh', 's_lh'],
@@ -29,7 +29,18 @@
   const itemClick = (item) => {
     console.log('itemSelect:', item.id);
     store.res[selectedResName.value] = item.id;
-    showRawPopup(item.id);
+    // 处理肤色同步
+    let bodyId = '';
+    if (selectedResName.value == 'p_hd') {
+      let index = [
+        '00004', '00176', '00177',
+        '00178', '00005', '00179',
+        '00180', '00181', '00006',
+        ].indexOf(item.id);
+      if (index >= 0) bodyId = ['00001', '00002', '00003'][index % 3];
+      store.res['p_bd'] = bodyId;
+    }
+    showRawPopup(item.id, bodyId);
   };
   /** 菜单项变更事件 */
   const onSidebarChange = (index) => {
@@ -40,20 +51,20 @@
   /** 原始素材URL */
   const rawPopupImgs = ref([]);
   /** 显示原始资源预览 */
-  const showRawPopup = (code) => {
+  const showRawPopup = (...codes) => {
     if (!store.edit.showRawImg) return;
-    rawPopupImgs.value = [store.getResImgURL(code + '_0')];
-    // 原始资源单个编号最多2张图，此处以备扩展
-    for (let i = 1; i < 2; i++) {
-      let imgURL = store.getResImgURL(code + '_' + i);
-      fetch(imgURL).then((res) => { 
-        if (res.status === 200) rawPopupImgs.value.push(imgURL);
-      }).catch((err) => { });
-    }
+    rawPopupImgs.value = [];
+    codes.map(code => {
+      if (!code) return;
+      rawPopupImgs.value.push(
+        store.getResImgURL(code + '_0'),
+        store.getResImgURL(code + '_1'),
+      );
+    });
     rawPopup.value = true;
   };
 
-  /** 快捷设置：最低配置 */
+  /** 快捷设置：确保最低配置 */
   const setBaseOnly = () => {
     if (!sidebarData[store.edit.type]) return;
     sidebarData[store.edit.type].map(resName => {
@@ -74,15 +85,20 @@
   const updateGroupData = () => {
     groupData.value.clear();
     groupSelected.value = [];
+    // 默认选取当前item所属分类
     resList.value.map(item => {
       if (item['group']) groupData.value.add(item['group']);
-      // 选取当前item所属分类
       if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
+    // 如果不需要折叠分组
+    if(groupData.value.has('#NoFold')) {
+      groupData.value.delete('#NoFold');
+      groupSelected.value = [...groupData.value];
+    }
     // 如无所属，则选取第一个分类
-    if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
-    // 如无所属，则选取所有分类
-    //if (groupSelected.value.length < 1) groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    else if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
+    // 选择全部分组
+    else groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
   /** 选取所有分组 */
   const groupCheckAll = () => {
@@ -143,8 +159,8 @@
             <span>{{ item.id }}</span>
           </div>
         </div>
-        <!-- 特殊功能区域 -->
-        <div v-show="store.edit.partSidebarActive === 0" class="options">
+        <!-- 特殊功能区域 暂时隐藏-->
+        <div v-show="store.edit.partSidebarActive === -1" class="options">
           <van-divider content-position="left">Quick Options</van-divider>
           <div v-if="store.edit.type === 'mecha'">
             <van-cell is-link title="Base Only" v-on:click="setBaseOnly" />
@@ -192,6 +208,7 @@
     <van-popup v-model:show="rawPopup" position="center" class="raw">
       <van-image v-for="url in rawPopupImgs" :key="url" :src="url" fit="contain">
         <template v-slot:loading> <van-loading type="spinner" size="20" /> </template>
+        <template v-slot:error></template>
       </van-image>
     </van-popup>
   </div>
