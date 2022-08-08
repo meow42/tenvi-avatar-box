@@ -33,19 +33,20 @@
     s_body: { default: 'body_gstand1_00', line: true }, 
     s_head: { default: 'head00' }, s_eye: { default: 'eye00' },
     s_legF: { default: 'g_fleg00' }, s_legB: { default: 'g_bleg00' },
-    s_legT: { default: '' },
+    s_legL: { default: '' },
     s_bodyX: { default: 'body_gstand1_00' }, s_headX: { default: 'head00' },
-    s_legFX: { default: 'g_fleg00' }, s_legBX: { default: 'g_bleg00' },
-    s_tailX: { default: '', line: true},
-    s_ppR: { default: '' }, s_ppL: { default: '' },
-    s_wpR: { default: '' }, s_wpL: { default: '' },
+    s_legRX: { default: 'fl_gstand1_00' }, s_legLX: { default: 'bl_gstand1_00' },
+    s_tailX: { default: 'tail_gstand1_00', line: true},
+    s_ppR: { default: 'w_ground_00' }, s_ppL: { default: 'wb_ground_00' },
+    s_wpR: { default: 'rhhead01' }, s_wpRB: { default: 'rhgrip01' }, 
+    s_wpL: { default: '' },
 
-    v_car_body: { default: 'body0' }, v_car_bodyB: { default: 'bodyback' }, 
+    v_body: { default: 'body0' }, v_bodyB: { default: 'bodyback' }, 
     v_car_wheel0: { default: 'wheel00_0' }, v_car_wheel1: { default: 'wheel01_0' }, 
     v_car_wheel2: { default: 'wheel02_0' }, v_car_wheel3: { default: 'wheel02_0' }, 
     v_car_gun: { default: '' }, v_car_gunB: { default: '' }, 
     v_car_mouse: { default: '' },
-    v_chair: { default: 'chair00' }, v_chair_dog: { default: 'dog00' },
+    v_body: { default: 'chair00' }, v_chair_dog: { default: 'dog00' },
     v_chair_ring: { default: 'ring00' }, v_chair_parasol: { default: 'parasol' },
 
     p_body: { default: 'stand1_0_body', line: true }, 
@@ -95,12 +96,12 @@
     t_weapon: ['t_wpRF', 't_wpRB', 't_wpLF', 't_wpLB'],
     t_equip: ['t_headX', 't_bodyX', 't_armLX', 't_armRX', 't_armLT', 't_armRT', 't_legRX', 't_legLT', 't_legRT', 't_pp'],
     
-    s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legT',],
-    s_weapon: ['s_wpR', 's_wpL'],
-    s_equip: ['s_bodyX', 's_headX', 's_legFX', 's_legBX', 's_tailX', 's_ppR', 's_ppL'], 
+    s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legL',],
+    s_weapon: ['s_wpR', 's_wpRB', 's_wpL'],
+    s_equip: ['s_bodyX', 's_headX', 's_legRX', 's_legLX', 's_tailX', 's_ppR', 's_ppL'], 
     
-    v_car: ['v_car_body', 'v_car_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB', 'v_car_mouse'],
-    v_chair: ['v_chair', 'v_chair_dog', 'v_chair_ring', 'v_chair_parasol'],
+    v_car: ['v_body', 'v_bodyB', 'v_car_wheel0', 'v_car_wheel1', 'v_car_wheel2', 'v_car_wheel3', 'v_car_gun', 'v_car_gunB', 'v_car_mouse'],
+    v_body: ['v_body', 'v_chair_dog', 'v_chair_ring', 'v_chair_parasol'],
 
     p_base: ['p_body', 'p_arm', 'p_leg', 'p_head', 'p_face', 'p_hair', 'p_hairL'],
     p_equip: ['p_bodyX', 'p_bodyXB', 'p_armX', 'p_legX', 'p_headX', 'p_headXB', 'p_faceX', 'p_faceXB', 'p_wp', 'p_balloon'],
@@ -176,16 +177,28 @@
     if (!partOrder || partOrder.value.length < 1) partOrder.value = store.getOrder();
     console.log('updateDrawData:', payload, frameData.value, partOrder.value);
   };
-  /** 处理需要强制同步的数据，主要用于固定帧的载具 */
+  /** 处理需要强制同步的数据 */
   const setFixedData = () => {
+    let partUpdata = {};
+    // 载具按照资源分别设置，驾驶员坐姿
     if (store.edit.type == 'vehicle') {
       let fixed = store.getFixedFrameByResCode(store.res.v_res);
       // console.log('setFixedFrameData:', fixed);
       partOrder.value = fixed.order || [];
-      for(let key in fixed.frame) {
-        if (store.isPartEnable(key)) store.part[key] = fixed.frame[key];
-        console.log('setFixedFrameData:', key, partData.value[key]);
-      }
+      partUpdata = fixed.frame;
+    }
+    // 驾驶员根据载具种类设置
+    else if (store.edit.type == 'mecha') {
+      partUpdata = store.getFrameMeta().pilot.mount_1;
+    }
+    else if (store.edit.type == 'dragon') {
+      partUpdata = store.getFrameMeta().pilot.mount_2;
+    }
+    // 更新动作帧
+    for(let key in partUpdata) {
+      if (!store.isPartEnable(key)) continue;
+      if (typeof store.part[key] == 'string') store.part[key] = partUpdata[key];
+      // TODO 预留给复合形态的部件定义
     }
   }
 

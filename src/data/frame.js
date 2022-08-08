@@ -1,6 +1,9 @@
 const Frame = {
   pilot: {
-    stand: {},
+    stand_1: {
+      p_body: 'stand1_0_body',
+      p_arm: 'stand1_0_arm',
+    },
     run: {},
     walk: {},
     jump_1: {},
@@ -12,16 +15,31 @@ const Frame = {
     call_pre: {},
     call_end: {},
     ride: {},
-    mount: {},
     make: {},
     readyspell_1: {},
     spellcast_1: {},
     readyspell_2: {},
     spellcast_2: {},
-    mount_1: {},
-    mount_2: {},
+    mount_1: {
+      p_body: 'mount1_0_body',
+      p_arm: 'mount1_0_arm',
+    },
+    mount_2: {
+      p_body: 'mount2_0_body',
+      p_arm: 'mount2_0_arm',
+      p_leg: 'mount2_0_leg'
+    },
     fish: {},
-    sit: {},
+    sit_1: {
+      p_body: 'sit1_0_body',
+      p_arm: 'sit1_0_arm',
+      p_leg: 'sit1_0_leg',
+    },
+    sit_2: {
+      p_body: 'sit2_0_body',
+      p_arm: 'sit2_0_arm',
+      p_leg: 'sit2_0_leg',
+    },
     hit: {},
     hit_pow: {},
     die: {},
@@ -160,8 +178,8 @@ const Frame = {
   },
   vehicle: {
     car_gun: {
-      v_car_body: 'body00',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body00',
+      v_bodyB: 'bodyback',
       v_car_gun: 'gun00',
       v_car_gunB: 'gun01',
       v_car_wheel0: 'wheel00',
@@ -170,75 +188,108 @@ const Frame = {
       v_car_wheel3: 'wheel00',
     },
     car_0: {
-      v_car_body: 'body0',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body0',
+      v_bodyB: 'bodyback',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel01_0',
       v_car_wheel2: 'wheel02_0',
       v_car_wheel3: 'wheel02_0',
     },
     car_1: {
-      v_car_body: 'body00',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body00',
+      v_bodyB: 'bodyback',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel01_0',
       v_car_wheel2: 'wheel02_0',
       v_car_wheel3: 'wheel02_0',
     },
     car_2: {
-      v_car_body: 'body0',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body0',
+      v_bodyB: 'bodyback',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel02_0',
       v_car_wheel2: 'wheel01_0',
       v_car_wheel3: 'wheel02_0',
     },
     motor: {
-      v_car_body: 'body00',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body00',
+      v_bodyB: 'bodyback',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel01_0',
       v_car_wheel2: 'wheel02_0',
       v_car_wheel3: 'wheel03_0',
     },
     sled: {
-      v_car_body: 'body0',
-      v_car_bodyB: 'bodyback',
+      v_body: 'body0',
+      v_bodyB: 'bodyback',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel01_0',
       v_car_wheel2: 'wheel02_0',
       v_car_wheel3: 'wheel03_0',
     },
     mouse: {
-      v_car_body: 'body0',
-      v_car_bodyB: 'bodyback0',
+      v_body: 'body0',
+      v_bodyB: 'bodyback0',
       v_car_wheel0: 'wheel00_0',
       v_car_wheel1: 'wheel01_0',
       v_car_mouse: 'mouse0',
     },
+    chair: {
+      v_body: 'chair00',
+    },
   },
 }
 
-const ResFrame = {
-  'v0002': Frame.vehicle.motor,
-  'v0001': Frame.vehicle.car_gun,
-  'v0025': Frame.vehicle.car_gun,
-  'v0026': Frame.vehicle.car_gun,
-  'v0003': Frame.vehicle.car_1,
-  'v0004': Frame.vehicle.car_1,
-  'v0005': Frame.vehicle.car_1,
-  'v0015': Frame.vehicle.sled,
-  'v0019': Frame.vehicle.car_2,
-  'v0024': Frame.vehicle.mouse,
-  'v0006': Frame.vehicle.car_0, 
-  'v0007': Frame.vehicle.car_0, 
-  'v0008': Frame.vehicle.car_0, 
-  'v0009': Frame.vehicle.car_0, 
-  'v0010': Frame.vehicle.car_0, 
-  'v0011': Frame.vehicle.car_0,
-  'v0013': Frame.vehicle.car_0,
-  'v0014': Frame.vehicle.car_0,
+/** 混合多个帧数据 */
+const Mix = (...frames) => {
+  let result = {};
+  frames.map(frame => {
+    Object.assign(result, frame);
+  });
+  return result;
 }
+
+const ResFrame = {
+  'v0002': Mix(Frame.vehicle.motor, Frame.pilot.mount_1),
+  'v0001': Mix(Frame.vehicle.car_gun, Frame.pilot.mount_1),
+  'v0025': Mix(Frame.vehicle.car_gun, Frame.pilot.mount_1),
+  'v0026': Mix(Frame.vehicle.car_gun, Frame.pilot.mount_1),
+  'v0003': Mix(Frame.vehicle.car_1, Frame.pilot.mount_1),
+  'v0004': Mix(Frame.vehicle.car_1, Frame.pilot.mount_1),
+  'v0005': Mix(Frame.vehicle.car_1, Frame.pilot.mount_1),
+  'v0015': Mix(Frame.vehicle.sled, Frame.pilot.mount_1),
+  'v0019': Mix(Frame.vehicle.car_2, Frame.pilot.mount_1),
+  'v0024': Mix(Frame.vehicle.mouse, Frame.pilot.stand_1),
+  'v0006': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1), 
+  'v0007': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1), 
+  'v0008': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1), 
+  'v0009': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1), 
+  'v0010': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1), 
+  'v0011': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1),
+  'v0013': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1),
+  'v0014': Mix(Frame.vehicle.car_0, Frame.pilot.mount_1),
+  'v0016': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0017': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0018': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0020': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0021': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0022': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+  'v0023': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
+}
+
+/*
+const GetFrame = (frameName) => {
+  if (!frameName || typeof frameName !== 'string') return {};
+  let result = {};
+  frameName = frameName.replace('@', '');
+  if (frameName.includes('.')) {
+    let fName = frameName.split('.');
+    result = Frame[fName[0]][fName[1]];
+  }
+  else result = Frame[frameName];
+  return result || {};
+}
+*/
 
 export {
   Frame,

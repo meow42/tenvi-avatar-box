@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 //import { Res, Order, Frame, Action } from './data.js';
 import { Res } from './data/res.js';
-import { Part } from './data/part.js';
+import { Part, ResPart } from './data/part.js';
 import { Order, ResOrder } from './data/order.js';
 import { Frame, ResFrame } from './data/frame.js';
 
@@ -26,7 +26,7 @@ const useStore = defineStore('main', {
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     res: {
-      p_bd: '00001', p_hd: '00004', p_fc: '00007', p_fa: '', p_hr: '', p_cp: '01788', p_cl: '01793', p_wp: '00098', p_emo: 'emotion02579',
+      p_bd: '00001', p_hd: '00004', p_fc: '00007', p_fa: '', p_hr: '', p_cp: '', p_cl: '', p_wp: '', p_emo: 'emotion02579',
       a_df: '00008', a_do: '', a_am: '', a_dc: '', a_lp: '', a_pp: '', a_rh: '', a_lh: '',
       t_df: '00009', t_do: '', t_am: '', t_dc: '', t_lp: '', t_pp: '', t_rh: '', t_lh: '',
       s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
@@ -104,9 +104,16 @@ const useStore = defineStore('main', {
       return list;
     },
     /** 获取部件的动作帧数据 */
-    getPartFrameData: (state) => (partName, frameName, resCode) => {
-      // @ts-ignore 装填基本数据
-      resCode = resCode || state.getPartResCode(partName);
+    getPartFrameData: (state) => (payload) => {
+      let partName = payload['partName'] || '';
+      let frameName = payload['frameName'] || '';
+      // @ts-ignore
+      let resCode = payload['resCode'] || state.getPartResCode(partName) || '';
+      let partFix = payload['partFix'] || {};
+      let rootName = payload['rootName'] || '';
+      let linkSelf = payload['linkSelf'] || '';
+      let linkTarget = payload['linkTarget'] || '';
+      //装填基本数据
       let data = {};
       data.partName = partName;
       data.FarmeName = frameName;
@@ -115,9 +122,9 @@ const useStore = defineStore('main', {
       let resData = state.resDataMap.get(resCode);
       let partData = Part[partName];
       if (resData && partData) {
-        data.rootName = partData['root'] || '';
-        data.linkSelf = partData['link'] || '';
-        data.linkTarget = partData['link'] || '';
+        data.rootName = rootName || partData['root'] || '';
+        data.linkSelf = linkSelf || partData['link'] || '';
+        data.linkTarget = linkTarget || partData['link'] || '';
         Object.assign(data, resData[frameName]);
       }
       // 装填Image数据
@@ -136,22 +143,42 @@ const useStore = defineStore('main', {
       let data = Object.assign({}, payload);
       let result = {};
       Object.keys(data).map(key => {
-        //console.log('getFrameData:', key, data[key])
+        console.log('getFrameData:', key, data[key])
         let item = data[key];
         let frameData = {};
+        let fPayload = {};
+        fPayload.partName = key;
+        // 处理乘骑的默认情况
+        if (state.edit.type !== 'pilot' && key == 'p_body') {
+          fPayload.rootName = state.app.typeCode[state.edit.type] + '_body';
+          fPayload.linkSelf = 'mount';
+          fPayload.linkTarget = state.edit.type == 'vehicle' ? 'm0' : 'mount';
+          // @ts-ignore 处理特定素材的情况
+          let resCode = state.getPartResCode('v_res');
+          //if (resCode == 'v0024') fPayload.linkTarget = 'm1';
+        }
         // 配置项为简单定义
         if(typeof item === 'string') {
-          // @ts-ignore
-          frameData = state.getPartFrameData(key, item);
+          fPayload.frameName = item;
         }
-        //TODO 处理配置项为复杂定义的情况
-
+        // 处理配置项为复杂定义的情况
+        else {
+          if (item['frameName']) fPayload.frameName = item.frameName;
+          if (item['linkSelf']) fPayload.linkSelf = item.linkSelf;
+          if (item['linkTarget']) fPayload.linkTarget = item.linkTarget;
+        }
+        // @ts-ignore 
+        frameData = state.getPartFrameData(fPayload);
         // 装载数据
         if (frameData['loaded']) {
           result[key] = frameData;
         }
       });
       return result;
+    },
+    /** 获取动作帧定义 */
+    getFrameMeta: (state) => () => {
+      return Frame;
     },
     /** 获取同类部件数据集 */
     getPartsData: (state) => (typeName) => {
@@ -170,20 +197,40 @@ const useStore = defineStore('main', {
       typeName = typeName || state.edit.type || '';
       return state.app.typeCode[typeName] || '';
     },
+    /** 替换部件叠放顺序数据中的引用项 */
+    getOrderReplace: (state) => (orderArray) => {
+      let result = orderArray || [];
+      for (let i = 0; i < result.length; i++) {
+        if (!/^@.*/.test(result[i])) continue;
+        let key = result[i].replace('@', '');
+        if (!Order[key]) continue;
+        result.splice(i, 1, ...Order[key]);
+      }
+      return result;
+    },
     /** 获取部件叠放顺序数据 */
     getOrder: (state) => (name) => {
       if (!name) name = state.edit.type;
-      return state.order[name] || Order[name] || [];
+      let result = state.order[name] || Order[name] || [];
+      // 补全驾驶员部件
+      // @ts-ignore
+      state.getOrderReplace(result);
+      //console.log('getOrder:', result);
+      return result;
     },
     /** 获取固定动作帧数据 */
     getFixedFrameByResCode: (state) => (resCode) => {
       let result = {frame: undefined, order: undefined};
       if (!resCode) return result;
-      result.order = ResOrder[resCode] || undefined;
+      // @ts-ignore
+      result.order = state.getOrderReplace(ResOrder[resCode]) || undefined;
       result.frame = ResFrame[resCode] || undefined;
+      result.part = ResPart[resCode] || undefined;
       // TODO 驾驶员数据处理
+      //console.log('getFixedFrameByResCode:', result, ResFrame[resCode]);
       return result;
     },
+    
   },
   actions: {
     /** 解析URL参数并覆盖相关内容 */

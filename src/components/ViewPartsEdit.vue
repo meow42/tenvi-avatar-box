@@ -85,11 +85,12 @@
   const updateGroupData = () => {
     groupData.value.clear();
     groupSelected.value = [];
-    // 默认选取当前item所属分类
+    // 装填分组，并默认选取当前item所属分类
     resList.value.map(item => {
-      if (item['group']) groupData.value.add(item['group']);
+      if (item['group'] && item['group'].length > 1) groupData.value.add(item['group']);
       if (item['id'] === getSavedResCode()) groupSelected.value.push(item['group']);
     });
+    groupData.value.delete('#');
     // 如果不需要折叠分组
     if(groupData.value.has('#NoFold')) {
       groupData.value.delete('#NoFold');
@@ -98,7 +99,7 @@
     // 如无所属，则选取第一个分类
     else if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
     // 选择全部分组
-    else groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
   };
   /** 选取所有分组 */
   const groupCheckAll = () => {
@@ -123,8 +124,8 @@
     store.edit.partSidebarActive = 0; // 类别变化时重置菜单序号
     updateResList();
   });
-
   onMounted(() => {
+    store.edit.partSidebarActive = 0;
     updateResList();
   });
 </script>
@@ -142,7 +143,7 @@
       <van-list>
         <!-- 根据数据生成Items -->
         <div v-for="(item, index) in resList" :key="index" @click="itemClick(item)"
-          v-show="groupSelected.includes(item.group)"
+          v-show="groupData.size < 1 || groupSelected.includes(item.group)"
           class="item" :class="{ 'item-selected': item.id == getSavedResCode(), 'newline': item.id.includes('#')}">
           <div v-if="item.id.startsWith('#')">
             <van-divider v-if="item.id.length > 1" content-position="left" style="margin: 0;">
