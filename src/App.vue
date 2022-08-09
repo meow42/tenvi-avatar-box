@@ -67,6 +67,8 @@
       if (lang) locale.value = lang;
       // 从缓存中获取并更新编辑相关参数
       store.loadEditConfig();
+      store.loadEditData();
+      console.log('App-onBeforeMount:', store.res);
     }
     // 读取URL参数
     store.initByURL();

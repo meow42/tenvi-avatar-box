@@ -143,7 +143,7 @@ const useStore = defineStore('main', {
       let data = Object.assign({}, payload);
       let result = {};
       Object.keys(data).map(key => {
-        console.log('getFrameData:', key, data[key])
+        //console.log('getFrameData:', key, data[key])
         let item = data[key];
         let frameData = {};
         let fPayload = {};
@@ -416,17 +416,19 @@ const useStore = defineStore('main', {
       this.app.loadingErr.clear();
     },
     /** 保存当前数据 */
-    saveEditData(key = 'default') {
-      let obj = {
-        res: this.res,
-        part: this.part,
-        order: this.order,
-      };
-      this.save(key, obj);
+    saveEditData(key = 'default', ...types) {
+      if (!types || types.length < 1) types = ['res', 'part', 'order'];
+      types.map(type => {
+        this.save(type + '-' + key, {[type]: this[type]});
+      });
     },
     /** 读取数据并覆盖当前编辑区 */
-    loadEditData(key = 'default') {
-      this.load(key);
+    loadEditData(key = 'default', ...types) {
+      if (!types || types.length < 1) types = ['res', 'part'];
+      //console.log('store.loadEditData:', key, types);
+      types.map(type => {
+        this.load(type + '-' + key);
+      });
     },
     /** 保存编辑相关参数 */
     saveEditConfig() {

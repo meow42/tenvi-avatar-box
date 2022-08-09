@@ -175,7 +175,7 @@
     frameData.value = store.getFrameData(payload);
     // 设置默认层级数据
     if (!partOrder || partOrder.value.length < 1) partOrder.value = store.getOrder();
-    console.log('updateDrawData:', payload, frameData.value, partOrder.value);
+    //console.log('updateDrawData:', payload, frameData.value, partOrder.value);
   };
   /** 处理需要强制同步的数据 */
   const setFixedData = () => {

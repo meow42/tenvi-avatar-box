@@ -27,7 +27,7 @@
   };
   /** 部件资源item点击 */
   const itemClick = (item) => {
-    console.log('itemSelect:', item.id);
+    //console.log('itemSelect:', item.id);
     store.res[selectedResName.value] = item.id;
     // 处理肤色同步
     let bodyId = '';
@@ -114,9 +114,14 @@
 
   /* 监听视图变更 */
   watch(toRef(store.edit, 'view'), (newView) => {
-    // 如果离开本视图，则更新资源数据
-    if (newView !== 'parts') store.updateResData();
-    else updateResList();
+    // 如果离开本视图，则存储配置并更新资源数据
+    if (newView !== 'parts') {
+      store.save('res-default', {'res': store.res});
+      store.updateResData();
+    }
+    else {
+      updateResList();
+    };
   }, { immediate: true, flush: 'post' });
   /** 监控类别变化 */
   watch(toRef(store.edit, 'type'), (newValue) => {
