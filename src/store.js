@@ -1,6 +1,6 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 //import { Res, Order, Frame, Action } from './data.js';
-import { Res } from './data/res.js';
+import { Res, ResMutiPNG } from './data/res.js';
 import { Part, ResPart } from './data/part.js';
 import { Order, ResOrder } from './data/order.js';
 import { Frame, ResFrame } from './data/frame.js';
@@ -32,22 +32,10 @@ const useStore = defineStore('main', {
       s_df: '00010', s_do: '', s_am: '', s_dc: '', s_lp: '', s_pp: '', s_rh: '', s_lh: '',
       v_res: 'v0002',
     },
-    part: {},
-    frame: {}, // 存放帧数据
-    action: {}, // 存放动作数据
-    order: { user_default: undefined }, // 存放部件叠放顺序定义数据
-    
-    pilot: {
-      race: '', // andras, silva, talli
-    },
-    mecha: {
-    },
-    avatar: {
-    },
-    dragon: {
-    },
-    vehicle: {
-    },
+    part: {}, // 存放部件当前动作帧数据
+    frame: {}, // 存放帧数据集
+    action: {}, // 存放动作数据集
+    order: {}, // 存放部件叠放顺序定义数据集
   }),
   getters: {
     /** 获取图标URL */
@@ -65,8 +53,6 @@ const useStore = defineStore('main', {
         let data = {};
         if (typeof item === 'string') data.id = item;
         else data = Object.assign(data, item);
-        //
-        if (!data['id']) return;
         // 判断是否切换分组
         let id = String(data.id);
         if (id.length > 1 && id.startsWith('#')) {
@@ -295,6 +281,8 @@ const useStore = defineStore('main', {
       let that = this;
       for(const i in that.res) {
         let code = that.res[i];
+        // 跳过空数据
+        //if (/null/ig.test(code)) continue;
         // 跳过已存在的资源
         if(!code || that.resDataMap.has(code)) continue;
         that.loadFile(that.getResXmlURL(code), 'xml').then(xml => {
@@ -302,8 +290,12 @@ const useStore = defineStore('main', {
           that.resDataMap.set(code, json['frame']);
           //console.log('updateResData:', code, json['frame']);
         });
-        // 载入通常情况下的图片资源
-        that.updateResImg(code + '_0', true);
+        // 载入图片资源
+        let pngCount = 1;
+        if (ResMutiPNG[code]) pngCount = ResMutiPNG[code];
+        for (let i = 0; i < pngCount; i++) {
+          that.updateResImg(code + '_' + i, true);
+        }
       }
     },
     /** 重新载入资源数据 */

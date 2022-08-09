@@ -7,7 +7,7 @@
     height: { type: Number, default: 256 },
     bottom: { type: Number, default: 56 },
     auto: { type: Boolean, default: true },
-    axis: { type: Boolean, default: true },
+    axis: { type: Boolean, default: false },
     data: { type: Object, default: {} }, // 部件数据
     order: { type: Array, default: [] }, // 部件叠放顺序
     hide: { type: Array, default: [] }, // 需要隐藏的部件列表

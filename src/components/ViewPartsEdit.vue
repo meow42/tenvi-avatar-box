@@ -162,7 +162,7 @@
                 <van-loading type="spinner" size="20" />
               </template>
             </van-image>
-            <span>{{ item.id }}</span>
+            <span>{{ item.id || $t('app.none') }}</span>
           </div>
         </div>
         <!-- 特殊功能区域 暂时隐藏-->
