@@ -48,9 +48,9 @@ const Part = {
   t_legR: { root: 't_body', link: 'tneck', res: 't_df', regex: /^leg.*/ }, // tneck
   t_headX: { root: 't_body', link: 'tneck', res: 't_do', regex: /.*/ }, // tneck
   t_bodyX: { root: 't_body', link: 'tneck', res: 't_am', regex: /.*_bd$/ }, // tneck, tlarm, trarm
-  t_armLX: { root: 't_bodyX', link: 'tlarm', res: 't_am', regex: /^arml.*/ }, // tlarm
-  t_armRX: { root: 't_bodyX', link: 'trarm', res: 't_am', regex: /^armr.*/ }, // trarm
-  t_legRX: { root: 't_body', link: 'tneck', res: 't_am', regex: /^leg.*/ }, // tneck
+  t_armLX: { root: 't_bodyX', link: 'tlarm', res: 't_am', regex: /(^arml.*|.*al$)/ }, // tlarm
+  t_armRX: { root: 't_bodyX', link: 'trarm', res: 't_am', regex: /(^armr.*|.*ar$)/ }, // trarm
+  t_legRX: { root: 't_body', link: 'tneck', res: 't_am', regex: /(^leg.*|.*leg$)/ }, // tneck
   t_armLT: { root: 't_body', link: 'larm', res: 't_dc', regex: /^arml.*/ }, // larm
   t_armRT: { root: 't_body', link: 'rarm', res: 't_dc', regex: /^armr.*/ }, // rarm
   t_legLT: { root: 't_body', link: 'tneck', res: 't_lp', regex: /.*_bdl$/ }, // tneck
@@ -93,7 +93,15 @@ const Part = {
 const ResPart = {
 }
 
+/** 特定动作帧处理 */
+const PartPattern = {
+  t_headX: {
+    'head03': { offsetX: -2 }
+  }
+}
+
 export {
   Part,
-  ResPart
+  ResPart,
+  PartPattern,
 }

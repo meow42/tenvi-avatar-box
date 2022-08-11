@@ -40,7 +40,7 @@
       if (index >= 0) bodyId = ['00001', '00002', '00003'][index % 3];
       store.res['p_bd'] = bodyId;
     }
-    showRawPopup(item.id, bodyId);
+    if (item.id) showRawPopup(item.id, bodyId);
   };
   /** 菜单项变更事件 */
   const onSidebarChange = (index) => {

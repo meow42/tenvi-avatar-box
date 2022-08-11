@@ -11,6 +11,7 @@
     data: { type: Object, default: {} }, // 部件数据
     order: { type: Array, default: [] }, // 部件叠放顺序
     hide: { type: Array, default: [] }, // 需要隐藏的部件列表
+    drawCallBack: undefined,
   });
   /* 画布属性 */
   const canvasNode = ref(null);
@@ -69,6 +70,9 @@
     let draw = {};
     draw.x = rootPoint.x + rootLink.x - selfLink.x;
     draw.y = rootPoint.y - rootLink.y + selfLink.y;
+    // 处理坐标的特殊情况
+    if (part['offsetX']) draw.x += part['offsetX'];
+    if (part['offsetY']) draw.y += part['offsetY'];
     return draw;
   };
   
@@ -136,7 +140,12 @@
       if (!parts[partName] || props.hide.includes(partName)) return;
       drawPart(parts[partName]);
     });
-    console.log('---> TenviCanvas.draw()', order, parts);
+    // 执行绘制完成时的回调
+    if (props.drawCallBack && canvasNode.value) {
+      let url = canvasNode.value.toDataURL("image/png");
+      props.drawCallBack(url);
+    }
+    //console.log('---> TenviCanvas.draw()', order, parts);
   };
 </script>
 

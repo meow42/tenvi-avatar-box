@@ -1,9 +1,9 @@
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore, acceptHMRUpdate, storeToRefs } from 'pinia';
 //import { Res, Order, Frame, Action } from './data.js';
 import { Res, ResMutiPNG } from './data/res.js';
-import { Part, ResPart } from './data/part.js';
+import { Part, ResPart, PartPattern } from './data/part.js';
 import { Order, ResOrder } from './data/order.js';
-import { Frame, ResFrame } from './data/frame.js';
+import { Frame, ResFrame, FramePattern } from './data/frame.js';
 
 const useStore = defineStore('main', {
   state: ()=> ({
@@ -113,6 +113,12 @@ const useStore = defineStore('main', {
         data.linkTarget = linkTarget || partData['link'] || '';
         Object.assign(data, resData[frameName]);
       }
+      // 处理帧数据特殊情况
+      if (PartPattern[partName] && PartPattern[partName][frameName]) {
+        let pattern = PartPattern[partName][frameName];
+        data.offsetX = pattern['offsetX'] || 0;
+        data.offsetY = pattern['offsetY'] || 0;
+      }
       // 装填Image数据
       if (data['imgName']) {
         data.img = state.resImgMap.get(data['imgName']);
@@ -139,9 +145,6 @@ const useStore = defineStore('main', {
           fPayload.rootName = state.app.typeCode[state.edit.type] + '_body';
           fPayload.linkSelf = 'mount';
           fPayload.linkTarget = state.edit.type == 'vehicle' ? 'm0' : 'mount';
-          // @ts-ignore 处理特定素材的情况
-          let resCode = state.getPartResCode('v_res');
-          //if (resCode == 'v0024') fPayload.linkTarget = 'm1';
         }
         // 配置项为简单定义
         if(typeof item === 'string') {
@@ -281,8 +284,6 @@ const useStore = defineStore('main', {
       let that = this;
       for(const i in that.res) {
         let code = that.res[i];
-        // 跳过空数据
-        //if (/null/ig.test(code)) continue;
         // 跳过已存在的资源
         if(!code || that.resDataMap.has(code)) continue;
         that.loadFile(that.getResXmlURL(code), 'xml').then(xml => {

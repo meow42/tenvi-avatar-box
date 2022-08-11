@@ -176,6 +176,10 @@ const Frame = {
     gunarmed1_2: {},
     gunarmed1_3: {},
   },
+  avatar: {
+
+  },
+  dragon: {},
   vehicle: {
     car_gun: {
       v_body: 'body00',
@@ -249,6 +253,7 @@ const Mix = (...frames) => {
   return result;
 }
 
+/** 根据资源编号固定动作帧 */
 const ResFrame = {
   'v0002': Mix(Frame.vehicle.motor, Frame.pilot.mount_1),
   'v0001': Mix(Frame.vehicle.car_gun, Frame.pilot.mount_1),
@@ -277,21 +282,17 @@ const ResFrame = {
   'v0023': Mix(Frame.vehicle.chair, Frame.pilot.sit_1),
 }
 
-/*
-const GetFrame = (frameName) => {
-  if (!frameName || typeof frameName !== 'string') return {};
-  let result = {};
-  frameName = frameName.replace('@', '');
-  if (frameName.includes('.')) {
-    let fName = frameName.split('.');
-    result = Frame[fName[0]][fName[1]];
-  }
-  else result = Frame[frameName];
-  return result || {};
+/** 特定动作帧处理 */
+const FramePattern = {
+  pilot: {},
+  macha: {},
+  avatar: {},
+  dragon: {},
+  vehicle: {},
 }
-*/
 
 export {
   Frame,
-  ResFrame
+  ResFrame,
+  FramePattern,
 }

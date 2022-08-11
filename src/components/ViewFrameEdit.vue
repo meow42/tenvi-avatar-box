@@ -232,7 +232,7 @@
   }, { immediate: false, flush: 'post' });
   onBeforeMount(() => {});
   onMounted(() => {
-    initView();
+    if (store.edit.view === 'frame') initView();
   });
 </script>
 
