@@ -41,6 +41,7 @@ export default {
     group: 'Group',
     selected: 'Selected',
     total: 'Total',
+    size: 'Size',
   },
   tip: {
     helpTranslation: 'Help us improve the translation',

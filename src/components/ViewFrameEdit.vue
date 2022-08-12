@@ -5,6 +5,19 @@
   // @ts-ignore
   import TenviCanvas from './TenviCanvas.vue';
 
+  /** 画布尺寸 */
+  const canvasSize = ref({
+    width: 256,
+    height: 160,
+    bottom: 24
+  });
+  /** 画布尺寸设置 */
+  const setCanvasSize = (payload) => {
+    if (typeof payload == 'string' && store.canvasSize[payload]) {
+      canvasSize.value = store.canvasSize[payload];
+    }
+  }
+
   /** 部件数据集 */
   const partData = ref({
     a_body: { default: 'body_stand1_0' }, a_armS: { default: '' },
@@ -240,17 +253,31 @@
   <div class="frame-edit">
     <!-- 动作帧画布 -->
     <div class="canvas">
+      <van-sidebar v-model="active">
+        <van-sidebar-item 
+          v-for="size in ['S', 'M', 'L']" :key="size"
+          :title="$t('view.size') + ' ' + size"
+          @click="setCanvasSize(size)"
+        />
+      </van-sidebar>
       <TenviCanvas 
         :data="frameData" 
         :order="partOrder" 
         :hide="[]"
         :auto="store.edit.autoDraw" 
         :axis="store.edit.showAxis"
-        :bottom="store.edit.type == 'vehicle' ? 16 : 56"
+        :width="canvasSize.width"
+        :height="canvasSize.height"
+        :bottom="canvasSize.bottom"
       ></TenviCanvas>
     </div>
-    <!-- 快捷功能 -->
+    <!-- 功能区 -->
     <div class="fn">
+      <van-grid direction="horizontal" :column-num="3">
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+      </van-grid>
       <van-button plain size="small" icon="" v-on:click="syncPartData" v-show="false">{{ $t('menu.autoSync') }}</van-button>
       <van-button plain size="small" icon="" v-on:click="exportJson" v-show="false">{{ $t('menu.export') }}</van-button>
     </div>
@@ -321,6 +348,6 @@
 </template>
 
 <style scoped>
-.tenvi-canvas { margin: 0 auto; }
+.tenvi-canvas { margin: 8px auto; }
 .selected { color: #ee0a24; }
 </style>

@@ -41,6 +41,7 @@ export default {
     group: '分组筛选',
     selected: '已选择',
     total: '总计',
+    size: '尺寸',
   },
   tip: {
     helpTranslation: '帮助我们完善翻译内容',

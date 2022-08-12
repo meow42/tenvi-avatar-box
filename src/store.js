@@ -23,6 +23,11 @@ const useStore = defineStore('main', {
       showAxis: true, // 是否显示坐标轴线
       autoDraw: true, // 是否自动绘制
     },
+    canvasSize: {
+      S: { width: 256, height: 160, bottom: 20 },
+      M: { width: 256, height: 200, bottom: 50 },
+      L: { width: 256, height: 256, bottom: 50 },
+    },
     resDataMap: new Map(), // 存放已载入的资源Json数据
     resImgMap: new Map(), // 存放已载入的资源图片
     res: {
@@ -113,6 +118,8 @@ const useStore = defineStore('main', {
         data.linkTarget = linkTarget || partData['link'] || '';
         Object.assign(data, resData[frameName]);
       }
+      // temp
+      if (partName == 's_wpL') data.linkSelf = 'mount';
       // 处理帧数据特殊情况
       if (PartPattern[partName] && PartPattern[partName][frameName]) {
         let pattern = PartPattern[partName][frameName];

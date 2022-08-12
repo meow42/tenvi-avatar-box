@@ -194,8 +194,9 @@ html, body {
   align-items: start;
   grid-template-rows: auto auto 1fr;
 }
-.frame-edit .canvas { 
-  margin: 5px auto;
+.frame-edit .canvas {
+  display: grid;
+  grid-template-columns: auto 1fr;
 }
 .frame-edit .edit {
   height: inherit;
