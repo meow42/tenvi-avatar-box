@@ -92,13 +92,9 @@
     });
     groupData.value.delete('#');
     // 如果不需要折叠分组
-    if(groupData.value.has('#NoFold')) {
+    if(groupData.value.has('#NoFold') || !store.edit.autoFold) {
       groupData.value.delete('#NoFold');
       groupSelected.value = [...groupData.value];
-    }
-    // 选择全部分组
-    if (store.edit.autoFold) {
-      groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
     }
     // 如无所属，则选取第一个分类
     else if (groupSelected.value.length < 1) {
