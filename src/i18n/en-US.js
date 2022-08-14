@@ -10,7 +10,8 @@ export default {
   menu: {
     showRawImg: 'Show Raw Image',
     showAxis: 'Show Axis Line',
-    autoDraw: 'Auto Draw',
+    autoDraw: 'Canvas Auto Draw',
+    autoFold: 'Auto Fold Part\' Group',
     shareURL: 'Share URL',
     displayPilot: 'Display Pilot',
     autoSync: 'Auto Sync',

@@ -20,6 +20,7 @@ const useStore = defineStore('main', {
       pilot: true,
       partSidebarActive: 0, // 当前的部件选取序号
       showRawImg: false, // 是否显示原始资源图片预览
+      autoFold: true, 
       showAxis: true, // 是否显示坐标轴线
       autoDraw: true, // 是否自动绘制
     },

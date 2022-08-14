@@ -96,10 +96,14 @@
       groupData.value.delete('#NoFold');
       groupSelected.value = [...groupData.value];
     }
-    // 如无所属，则选取第一个分类
-    else if (groupSelected.value.length < 1) groupSelected.value.push([...groupData.value][0]);
     // 选择全部分组
-    //groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    if (store.edit.autoFold) {
+      groupData.value.forEach((groupName) => groupSelected.value.push(groupName));
+    }
+    // 如无所属，则选取第一个分类
+    else if (groupSelected.value.length < 1) {
+      groupSelected.value.push([...groupData.value][0]);
+    }
   };
   /** 选取所有分组 */
   const groupCheckAll = () => {

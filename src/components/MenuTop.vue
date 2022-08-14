@@ -87,6 +87,12 @@
           <van-switch v-model="store.edit.autoDraw" size="20" />
         </template>
       </van-field>
+      <!-- 是否自动折叠分组 -->
+      <van-field :label="$t('menu.autoFold')">
+        <template #input>
+          <van-switch v-model="store.edit.autoFold" size="20" />
+        </template>
+      </van-field>
       <!-- 生成分享用的URL -->
       <van-field :label="$t('menu.shareURL')">
         <template #input>

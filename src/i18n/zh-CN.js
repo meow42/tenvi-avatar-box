@@ -8,9 +8,10 @@ export default {
     none: '无',
   },
   menu: {
-    showRawImg: '显示原图',
-    showAxis: '显示轴线',
-    autoDraw: '自动绘制',
+    showRawImg: '显示部件原图',
+    showAxis: '画布显示轴线',
+    autoDraw: '画布自动绘制',
+    autoFold: '部件分组折叠',
     shareURL: '分享链接',
     displayPilot: '显示驾驶员',
     autoSync: '自动同步',
