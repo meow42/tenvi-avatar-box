@@ -221,6 +221,8 @@ export default {
     '#dagger': '匕首',
     '#claw': '爪子',
     '#gauntlet': '拳套',
+    '#wand': '魔杖',
+    '#staff': '法杖',
   },
   pilot: {
     text: '驾驶员',
