@@ -11,7 +11,7 @@ export default {
     showRawImg: '显示部件原图',
     showAxis: '画布显示轴线',
     autoDraw: '画布自动绘制',
-    autoFold: '部件分组折叠',
+    autoFold: '自动折叠分组',
     shareURL: '分享链接',
     displayPilot: '显示驾驶员',
     autoSync: '自动同步',
@@ -223,6 +223,7 @@ export default {
     '#gauntlet': '拳套',
     '#wand': '魔杖',
     '#staff': '法杖',
+    '#scepter': '权杖',
   },
   pilot: {
     text: '驾驶员',

@@ -223,6 +223,7 @@ export default {
     '#gauntlet': 'Gauntlet',
     '#wand': 'Wand',
     '#staff': 'Staff',
+    '#scepter': 'Scepter',
   },
   pilot: {
     text: 'Pilot',
