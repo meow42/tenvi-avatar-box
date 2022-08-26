@@ -1,18 +1,32 @@
 # Tenvi Avatar Box
 
-## 相关技术
-- [Vue3](https://v3.cn.vuejs.org/)
-- [Vite](https://cn.vitejs.dev/)
-- [Pinia](https://pinia.vuejs.org/)
-- [Vue I18n](https://vue-i18n.intlify.dev/)
-- [Vant](https://github.com/youzan/vant)
+这是一个冲锋岛角色拼接演示工具，用于展示原作角色动作，辅助同人游戏开发。  
+所有素材来自国服1.26客户端解包，版权归原厂商所有，请勿用于商业目的。
 
-## 参考资料
-- CDN服务：[jsdelivr](https://cdn.jsdelivr.net)  
-- JS手册：[ES6手册](https://es6.ruanyifeng.com/) | [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/)  
-- UI库：[Vant](https://vant-contrib.gitee.io/vant/v3/#/zh-CN/home)
-- 基础工具：[Lodash](https://www.lodashjs.com/) | [Moment](https://momentjs.com/) | [axios](https://github.com/axios/axios) [中文文档](http://www.axios-js.com/zh-cn/docs/)  
-- Excel操作：[SheetJS](https://github.com/SheetJS/sheetjs)  
-- 文件打包：[JSZip](https://stuk.github.io/jszip/)  
-- 文件下载：[FileSaver.js](https://github.com/eligrey/FileSaver.js) | [canvas.toBlob()的兼容方案](https://github.com/eligrey/canvas-toBlob.js)  
-- 深拷贝：[clone](https://github.com/jsmini/clone)  
+## 功能清单
+
+### 全局
+- [ ] 丰富URL参数，支持引用在线配置json（目前支持少量基本参数）
+- [ ] 增加NPC编辑功能，包括各类怪物
+- [x] 支持国际化（I18n），但只维护简中和英语
+- [x] 实现全局的资源载入管理、提示
+
+### 部件编辑 Part
+- [ ] 完善守护者武器展示，包括：精灵副手、龙人副手
+- [ ] 支持守护者武器混搭
+- [x] 素材分类、分组展示
+- [x] 素材选取、预览功能
+- [x] 整理驾驶员、守护者原始素材
+
+### 动作帧编辑 Frame
+- [ ] 支持配置选取
+
+### 动画编辑 Action
+- [ ] 设计动画编辑页面结构
+- [ ] 支持单帧插入、排序、删除，可配置帧间隔、位置偏移量
+
+### 层级编辑 Order
+- [ ] 实现部件层级（order）和偏移量（offset）的自定义
+
+### 文件管理
+- [ ] 支持json配置导入、导出，形式包括：URL、本地文件
