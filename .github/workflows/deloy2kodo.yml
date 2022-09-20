@@ -35,7 +35,7 @@ jobs:
         with:
           driver: qiniu
           region: cn-south-1 # cn-north-1, cn-south-1
-          bucket: tenvix
+          bucket: tenvi
           exclude: .cache,.git,.github,.gitignore
           dist: dist
           saveroot: avatar-box
