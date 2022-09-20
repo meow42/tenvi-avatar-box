@@ -26,8 +26,8 @@
     a_head: { default: 'door01' }, a_headS: { default: '' },
     a_bodyX: { default: 'bodyarmor02' }, a_pp: { default: 'pp00' }, 
     a_bodyXS: { default: '' }, a_bodyXB: { default: '' },
-    a_armLX: { default: 'arml_001', sync: 'a_armL' }, a_armRX: { default: 'armr_002', sync: 'a_armR' },
-    a_legLX: { default: 'legl_001', sync: 'a_legL' }, a_legRX: { default: 'legr_002', sync: 'a_legR' },
+    a_armRX: { default: 'armr_002', sync: 'a_armR' }, a_armLX: { default: 'arml_001', sync: 'a_armL' }, 
+    a_legRX: { default: 'legr_002', sync: 'a_legR' }, a_legLX: { default: 'legl_001', sync: 'a_legL' }, 
     a_wpR: { default: 'g_stand1_00' }, a_wpRS: { default: 'g_stand1_00_00' },
     a_wpL: { default: 'shield00', line: true },
     
@@ -101,13 +101,13 @@
   }
   /** 部件分组数据 */
   const partGroup = ref({
-    a_base: ['a_body', 'a_armS', 'a_armL', 'a_armR', 'a_legL', 'a_legR'],
+    a_base: ['a_body', 'a_armS', 'a_armR', 'a_armL', 'a_legR', 'a_legL',],
     a_weapon: ['a_wpR', 'a_wpRS', 'a_wpL'],
-    a_equip: ['a_head', 'a_headS', 'a_bodyX', 'a_pp', 'a_bodyXS', 'a_bodyXB', 'a_armLX', 'a_armRX', 'a_legLX', 'a_legRX'],
+    a_equip: ['a_head', 'a_headS', 'a_bodyX', 'a_pp', 'a_bodyXS', 'a_bodyXB', 'a_armRX', 'a_armLX', 'a_legRX', 'a_legLX',],
     
     t_base: ['t_body', 't_head', 't_armR', 't_armL', 't_legR'],
     t_weapon: ['t_wpRF', 't_wpRB', 't_wpLF', 't_wpLB'],
-    t_equip: ['t_headX', 't_bodyX', 't_armLX', 't_armRX', 't_armLT', 't_armRT', 't_legRX', 't_legLT', 't_legRT', 't_pp'],
+    t_equip: ['t_headX', 't_bodyX', 't_armRX', 't_armLX', 't_armRT', 't_armLT', 't_legRX', 't_legRT', 't_legLT', 't_pp'],
     
     s_base: ['s_body', 's_head', 's_eye', 's_legF', 's_legB', 's_legL',],
     s_weapon: ['s_wpR', 's_wpRB', 's_wpL'],
@@ -273,7 +273,7 @@
     </div>
     <!-- 功能区 -->
     <div class="fn">
-      <van-grid direction="horizontal" :column-num="3">
+      <van-grid direction="horizontal" :column-num="3" v-show="false">
         <van-grid-item icon="photo-o" text="文字" />
         <van-grid-item icon="photo-o" text="文字" />
         <van-grid-item icon="photo-o" text="文字" />

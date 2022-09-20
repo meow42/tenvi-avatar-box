@@ -75,7 +75,7 @@ const Part = {
   s_ppL: { root: 's_body', link: 'wl', res: 's_pp', regex: /^wb_.*/ }, // wl
   s_wpR: { root: 'p_body', link: 'prh', res: 's_rh', regex: /.*head.*/ }, // up prh(pilot)
   s_wpRB: { root: 's_wpR', link: 'up', res: 's_rh', regex: /.*grip.*/ }, // up prh(pilot)
-  s_wpL: { root: 'p_body', link: 'plh', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
+  s_wpL: { root: 'p_body', link: 'mount', res: 's_lh', regex: /.*/ }, // mount plh(pilot)
   v_body: { root: 'root', link: 'center', res: 'v_res', regex: /.*/ },
   v_bodyB: { root: 'v_body', link: 'back', res: 'v_res', regex: /.*/ },
   v_car_gun: { root: 'v_body', link: 'g1', res: 'v_res', regex: /.*/ },
