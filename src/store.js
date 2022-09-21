@@ -8,8 +8,8 @@ import { Frame, ResFrame, FramePattern } from './data/frame.js';
 const useStore = defineStore('main', {
   state: ()=> ({
     app: {
-      url: 'https://tenvix.meow42.cn/avatar-box/index.html',
-      resDomain: 'https://tenvix.meow42.cn/',
+      url: 'https://tenvi.meow42.cn/avatar-box/index.html',
+      resDomain: 'https://tenvi.meow42.cn/',
       typeCode: { pilot: 'p', mecha: 'a', avatar: 't', dragon: 's', vehicle: 'v' },
       loading: new Set(), // 记录载入中的资源名称
       loadingErr: new Set(), // 记录载入失败的资源名称
