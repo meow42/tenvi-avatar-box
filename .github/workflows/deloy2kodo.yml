@@ -38,7 +38,7 @@ jobs:
           bucket: tenvi
           exclude: .cache,.git,.github,.gitignore
           dist: dist
-          saveroot: avatar-box
+          saveroot: app/avatar
         env:
           UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
           UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
