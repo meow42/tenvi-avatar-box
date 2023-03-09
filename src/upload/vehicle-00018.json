@@ -1,0 +1,37 @@
+{
+  "res": {
+    "v_res": "v0018"
+  },
+  "order": {
+    "default": ["v_body"]
+  },
+  "frame": {
+    "f0": { "v_body": "chair00" },
+    "f1": { "v_body": "chair01" },
+    "f2": { "v_body": "chair02" },
+    "f3": { "v_body": "chair03" },
+    "f4": { "v_body": "chair04" },
+    "f5": { "v_body": "chair05" },
+    "f6": { "v_body": "chair06" },
+    "f7": { "v_body": "chair07" },
+    "f8": { "v_body": "chair08" },
+    "f9": { "v_body": "chair09" },
+    "f10": { "v_body": "chair10" }
+  },
+  "action": {
+    "default": [
+      { "f": "f0", "d": 200, "x": 0, "y": 0 },
+      { "f": "f1", "d": 100 },
+      { "f": "f2", "d": 100 },
+      { "f": "f3", "d": 100 },
+      { "f": "f4", "d": 100 },
+      { "f": "f5", "d": 100 },
+      { "f": "f6", "d": 100 },
+      { "f": "f7", "d": 100 },
+      { "f": "f8", "d": 100 },
+      { "f": "f9", "d": 100 },
+      { "f": "f10", "d": 100 }
+    ]
+  },
+  "note": ""
+}
