@@ -34,11 +34,11 @@ jobs:
       - uses: saltbo/uptoc@master
         with:
           driver: qiniu
-          region: cn-south-1 # cn-north-1, cn-south-1
+          region: ap-southeast-1 # cn-north-1, cn-south-1
           bucket: tenvi
           exclude: .cache,.git,.github,.gitignore
           dist: dist
-          saveroot: app/avatar
+          saveroot: tenvi/app/avatar
         env:
           UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
           UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
