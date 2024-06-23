@@ -35,7 +35,7 @@ jobs:
         with:
           driver: qiniu
           region: ap-southeast-1 # cn-north-1, cn-south-1
-          bucket: tenvi
+          bucket: p1ay4fun
           exclude: .cache,.git,.github,.gitignore
           dist: dist
           saveroot: tenvi/app/avatar
