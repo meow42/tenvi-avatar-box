@@ -35,10 +35,10 @@ jobs:
         with:
           driver: qiniu
           region: ap-southeast-1 # cn-north-1, cn-south-1
-          bucket: p1ay4fun
+          bucket: tenvix
           exclude: .cache,.git,.github,.gitignore
           dist: dist
-          saveroot: tenvi/app/avatar
+          saveroot: app/avatar
         env:
           UPTOC_UPLOADER_AK: ${{ secrets.QINIUAK }}
           UPTOC_UPLOADER_SK: ${{ secrets.QINIUSK }}
